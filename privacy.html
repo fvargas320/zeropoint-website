@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - ZeroPoint</title>
+    <meta name="description" content="ZeroPoint Privacy Policy - Learn how we collect, use, and protect your data.">
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="apple-touch-icon" href="assets/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-card: #18181b;
+            --accent: #ef4444;
+            --accent-dark: #dc2626;
+            --accent-glow: rgba(239, 68, 68, 0.3);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border: #27272a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow), transparent),
+                var(--bg-primary);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 11, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active::after,
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .page-header .updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .content h2:first-child {
+            margin-top: 0;
+        }
+
+        .content h3 {
+            font-size: 1.15rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .content ul {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content strong {
+            color: var(--text-primary);
+        }
+
+        .content a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2.5rem 0;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4rem;
+            background: var(--bg-secondary);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 11, 0.98);
+            z-index: 99;
+            padding: 6rem 2rem;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            main {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .content {
+                padding: 1.75rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="assets/icon.png" alt="ZeroPoint"></div>
+            ZeroPoint
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="privacy.html" class="active">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="support.html">Support</a>
+        </div>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="support.html">Support</a>
+    </div>
+
+    <main>
+        <div class="page-header">
+            <h1>PRIVACY POLICY</h1>
+            <p class="updated">Last Updated: January 2, 2026</p>
+        </div>
+
+        <div class="content">
+            <h2>Introduction</h2>
+            <p>ZeroPoint ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application ZeroPoint (the "App").</p>
+            <p>Please read this Privacy Policy carefully. By using the App, you agree to the collection and use of information in accordance with this policy.</p>
+
+            <h2>Information We Collect</h2>
+
+            <h3>Information You Provide Directly</h3>
+            <p>When you use our App, you may provide us with the following information:</p>
+            <ul>
+                <li><strong>Account Information</strong>: Email address and password when you create an account</li>
+                <li><strong>Profile Information</strong>: Display name, profile picture (optional)</li>
+                <li><strong>Session Data</strong>: Range visits, dates, times, locations, round counts, shooting positions, weather conditions, and notes</li>
+                <li><strong>Firearm Information</strong>: Firearm names, types, calibers, and nicknames</li>
+                <li><strong>Target Images</strong>: Photos of your shooting targets</li>
+                <li><strong>Other Photos</strong>: Range day photos, receipts, and memories you choose to upload</li>
+                <li><strong>Shooting Buddies</strong>: Names and nicknames of people you shoot with</li>
+                <li><strong>Range Information</strong>: Names and locations of shooting ranges you visit</li>
+                <li><strong>Drill Information</strong>: Custom drills you create</li>
+            </ul>
+
+            <h3>Information Collected Automatically</h3>
+            <ul>
+                <li><strong>Device Information</strong>: Device type, operating system, unique device identifiers</li>
+                <li><strong>Usage Data</strong>: App features used, session frequency, and interaction patterns</li>
+                <li><strong>Crash Reports</strong>: Technical information when the app crashes (to improve stability)</li>
+            </ul>
+
+            <h2>How We Use Your Information</h2>
+            <p>We use the information we collect to:</p>
+            <ul>
+                <li>Provide, maintain, and improve the App</li>
+                <li>Create and manage your account</li>
+                <li>Store and sync your shooting session data (Pro users)</li>
+                <li>Display statistics and insights about your training</li>
+                <li>Provide customer support</li>
+                <li>Send important service notifications</li>
+                <li>Process subscription payments (through Apple/Google)</li>
+            </ul>
+
+            <h2>Data Storage</h2>
+
+            <h3>Free Users</h3>
+            <ul>
+                <li>All data is stored <strong>locally on your device</strong> only</li>
+                <li>No data is transmitted to our servers</li>
+                <li>If you delete the app, your data is permanently lost</li>
+            </ul>
+
+            <h3>Pro Users (Subscribers)</h3>
+            <ul>
+                <li>Data is stored locally AND backed up to our secure cloud servers</li>
+                <li>Cloud storage is provided through Supabase (hosted on AWS)</li>
+                <li>Images are stored in secure cloud storage</li>
+                <li>Data is synced across your devices</li>
+                <li>You can delete your cloud data at any time</li>
+            </ul>
+
+            <h2>Data Sharing</h2>
+            
+            <div class="highlight-box">
+                <p>We do <strong>NOT</strong> sell your personal information.</p>
+            </div>
+
+            <p>We may share information only in these limited circumstances:</p>
+            <ul>
+                <li><strong>Service Providers</strong>: We use Supabase for cloud storage and RevenueCat for subscription management. These services have access only to data necessary to perform their functions.</li>
+                <li><strong>Legal Requirements</strong>: We may disclose information if required by law or to protect our rights.</li>
+                <li><strong>Business Transfers</strong>: If we merge with or are acquired by another company, your information may be transferred.</li>
+            </ul>
+
+            <h2>Third-Party Services</h2>
+            <p>Our App uses the following third-party services:</p>
+            <ul>
+                <li><strong>Supabase</strong>: Cloud database and authentication (for Pro users)</li>
+                <li><strong>RevenueCat</strong>: Subscription and payment processing</li>
+                <li><strong>Apple App Store / Google Play</strong>: App distribution and in-app purchases</li>
+            </ul>
+            <p>Each of these services has their own privacy policy governing their use of your data.</p>
+
+            <h2>Data Security</h2>
+            <p>We implement appropriate technical and organizational measures to protect your personal information, including:</p>
+            <ul>
+                <li>Encryption in transit (HTTPS/TLS)</li>
+                <li>Encryption at rest for cloud-stored data</li>
+                <li>Secure authentication practices</li>
+                <li>Regular security assessments</li>
+            </ul>
+            <p>However, no method of transmission over the Internet or electronic storage is 100% secure.</p>
+
+            <h2>Your Rights and Choices</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li><strong>Access</strong>: Request a copy of your personal data</li>
+                <li><strong>Correction</strong>: Update or correct inaccurate data</li>
+                <li><strong>Deletion</strong>: Delete your account and associated data</li>
+                <li><strong>Data Portability</strong>: Export your data</li>
+                <li><strong>Opt-Out</strong>: Disable cloud sync (by not subscribing to Pro)</li>
+            </ul>
+            <p>To exercise these rights, contact us at <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a>.</p>
+
+            <h2>Children's Privacy</h2>
+            <p>Our App is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13.</p>
+
+            <h2>Changes to This Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy in the App and updating the "Last Updated" date.</p>
+
+            <h2>Contact Us</h2>
+            <p>If you have questions about this Privacy Policy, please contact us at:</p>
+            <p><strong>Email</strong>: <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a><br>
+            <strong>Website</strong>: zeropointlog.com</p>
+
+            <hr>
+
+            <h2>California Privacy Rights (CCPA)</h2>
+            <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA):</p>
+            <ul>
+                <li>Right to know what personal information is collected</li>
+                <li>Right to know if personal information is sold or disclosed</li>
+                <li>Right to opt-out of the sale of personal information (we do not sell your data)</li>
+                <li>Right to deletion</li>
+                <li>Right to non-discrimination for exercising your rights</li>
+            </ul>
+
+            <h2>European Privacy Rights (GDPR)</h2>
+            <p>If you are in the European Economic Area (EEA), you have additional rights under GDPR:</p>
+            <ul>
+                <li>Right to access</li>
+                <li>Right to rectification</li>
+                <li>Right to erasure</li>
+                <li>Right to restrict processing</li>
+                <li>Right to data portability</li>
+                <li>Right to object</li>
+                <li>Rights related to automated decision-making</li>
+            </ul>
+            <p>Our legal basis for processing your data is your consent (by using the App) and the performance of our contract with you (providing the App services).</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 ZeroPoint. All rights reserved.</p>
+        <p><a href="index.html">Home</a> | <a href="terms.html">Terms</a> | <a href="support.html">Support</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

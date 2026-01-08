@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - ZeroPoint</title>
+    <meta name="description" content="ZeroPoint Terms of Service - Read our terms and conditions for using the app.">
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="apple-touch-icon" href="assets/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-card: #18181b;
+            --accent: #ef4444;
+            --accent-dark: #dc2626;
+            --accent-glow: rgba(239, 68, 68, 0.3);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border: #27272a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow), transparent),
+                var(--bg-primary);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 11, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active::after,
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .page-header .updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .content h2:first-child {
+            margin-top: 0;
+        }
+
+        .content h3 {
+            font-size: 1.15rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .content ul {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content strong {
+            color: var(--text-primary);
+        }
+
+        .content a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .legal-caps {
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2.5rem 0;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4rem;
+            background: var(--bg-secondary);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 11, 0.98);
+            z-index: 99;
+            padding: 6rem 2rem;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            main {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .content {
+                padding: 1.75rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="assets/icon.png" alt="ZeroPoint"></div>
+            ZeroPoint
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html" class="active">Terms</a>
+            <a href="support.html">Support</a>
+        </div>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="support.html">Support</a>
+    </div>
+
+    <main>
+        <div class="page-header">
+            <h1>TERMS OF SERVICE</h1>
+            <p class="updated">Last Updated: January 2, 2026</p>
+        </div>
+
+        <div class="content">
+            <h2>Agreement to Terms</h2>
+            <p>By downloading, installing, or using the ZeroPoint mobile application (the "App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the App.</p>
+
+            <h2>Description of Service</h2>
+            <p>ZeroPoint is a shooting range session tracking application that allows users to:</p>
+            <ul>
+                <li>Log shooting range sessions</li>
+                <li>Track firearms and ammunition usage</li>
+                <li>Upload and store target images</li>
+                <li>View training statistics and progress</li>
+                <li>Manage shooting buddies and ranges</li>
+                <li>Access coaching guides and drills</li>
+            </ul>
+
+            <h2>User Accounts</h2>
+
+            <h3>Account Creation</h3>
+            <p>You may use limited features of the App without an account. To access full features, you must create an account by providing:</p>
+            <ul>
+                <li>A valid email address</li>
+                <li>A secure password</li>
+            </ul>
+
+            <h3>Account Responsibility</h3>
+            <p>You are responsible for:</p>
+            <ul>
+                <li>Maintaining the confidentiality of your account</li>
+                <li>All activities that occur under your account</li>
+                <li>Notifying us immediately of any unauthorized use</li>
+            </ul>
+
+            <h3>Account Termination</h3>
+            <p>We reserve the right to suspend or terminate your account if you violate these Terms.</p>
+
+            <h2>Subscription and Payments</h2>
+
+            <h3>Free Tier</h3>
+            <ul>
+                <li>Basic session tracking</li>
+                <li>Local data storage only</li>
+                <li>Limited features</li>
+            </ul>
+
+            <h3>Pro Subscription</h3>
+            <ul>
+                <li>Cloud backup and sync</li>
+                <li>Unlimited storage</li>
+                <li>Advanced statistics</li>
+                <li>Custom profile features</li>
+                <li>All future Pro features</li>
+            </ul>
+
+            <h3>Billing</h3>
+            <ul>
+                <li>Subscriptions are billed through Apple App Store or Google Play</li>
+                <li>Prices are displayed before purchase and may vary by region</li>
+                <li>Subscriptions auto-renew unless cancelled</li>
+            </ul>
+
+            <h3>Cancellation and Refunds</h3>
+            <ul>
+                <li>You may cancel your subscription at any time through your App Store account</li>
+                <li>Refunds are handled by Apple/Google according to their policies</li>
+                <li>Upon cancellation, Pro features remain active until the end of your billing period</li>
+                <li>Your cloud data will be retained for 30 days after subscription ends</li>
+            </ul>
+
+            <h2>User Content</h2>
+
+            <h3>Your Content</h3>
+            <p>You retain ownership of all content you upload to the App, including:</p>
+            <ul>
+                <li>Target images</li>
+                <li>Session notes</li>
+                <li>Profile pictures</li>
+                <li>Custom drills</li>
+            </ul>
+
+            <h3>License Grant</h3>
+            <p>By uploading content, you grant us a non-exclusive, worldwide license to store, display, and process your content solely for providing the App services to you.</p>
+
+            <h3>Content Restrictions</h3>
+            <p>You agree NOT to upload content that:</p>
+            <ul>
+                <li>Is illegal or promotes illegal activities</li>
+                <li>Infringes on intellectual property rights</li>
+                <li>Contains malware or harmful code</li>
+                <li>Violates any applicable laws</li>
+            </ul>
+
+            <h2>Prohibited Uses</h2>
+            <p>You agree not to:</p>
+            <ul>
+                <li>Use the App for any illegal purpose</li>
+                <li>Attempt to gain unauthorized access to our systems</li>
+                <li>Interfere with or disrupt the App or servers</li>
+                <li>Reverse engineer or decompile the App</li>
+                <li>Use automated systems to access the App</li>
+                <li>Share your account with others</li>
+                <li>Create multiple accounts to abuse services</li>
+            </ul>
+
+            <h2>Intellectual Property</h2>
+
+            <h3>Our Property</h3>
+            <p>The App, including its design, features, code, and content (excluding user content), is owned by ZeroPoint and protected by intellectual property laws.</p>
+
+            <h3>Trademarks</h3>
+            <p>ZeroPoint and associated logos are our trademarks. You may not use them without permission.</p>
+
+            <h2>Disclaimers</h2>
+
+            <h3>"As Is" Service</h3>
+            <p class="legal-caps">THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.</p>
+
+            <h3>No Professional Advice</h3>
+            <p>The App is for personal training tracking only. It does not provide professional firearms training, safety instruction, or medical advice.</p>
+
+            <h3>Accuracy</h3>
+            <p>While we strive for accuracy, we do not guarantee that statistics, metrics, or other data provided by the App are error-free.</p>
+
+            <h3>Data Loss</h3>
+            <p>We are not responsible for loss of locally stored data due to device failure, app deletion, or other causes. Pro users' cloud data is backed up but we cannot guarantee against all data loss scenarios.</p>
+
+            <h2>Limitation of Liability</h2>
+            <p class="legal-caps">TO THE MAXIMUM EXTENT PERMITTED BY LAW:</p>
+            <ul>
+                <li>WE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES</li>
+                <li>OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID US IN THE PAST 12 MONTHS</li>
+                <li>WE ARE NOT LIABLE FOR ANY DAMAGES ARISING FROM YOUR USE OF FIREARMS OR ACTIVITIES AT SHOOTING RANGES</li>
+            </ul>
+
+            <h2>Indemnification</h2>
+            <p>You agree to indemnify and hold harmless ZeroPoint, its officers, directors, employees, and agents from any claims, damages, or expenses arising from:</p>
+            <ul>
+                <li>Your use of the App</li>
+                <li>Your violation of these Terms</li>
+                <li>Your violation of any rights of another</li>
+            </ul>
+
+            <h2>Changes to Terms</h2>
+            <p>We may modify these Terms at any time. We will notify you of significant changes through the App or by email. Continued use of the App after changes constitutes acceptance of the new Terms.</p>
+
+            <h2>Termination</h2>
+            <p>We may terminate or suspend your access to the App immediately, without notice, for any reason, including breach of these Terms.</p>
+            <p>Upon termination:</p>
+            <ul>
+                <li>Your right to use the App ceases immediately</li>
+                <li>Provisions that should survive termination will survive (e.g., limitations of liability, indemnification)</li>
+            </ul>
+
+            <h2>Governing Law</h2>
+            <p>These Terms shall be governed by the laws of the United States, without regard to conflict of law principles.</p>
+
+            <h2>Dispute Resolution</h2>
+            <p>Any disputes arising from these Terms or the App shall be resolved through:</p>
+            <ul>
+                <li>Informal negotiation (30 days)</li>
+                <li>Binding arbitration (if negotiation fails)</li>
+            </ul>
+            <p>Class action lawsuits and class arbitrations are not permitted.</p>
+
+            <h2>Severability</h2>
+            <p>If any provision of these Terms is found unenforceable, the remaining provisions will continue in effect.</p>
+
+            <h2>Entire Agreement</h2>
+            <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and ZeroPoint regarding the App.</p>
+
+            <h2>Contact Information</h2>
+            <p>For questions about these Terms, contact us at:</p>
+            <p><strong>Email</strong>: <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a><br>
+            <strong>Website</strong>: zeropointlog.com</p>
+
+            <hr>
+
+            <h2>Additional Terms for Apple App Store</h2>
+            <p>If you downloaded the App from Apple's App Store:</p>
+            <ul>
+                <li>These Terms are between you and ZeroPoint, not Apple</li>
+                <li>Apple has no obligation to provide maintenance or support</li>
+                <li>Apple is not responsible for any product warranties</li>
+                <li>Apple is not responsible for any claims related to the App</li>
+                <li>Apple is a third-party beneficiary of these Terms</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 ZeroPoint. All rights reserved.</p>
+        <p><a href="index.html">Home</a> | <a href="privacy.html">Privacy</a> | <a href="support.html">Support</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
