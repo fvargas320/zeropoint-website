@@ -407,7 +407,7 @@
             display: flex;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             gap: 2rem;
-            padding: 0 calc(50% - 160px);
+            padding: 0 calc(50% - 140px);
         }
 
         .carousel-slide {
@@ -953,7 +953,7 @@
             }
 
             .carousel {
-                padding: 0 calc(50% - 130px);
+                padding: 0 calc(50% - 120px);
             }
 
             .carousel-slide {
@@ -1387,7 +1387,8 @@
         }
 
         function updateCarousel() {
-            const slideWidth = window.innerWidth <= 768 ? 260 : 300;
+            // slideWidth = card width (280px) + gap (32px = 2rem)
+            const slideWidth = window.innerWidth <= 768 ? 272 : 312;
             carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
             
             // Update active states
