@@ -1420,15 +1420,6 @@
             slide.addEventListener('click', () => goToSlide(index));
         });
 
-        // Auto-advance carousel
-        let autoSlide = setInterval(nextSlide, 5000);
-
-        // Pause on hover
-        carousel.addEventListener('mouseenter', () => clearInterval(autoSlide));
-        carousel.addEventListener('mouseleave', () => {
-            autoSlide = setInterval(nextSlide, 5000);
-        });
-
         // Touch/swipe support
         let touchStartX = 0;
         let touchEndX = 0;
