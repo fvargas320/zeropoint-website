@@ -19,12 +19,14 @@
             --accent-dark: #dc2626;
             --accent-glow: rgba(239, 68, 68, 0.4);
             --accent-orange: #f97316;
+            --accent-green: #22c55e;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-yellow: #eab308;
             --text-primary: #fafafa;
             --text-secondary: #a1a1aa;
             --text-muted: #71717a;
             --border: #27272a;
-            --brass: #d4a574;
-            --gunmetal: #2c3e50;
         }
 
         * {
@@ -42,7 +44,7 @@
             overflow-x: hidden;
         }
 
-        /* Animated background with target pattern */
+        /* Animated background */
         .bg-pattern {
             position: fixed;
             top: 0;
@@ -57,7 +59,6 @@
                 var(--bg-primary);
         }
 
-        /* Target rings background decoration */
         .target-bg {
             position: fixed;
             top: 50%;
@@ -98,6 +99,29 @@
             background-size: 80px 80px;
         }
 
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         /* Navigation */
         nav {
             position: fixed;
@@ -112,6 +136,12 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 100;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
         }
 
         .logo {
@@ -122,6 +152,11 @@
             font-size: 1.25rem;
             text-decoration: none;
             color: var(--text-primary);
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         .logo-icon {
@@ -147,7 +182,7 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.2s;
             position: relative;
         }
 
@@ -164,13 +199,13 @@
 
         .nav-links a:hover {
             color: var(--text-primary);
+            transform: translateY(-1px);
         }
 
         .nav-links a:hover::after {
             width: 100%;
         }
 
-        /* Mobile menu */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -221,14 +256,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -313,7 +342,6 @@
             font-size: 1.1rem;
         }
 
-        /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
@@ -337,6 +365,348 @@
             0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
             40% { transform: translateX(-50%) translateY(-10px); }
             60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* App Preview / Carousel Section */
+        .app-preview {
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .carousel-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .carousel-wrapper {
+            overflow: hidden;
+            border-radius: 24px;
+            padding: 2rem 0;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 2rem;
+            padding: 0 calc(50% - 160px);
+        }
+
+        .carousel-slide {
+            flex: 0 0 auto;
+            width: 280px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .carousel-slide.active {
+            transform: scale(1.08);
+        }
+
+        .carousel-slide:not(.active) {
+            opacity: 0.5;
+            filter: blur(1px);
+        }
+
+        .phone-frame {
+            background: linear-gradient(145deg, #2a2a2e, #1a1a1d);
+            border-radius: 36px;
+            padding: 12px;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: #000;
+            border-radius: 12px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            border-radius: 28px;
+            overflow: hidden;
+            background: #000;
+            aspect-ratio: 9/19.5;
+        }
+
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .slide-info {
+            text-align: center;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+
+        .carousel-slide.active .slide-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .slide-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .carousel-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .carousel-dot:hover {
+            background: var(--accent-orange);
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .roadmap-header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-release {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 100px;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .roadmap-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .roadmap-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .roadmap-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .roadmap-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .roadmap-card.pro::before { background: linear-gradient(90deg, var(--accent-orange), var(--accent)); }
+        .roadmap-card.free::before { background: linear-gradient(90deg, var(--accent-green), #10b981); }
+
+        .roadmap-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .roadmap-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.75rem;
+            transition: transform 0.3s;
+        }
+
+        .roadmap-card:hover .roadmap-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .roadmap-icon.timer { background: linear-gradient(135deg, var(--accent-blue), #2563eb); }
+        .roadmap-icon.ammo { background: linear-gradient(135deg, var(--accent-orange), #ea580c); }
+        .roadmap-icon.streak { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); }
+        .roadmap-icon.trophy { background: linear-gradient(135deg, var(--accent-yellow), #ca8a04); }
+        .roadmap-icon.weather { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .roadmap-icon.wrench { background: linear-gradient(135deg, var(--accent-purple), #9333ea); }
+
+        .roadmap-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .roadmap-badge.pro {
+            background: rgba(249, 115, 22, 0.2);
+            color: var(--accent-orange);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .roadmap-badge.free {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .roadmap-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            padding-right: 60px;
+        }
+
+        .roadmap-card > p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-features {
+            list-style: none;
+        }
+
+        .roadmap-features li {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 0.35rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .roadmap-features li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
         }
 
         /* Coming Soon Section */
@@ -426,7 +796,7 @@
             font-family: inherit;
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .notify-form input::placeholder {
@@ -435,6 +805,7 @@
 
         .notify-form input:focus {
             border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
         .notify-btn {
@@ -453,92 +824,6 @@
         .notify-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-orange));
-            transform: scaleX(0);
-            transition: transform 0.4s;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(239, 68, 68, 0.3);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.75rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.35rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.7;
         }
 
         /* Footer */
@@ -584,11 +869,13 @@
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.95rem;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.2s;
+            display: inline-block;
         }
 
         .footer-links a:hover {
             color: var(--accent);
+            transform: translateX(3px);
         }
 
         .footer-bottom {
@@ -618,13 +905,13 @@
             border: 1px solid var(--border);
             border-radius: 10px;
             color: var(--text-secondary);
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
 
         .social-links a:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-2px);
+            transform: translateY(-3px) rotate(-5deg);
         }
 
         .social-links svg {
@@ -632,10 +919,15 @@
             height: 18px;
         }
 
+        /* Mobile styles */
         @media (max-width: 900px) {
             .footer-content {
                 grid-template-columns: 1fr 1fr;
                 gap: 3rem;
+            }
+
+            .roadmap-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -660,16 +952,20 @@
                 font-size: 1.1rem;
             }
 
+            .carousel {
+                padding: 0 calc(50% - 130px);
+            }
+
+            .carousel-slide {
+                width: 240px;
+            }
+
             .coming-soon-container {
                 padding: 2.5rem 1.5rem;
             }
 
-            .features {
+            .roadmap {
                 padding: 4rem 1.5rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
             }
 
             .footer-content {
@@ -684,7 +980,7 @@
             }
         }
 
-        /* Mobile menu overlay */
+        /* Mobile menu */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -701,6 +997,12 @@
 
         .mobile-menu.active {
             display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .mobile-menu a {
@@ -710,6 +1012,12 @@
             font-weight: 500;
             padding: 1rem 0;
             border-bottom: 1px solid var(--border);
+            transition: color 0.2s, padding-left 0.2s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent);
+            padding-left: 1rem;
         }
     </style>
 </head>
@@ -730,19 +1038,20 @@
             ZeroPoint
         </a>
         <div class="nav-links">
-            <a href="#features">Features</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
-            <a href="support.html">Support</a>
+            <a href="#preview">App</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="privacy">Privacy</a>
+            <a href="support">Support</a>
         </div>
         <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#features" onclick="toggleMenu()">Features</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="support.html">Support</a>
+        <a href="#preview" onclick="toggleMenu()">App</a>
+        <a href="#roadmap" onclick="toggleMenu()">Roadmap</a>
+        <a href="privacy">Privacy</a>
+        <a href="terms">Terms</a>
+        <a href="support">Support</a>
     </div>
 
     <main>
@@ -757,7 +1066,7 @@
                 analyze targets, and watch your skills improve over time.
             </p>
             <div class="app-buttons">
-                <a href="https://apps.apple.com/app/zeropoint" class="app-button" target="_blank" rel="noopener">
+                <a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" class="app-button" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                     </svg>
@@ -784,7 +1093,210 @@
             </div>
         </section>
 
-        <section class="coming-soon" id="web-app">
+        <!-- App Preview Carousel -->
+        <section class="app-preview" id="preview">
+            <div class="section-header fade-in">
+                <h2>SEE ZEROPOINT IN ACTION</h2>
+                <p>Swipe through to explore our powerful features</p>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <div class="carousel" id="carousel">
+                        <div class="carousel-slide" data-index="0">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-1.PNG" alt="Home Dashboard">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Home Dashboard</h3>
+                                <p>Your performance at a glance — sessions, targets, and total rounds tracked.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="1">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-2.PNG" alt="Log Session">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Log Sessions</h3>
+                                <p>Quickly log range visits with firearm, position, round count, and more.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="2">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-3.PNG" alt="Calendar">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Calendar View</h3>
+                                <p>Visualize your training history and never miss a range day.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="3">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-4.PNG" alt="Statistics">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Detailed Statistics</h3>
+                                <p>AI insights, training habits, and performance trends over time.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="4">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-5.PNG" alt="Shooting Buddies">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Shooting Buddies</h3>
+                                <p>Track who you train with and build your shooting community.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="5">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-6.PNG" alt="My Armory">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>My Armory</h3>
+                                <p>Manage your entire firearms collection with caliber tracking.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="6">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-7.PNG" alt="Drill Library">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Drill Library</h3>
+                                <p>Access premade drills like Dot Torture and Bill Drill to sharpen skills.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-slide" data-index="7">
+                            <div class="phone-frame">
+                                <div class="phone-screen">
+                                    <img src="assets/screenshot-8.PNG" alt="Pro Features">
+                                </div>
+                            </div>
+                            <div class="slide-info">
+                                <h3>Pro Features</h3>
+                                <p>Cloud sync, advanced analytics, and unlimited storage with Pro.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-btn" onclick="prevSlide()" aria-label="Previous">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <button class="carousel-btn" onclick="nextSlide()" aria-label="Next">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section class="roadmap" id="roadmap">
+            <div class="roadmap-header fade-in">
+                <h2>WHAT'S COMING NEXT</h2>
+                <p>We're constantly improving ZeroPoint with features you've asked for</p>
+                <div class="roadmap-release">
+                    🎯 Version 2.0 — February 2026
+                </div>
+            </div>
+            <div class="roadmap-grid">
+                <div class="roadmap-card pro fade-in">
+                    <div class="roadmap-icon timer">⏱️</div>
+                    <span class="roadmap-badge pro">Pro</span>
+                    <h3>Built-in Drill Timer</h3>
+                    <p>A shot timer built right into the app with random start delays and par time tracking.</p>
+                    <ul class="roadmap-features">
+                        <li>Random start delay</li>
+                        <li>Par time & split times</li>
+                        <li>Integrates with session logging</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-card pro fade-in">
+                    <div class="roadmap-icon ammo">📦</div>
+                    <span class="roadmap-badge pro">Pro</span>
+                    <h3>Ammunition Inventory</h3>
+                    <p>Track your ammo stockpile by caliber, brand, and lot number.</p>
+                    <ul class="roadmap-features">
+                        <li>Cost per round tracking</li>
+                        <li>Auto-deduct from sessions</li>
+                        <li>Low stock alerts</li>
+                        <li>"You've spent $X on ammo this year"</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-card free fade-in">
+                    <div class="roadmap-icon streak">🔥</div>
+                    <span class="roadmap-badge free">Free</span>
+                    <h3>Training Streaks & Goals</h3>
+                    <p>Stay motivated with streaks and weekly training goals.</p>
+                    <ul class="roadmap-features">
+                        <li>Daily training streaks</li>
+                        <li>Weekly/monthly round goals</li>
+                        <li>Streak freeze recovery</li>
+                        <li>Push reminders</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-card free fade-in">
+                    <div class="roadmap-icon trophy">🏆</div>
+                    <span class="roadmap-badge free">Free</span>
+                    <h3>Personal Records & Badges</h3>
+                    <p>Celebrate milestones with achievements and shareable PR cards.</p>
+                    <ul class="roadmap-features">
+                        <li>Best group size records</li>
+                        <li>Badges: 100 Sessions, 10K Rounds</li>
+                        <li>Achievement notifications</li>
+                        <li>Shareable PR cards</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-card pro fade-in">
+                    <div class="roadmap-icon weather">🌤️</div>
+                    <span class="roadmap-badge pro">Pro</span>
+                    <h3>Environmental Data</h3>
+                    <p>Auto-fetch weather conditions and correlate with your performance.</p>
+                    <ul class="roadmap-features">
+                        <li>Wind, temp, humidity, pressure</li>
+                        <li>Performance correlation insights</li>
+                        <li>Essential for DOPE tracking</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-card pro fade-in">
+                    <div class="roadmap-icon wrench">🔧</div>
+                    <span class="roadmap-badge pro">Pro</span>
+                    <h3>Firearm Maintenance</h3>
+                    <p>Never forget to clean your firearms with automatic round tracking.</p>
+                    <ul class="roadmap-features">
+                        <li>Round count per firearm</li>
+                        <li>Cleaning reminders</li>
+                        <li>Maintenance log history</li>
+                        <li>Push notifications when due</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="coming-soon fade-in" id="web-app">
             <div class="coming-soon-container">
                 <div class="coming-soon-content">
                     <div class="coming-soon-badge">
@@ -796,45 +1308,6 @@
                         <input type="email" placeholder="Enter your email" required>
                         <button type="submit" class="notify-btn">Notify Me</button>
                     </form>
-                </div>
-            </div>
-        </section>
-
-        <section id="features" class="features">
-            <div class="section-header">
-                <h2>EVERYTHING YOU NEED AT THE RANGE</h2>
-                <p>Powerful features to help you become a better shooter</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Session Tracking</h3>
-                    <p>Log every range visit with detailed information including firearms used, round counts, positions, and conditions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Target Photos</h3>
-                    <p>Upload and organize photos of your targets to visually track your shot groups and accuracy over time.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔫</div>
-                    <h3>Armory Management</h3>
-                    <p>Keep track of all your firearms, ammunition inventory, and maintenance schedules in one place.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>Progress Stats</h3>
-                    <p>Visualize your improvement over time with detailed statistics and performance trends.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">☁️</div>
-                    <h3>Cloud Sync</h3>
-                    <p>Pro users get automatic cloud backup and sync across all their devices.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏋️</div>
-                    <h3>Training Drills</h3>
-                    <p>Access a library of drills and create custom training routines to sharpen your skills.</p>
                 </div>
             </div>
         </section>
@@ -852,22 +1325,22 @@
             <div class="footer-links">
                 <h4>Product</h4>
                 <ul>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="https://apps.apple.com/app/zeropoint" target="_blank" rel="noopener">App Store</a></li>
+                    <li><a href="#preview">Features</a></li>
+                    <li><a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener">App Store</a></li>
                     <li><a href="https://play.google.com/store/apps/details?id=com.zeropoint" target="_blank" rel="noopener">Google Play</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy">Privacy Policy</a></li>
+                    <li><a href="terms">Terms of Service</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="support.html">Help Center</a></li>
+                    <li><a href="support">Help Center</a></li>
                     <li><a href="mailto:support@zeropointlog.com">Contact Us</a></li>
                 </ul>
             </div>
@@ -886,16 +1359,92 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
         function toggleMenu() {
             document.getElementById('mobileMenu').classList.toggle('active');
         }
 
+        // Notify form
         function handleNotify(e) {
             e.preventDefault();
             const email = e.target.querySelector('input').value;
             alert('Thanks! We\'ll notify you at ' + email + ' when the web app launches.');
             e.target.reset();
         }
+
+        // Carousel functionality
+        let currentSlide = 0;
+        const totalSlides = 8;
+        const carousel = document.getElementById('carousel');
+        const dotsContainer = document.getElementById('carouselDots');
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateCarousel() {
+            const slideWidth = window.innerWidth <= 768 ? 260 : 300;
+            carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            
+            // Update active states
+            document.querySelectorAll('.carousel-slide').forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Click on slide to navigate
+        document.querySelectorAll('.carousel-slide').forEach((slide, index) => {
+            slide.addEventListener('click', () => goToSlide(index));
+        });
+
+        // Auto-advance carousel
+        let autoSlide = setInterval(nextSlide, 5000);
+
+        // Pause on hover
+        carousel.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        carousel.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(nextSlide, 5000);
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carousel.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) nextSlide();
+            if (touchEndX - touchStartX > 50) prevSlide();
+        });
+
+        // Initialize carousel
+        updateCarousel();
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -906,6 +1455,24 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .scale-in').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>
