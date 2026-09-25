@@ -1,1471 +1,1631 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroPoint - Track Your Shooting Progress</title>
-    <meta name="description" content="ZeroPoint is the ultimate shooting range companion. Log sessions, track firearms, analyze targets, and improve your skills.">
-    <link rel="icon" type="image/png" href="assets/icon.png">
-    <link rel="apple-touch-icon" href="assets/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --bg-card: #18181b;
-            --accent: #ef4444;
-            --accent-dark: #dc2626;
-            --accent-glow: rgba(239, 68, 68, 0.4);
-            --accent-orange: #f97316;
-            --accent-green: #22c55e;
-            --accent-blue: #3b82f6;
-            --accent-purple: #a855f7;
-            --accent-yellow: #eab308;
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --border: #27272a;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Animated background */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: 
-                radial-gradient(ellipse 100% 70% at 50% -30%, var(--accent-glow), transparent 60%),
-                radial-gradient(ellipse 80% 50% at 100% 20%, rgba(249, 115, 22, 0.15), transparent),
-                radial-gradient(ellipse 60% 40% at 0% 80%, rgba(239, 68, 68, 0.1), transparent),
-                var(--bg-primary);
-        }
-
-        .target-bg {
-            position: fixed;
-            top: 50%;
-            right: -200px;
-            transform: translateY(-50%);
-            width: 800px;
-            height: 800px;
-            z-index: -1;
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .target-ring {
-            position: absolute;
-            border: 3px solid var(--text-primary);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .target-ring:nth-child(1) { width: 100%; height: 100%; }
-        .target-ring:nth-child(2) { width: 80%; height: 80%; }
-        .target-ring:nth-child(3) { width: 60%; height: 60%; }
-        .target-ring:nth-child(4) { width: 40%; height: 40%; }
-        .target-ring:nth-child(5) { width: 20%; height: 20%; background: var(--text-primary); }
-
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 80px 80px;
-        }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .scale-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 11, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: transform 0.3s;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s, transform 0.2s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1.25rem;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 100px;
-            font-size: 0.9rem;
-            color: var(--accent);
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.9); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3.5rem, 12vw, 7rem);
-            font-weight: 400;
-            line-height: 0.95;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.02em;
-            animation: fadeInUp 0.6s ease-out 0.1s both;
-        }
-
-        h1 .gradient-text {
-            background: linear-gradient(135deg, var(--accent), var(--accent-orange), var(--accent));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 5s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero-subtitle {
-            font-size: 1.35rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 3rem;
-            animation: fadeInUp 0.6s ease-out 0.2s both;
-        }
-
-        .app-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            animation: fadeInUp 0.6s ease-out 0.3s both;
-        }
-
-        .app-button {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 1.75rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .app-button:hover {
-            background: var(--bg-secondary);
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.2);
-        }
-
-        .app-button svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .app-button-text {
-            text-align: left;
-        }
-
-        .app-button-text small {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .app-button-text span {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            animation: bounce 2s infinite;
-        }
-
-        .scroll-indicator svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        /* App Preview / Carousel Section */
-        .app-preview {
-            padding: 6rem 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-        }
-
-        .carousel-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .carousel-wrapper {
-            overflow: hidden;
-            border-radius: 24px;
-            padding: 2rem 0;
-        }
-
-        .carousel {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            gap: 2rem;
-            padding: 0 calc(50% - 140px);
-        }
-
-        .carousel-slide {
-            flex: 0 0 auto;
-            width: 280px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .carousel-slide.active {
-            transform: scale(1.08);
-        }
-
-        .carousel-slide:not(.active) {
-            opacity: 0.5;
-            filter: blur(1px);
-        }
-
-        .phone-frame {
-            background: linear-gradient(145deg, #2a2a2e, #1a1a1d);
-            border-radius: 36px;
-            padding: 12px;
-            box-shadow: 
-                0 25px 80px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-
-        .phone-frame::before {
-            content: '';
-            position: absolute;
-            top: 18px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 24px;
-            background: #000;
-            border-radius: 12px;
-            z-index: 10;
-        }
-
-        .phone-screen {
-            border-radius: 28px;
-            overflow: hidden;
-            background: #000;
-            aspect-ratio: 9/19.5;
-        }
-
-        .phone-screen img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top;
-        }
-
-        .slide-info {
-            text-align: center;
-            margin-top: 1.5rem;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s ease;
-        }
-
-        .carousel-slide.active .slide-info {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .slide-info h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .slide-info p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .carousel-nav {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .carousel-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .carousel-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: scale(1.1);
-        }
-
-        .carousel-btn svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--border);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .carousel-dot.active {
-            background: var(--accent);
-            transform: scale(1.2);
-        }
-
-        .carousel-dot:hover {
-            background: var(--accent-orange);
-        }
-
-        /* Roadmap Section */
-        .roadmap {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .roadmap-header {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .roadmap-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .roadmap-header p {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .roadmap-release {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 100px;
-            font-size: 0.9rem;
-            color: var(--accent-green);
-            margin-bottom: 3rem;
-            font-weight: 500;
-        }
-
-        .roadmap-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .roadmap-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .roadmap-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            transform: scaleX(0);
-            transition: transform 0.4s;
-        }
-
-        .roadmap-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .roadmap-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .roadmap-card.pro::before { background: linear-gradient(90deg, var(--accent-orange), var(--accent)); }
-        .roadmap-card.free::before { background: linear-gradient(90deg, var(--accent-green), #10b981); }
-
-        .roadmap-card:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .roadmap-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-            font-size: 1.75rem;
-            transition: transform 0.3s;
-        }
-
-        .roadmap-card:hover .roadmap-icon {
-            transform: scale(1.1) rotate(-5deg);
-        }
-
-        .roadmap-icon.timer { background: linear-gradient(135deg, var(--accent-blue), #2563eb); }
-        .roadmap-icon.ammo { background: linear-gradient(135deg, var(--accent-orange), #ea580c); }
-        .roadmap-icon.streak { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); }
-        .roadmap-icon.trophy { background: linear-gradient(135deg, var(--accent-yellow), #ca8a04); }
-        .roadmap-icon.weather { background: linear-gradient(135deg, #06b6d4, #0891b2); }
-        .roadmap-icon.wrench { background: linear-gradient(135deg, var(--accent-purple), #9333ea); }
-
-        .roadmap-badge {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 100px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .roadmap-badge.pro {
-            background: rgba(249, 115, 22, 0.2);
-            color: var(--accent-orange);
-            border: 1px solid rgba(249, 115, 22, 0.3);
-        }
-
-        .roadmap-badge.free {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--accent-green);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .roadmap-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            padding-right: 60px;
-        }
-
-        .roadmap-card > p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .roadmap-features {
-            list-style: none;
-        }
-
-        .roadmap-features li {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            padding: 0.35rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .roadmap-features li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        /* Coming Soon Section */
-        .coming-soon {
-            padding: 6rem 2rem;
-            position: relative;
-        }
-
-        .coming-soon-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(249, 115, 22, 0.05));
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 24px;
-            padding: 4rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .coming-soon-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .coming-soon-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .coming-soon-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(249, 115, 22, 0.2);
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            border-radius: 100px;
-            font-size: 0.85rem;
-            color: var(--accent-orange);
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-
-        .coming-soon h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .coming-soon p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto 2rem;
-        }
-
-        .notify-form {
-            display: flex;
-            gap: 0.75rem;
-            max-width: 450px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .notify-form input {
-            flex: 1;
-            min-width: 200px;
-            padding: 1rem 1.25rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .notify-form input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .notify-form input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
-
-        .notify-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .notify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 5rem 2rem 3rem;
-            background: var(--bg-secondary);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .footer-brand p {
-            color: var(--text-secondary);
-            margin-top: 1.25rem;
-            font-size: 0.95rem;
-            max-width: 300px;
-            line-height: 1.7;
-        }
-
-        .footer-links h4 {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.85rem;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s, transform 0.2s;
-            display: inline-block;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-            transform: translateX(3px);
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 3rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-3px) rotate(-5deg);
-        }
-
-        .social-links svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Mobile styles */
-        @media (max-width: 900px) {
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-                gap: 3rem;
-            }
-
-            .roadmap-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero {
-                padding: 7rem 1.5rem 3rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .carousel {
-                padding: 0 calc(50% - 120px);
-            }
-
-            .carousel-slide {
-                width: 240px;
-            }
-
-            .coming-soon-container {
-                padding: 2.5rem 1.5rem;
-            }
-
-            .roadmap {
-                padding: 4rem 1.5rem;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1.5rem;
-                text-align: center;
-            }
-        }
-
-        /* Mobile menu */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(10, 10, 11, 0.98);
-            z-index: 99;
-            padding: 6rem 2rem;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .mobile-menu.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .mobile-menu a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 500;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: color 0.2s, padding-left 0.2s;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--accent);
-            padding-left: 1rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZeroPoint — Every range day, logged</title>
+  <meta name="description" content="Log range days, tag range, friends, guns and ammo, track inventory with low-ammo and maintenance alerts — on iOS and Android.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0b0a;
+      --bg-2: #141210;
+      --bg-3: #1c1916;
+      --text: #fafafa;
+      --text-2: #a1a1aa;
+      --text-3: #71717a;
+      --border: #2a2622;
+      --orange: #f97316;
+      --orange-dark: #ea580c;
+      --orange-soft: rgba(249, 115, 22, 0.14);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --max: 1120px;
+      --pad-y: clamp(4.5rem, 8vw, 6rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { font: inherit; border: none; background: none; cursor: pointer; color: inherit; }
+
+    .container {
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
+
+    /* ——— Nav ——— */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 11, 10, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .nav.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(12, 11, 10, 0.9);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-store {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: border-color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-store:hover { border-color: #3f3f46; background: #1f1f23; }
+    .btn-store svg { width: 15px; height: 15px; flex-shrink: 0; display: block; }
+
+    .btn-store-primary {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #0a0a0b;
+      font-weight: 600;
+    }
+    .btn-store-primary:hover {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--text);
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+    .menu-toggle span::before { top: -6px; }
+    .menu-toggle span::after { top: 6px; }
+    .menu-toggle[aria-expanded="true"] span { background: transparent; }
+    .menu-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      padding: 1rem 0 1.25rem;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      color: var(--text-2);
+      font-size: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a:last-of-type { border-bottom: none; }
+    .mobile-menu .nav-cta {
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ——— Shared ——— */
+    .section { padding: var(--pad-y) 0; }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.85rem;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      max-width: 36rem;
+      line-height: 1.6;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Phone frame */
+    .phone {
+      position: relative;
+      width: min(100%, 280px);
+      margin-inline: auto;
+      aspect-ratio: 9 / 19.5;
+      border-radius: 36px;
+      border: 1.5px solid #3f3f46;
+      background: #0c0b0a;
+      padding: 10px;
+      box-shadow:
+        0 0 0 1px rgba(249, 115, 22, 0.28),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 28px 70px rgba(0, 0, 0, 0.65),
+        0 14px 32px rgba(0, 0, 0, 0.45),
+        0 0 80px rgba(249, 115, 22, 0.2),
+        0 0 140px rgba(234, 88, 12, 0.1);
+      overflow: hidden;
+    }
+    .phone::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72px;
+      height: 22px;
+      background: #0c0b0a;
+      border-radius: 12px;
+      z-index: 2;
+    }
+    .phone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 26px;
+    }
+    .phone-sm {
+      width: min(100%, 220px);
+      border-radius: 28px;
+      padding: 8px;
+    }
+    .phone-sm::before {
+      width: 56px;
+      height: 18px;
+      top: 11px;
+      border-radius: 10px;
+    }
+    .phone-sm img { border-radius: 20px; }
+
+    /* Store buttons large */
+    .store-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 1.15rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    }
+    .store-btn:hover {
+      border-color: #3f3f46;
+      background: #1f1f23;
+      transform: translateY(-1px);
+    }
+    .store-btn.primary {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #0a0a0b;
+    }
+    .store-btn.primary:hover {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+    }
+    .store-btn svg { width: 22px; height: 22px; flex-shrink: 0; display: block; }
+    .store-btn .play-icon { width: 22px; height: 22px; }
+    .btn-store .play-icon { width: 14px; height: 14px; }
+    .store-btn .label { display: flex; flex-direction: column; line-height: 1.15; }
+    .store-btn .label small {
+      font-size: 0.65rem;
+      opacity: 0.75;
+      font-weight: 400;
+    }
+    .store-btn .label strong {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .store-btn.primary .label small { opacity: 0.85; }
+
+    /* ——— Hero ——— */
+    .hero {
+      position: relative;
+      z-index: 2;
+      min-height: min(84vh, 760px);
+      padding: clamp(1rem, 2.5vw, 1.75rem) 0 0;
+      border-bottom: none;
+      background: #0a0908;
+      overflow: hidden;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 62% 45%;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(8, 7, 6, 0.92) 0%, rgba(8, 7, 6, 0.78) 28%, rgba(8, 7, 6, 0.42) 52%, rgba(8, 7, 6, 0.18) 72%, rgba(8, 7, 6, 0.28) 100%),
+        linear-gradient(180deg, rgba(8, 7, 6, 0.55) 0%, rgba(8, 7, 6, 0.15) 28%, rgba(8, 7, 6, 0.2) 62%, rgba(8, 7, 6, 0.88) 100%),
+        radial-gradient(ellipse 50% 60% at 18% 42%, rgba(0, 0, 0, 0.45), transparent 70%);
+    }
+    .hero-stage {
+      display: none;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(300px, 1.15fr) minmax(240px, 0.85fr);
+      gap: 1.25rem 1.75rem;
+      align-items: center;
+      flex: 1;
+      padding-top: 0.5rem;
+      padding-bottom: clamp(3.25rem, 6vw, 4.5rem);
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
+    .hero-copy {
+      max-width: 34rem;
+      align-self: center;
+      padding-top: 0;
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(20, 18, 16, 0.65);
+      backdrop-filter: blur(8px);
+      font-size: 0.78rem;
+      color: var(--text-2);
+      margin-bottom: 1.15rem;
+      align-self: flex-start;
+    }
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 8px var(--orange);
+    }
+    .hero h1 {
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: clamp(2.35rem, 5.5vw, 3.55rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.25rem;
+      max-width: 18ch;
+      color: #fff;
+    }
+    .hero h1 .accent {
+      color: var(--orange);
+    }
+    .hero-sub {
+      font-size: 1.08rem;
+      color: rgba(250, 250, 250, 0.78);
+      max-width: 30rem;
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+    }
+    .hero-chips {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.65rem 0.4rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(249, 115, 22, 0.28);
+      background: rgba(12, 11, 10, 0.55);
+      backdrop-filter: blur(8px);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(250, 250, 250, 0.92);
+      white-space: nowrap;
+      flex-shrink: 1;
+    }
+    .hero-chip svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--orange);
+    }
+    .hero-visual {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 0;
+      padding-top: 0;
+    }
+    .hero-phone {
+      width: min(100%, 265px);
+      height: auto;
+      display: block;
+      background: transparent;
+      filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.5));
+    }
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 12% 8% 5%;
+      background: radial-gradient(ellipse at 50% 40%, rgba(249, 115, 22, 0.22), transparent 68%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(8px);
+    }
+
+    /* Hero bottom proof / CTA bar */
+    .hero-proof {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+      margin-top: 0;
+      padding: 1.1rem 0 2.15rem;
+      border-top: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(8, 7, 6, 0.08) 55%, rgba(8, 7, 6, 0.28) 100%);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      pointer-events: none;
+    }
+    .hero-proof a,
+    .hero-proof .hero-proof-inner {
+      pointer-events: auto;
+    }
+    .hero-proof-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.5rem;
+      text-align: center;
+    }
+    .hero-proof-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.35rem;
+    }
+    .hero-proof-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
+      color: rgba(250, 250, 250, 0.88);
+      font-size: 0.9rem;
+      text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
+      transition: color 0.15s;
+    }
+    .hero-proof-rating:hover { color: #fff; }
+    .hero-proof-rating .stars {
+      color: var(--orange);
+      letter-spacing: 0.06em;
+      font-size: 0.95rem;
+    }
+    .hero-proof-rating strong { color: #fff; font-weight: 600; }
+    .hero-proof-divider {
+      width: 1px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .hero-proof-trust {
+      font-size: 0.88rem;
+      color: rgba(250, 250, 250, 0.78);
+      letter-spacing: 0.01em;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.65);
+    }
+    .hero-proof .store-btns {
+      gap: 0.6rem;
+    }
+    .hero-proof .store-btn {
+      padding: 0.55rem 0.95rem;
+      border-radius: 10px;
+    }
+    .hero-proof .store-btn svg { width: 18px; height: 18px; }
+    .hero-proof .store-btn .label small { font-size: 0.58rem; }
+    .hero-proof .store-btn .label strong { font-size: 0.85rem; }
+
+    /* ——— How it works ——— */
+    .how {
+      background: var(--bg);
+    }
+    .how-header {
+      margin-bottom: 2.25rem;
+      max-width: 38rem;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+    }
+    .step {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #151310;
+      padding: clamp(1.4rem, 2.8vw, 1.85rem) clamp(1.15rem, 2.4vw, 1.6rem) clamp(1.4rem, 2.8vw, 1.85rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+    .step-num {
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--orange);
+      letter-spacing: -0.03em;
+    }
+    .step h3 {
+      font-size: 1.08rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-top: -0.15rem;
+    }
+    .step p {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+    .step-shot {
+      margin-top: auto;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      aspect-ratio: 9 / 14;
+      background: #0c0b0a;
+    }
+    .step-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* ——— Chapters ——— */
+    .chapters {
+      background: var(--bg);
+      padding-top: 1rem;
+    }
+    .chapter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 5vw, 4rem);
+      align-items: center;
+      padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+      border-top: 1px solid var(--border);
+    }
+    .chapter:first-child { border-top: none; padding-top: clamp(2.5rem, 5vw, 3.5rem); }
+    .chapter.reverse .chapter-copy { order: 2; }
+    .chapter.reverse .chapter-visual { order: 1; }
+    .chapter-kicker {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.65rem;
+    }
+    .chapter h2 {
+      font-size: clamp(1.65rem, 3.5vw, 2.15rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      max-width: 18ch;
+    }
+    .chapter-lead {
+      color: var(--text-2);
+      margin-bottom: 1.35rem;
+      max-width: 34rem;
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+    .chapter-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+    .chapter-bullets li {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-2);
+      line-height: 1.45;
+    }
+    .chapter-bullets li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      margin-top: 0.55rem;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+    .chapter-bullets strong { color: var(--text); font-weight: 500; }
+    .chapter-visual { display: flex; justify-content: center; }
+
+    /* ——— Spotlight ——— */
+    .spotlight {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--pad-y) 0;
+    }
+    .spotlight-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .spotlight h2 {
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: clamp(1.85rem, 4vw, 2.65rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+      margin-bottom: 1rem;
+      max-width: 16ch;
+    }
+    .spotlight-copy p {
+      color: var(--text-2);
+      margin-bottom: 1.75rem;
+      max-width: 30rem;
+      font-size: 1.05rem;
+    }
+    .spotlight-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .spotlight-lines li {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: var(--text-2);
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .spotlight-lines .line-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      min-width: 0;
+    }
+    .spotlight-lines .line-title {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .spotlight-lines .line-desc {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .spotlight-lines li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .spotlight-lines .mark {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+    }
+    .spotlight-lines .mark svg { width: 14px; height: 14px; }
+    .spotlight-visual {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+    .spotlight-visual::after {
+      content: '';
+      position: absolute;
+      inset: 6% -4%;
+      background: radial-gradient(ellipse at 50% 40%, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.06) 45%, transparent 72%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .spotlight .phone {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 300px);
+      box-shadow:
+        0 0 0 1px rgba(249, 115, 22, 0.26),
+        0 32px 80px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(249, 115, 22, 0.16);
+    }
+
+    /* ——— Bento ——— */
+    .now { background: var(--bg); }
+    .now-header {
+      margin-bottom: 1.75rem;
+      max-width: 38rem;
+    }
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+    }
+    .bento-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #151310;
+      padding: 1.35rem 1.25rem 1.4rem;
+      transition: border-color 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .bento-card:hover { border-color: #3d342e; }
+    .bento-card.wide { grid-column: span 2; }
+    .bento-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.95rem;
+      color: var(--orange);
+    }
+    .bento-icon svg { width: 17px; height: 17px; stroke-width: 1.5; }
+    .bento-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .bento-card p {
+      font-size: 0.88rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    /* ——— Reviews ——— */
+    .reviews {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--pad-y) 0;
+    }
+    .reviews-shell {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.4fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+    }
+    .reviews-aside .section-label { margin-bottom: 0.75rem; }
+    .reviews-aside .section-title {
+      margin-bottom: 1.25rem;
+      max-width: 12ch;
+    }
+    .reviews-score {
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+      margin-bottom: 0.5rem;
+    }
+    .reviews-score strong {
+      font-size: clamp(3rem, 6vw, 4.25rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .reviews-score .stars {
+      color: var(--orange);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+    }
+    .reviews-meta {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      margin-bottom: 1.5rem;
+    }
+    .reviews-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--orange);
+      transition: opacity 0.15s;
+    }
+    .reviews-link:hover { opacity: 0.85; }
+    .review-feature {
+      border-left: 2px solid var(--orange);
+      padding: 0.25rem 0 0.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .review-feature blockquote {
+      font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 1.15rem;
+    }
+    .review-feature cite {
+      font-style: normal;
+      font-size: 0.9rem;
+      color: var(--text-3);
+    }
+    .review-feature cite strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+    }
+    .review-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem 1.35rem;
+      padding: 1.35rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .review-row .stars {
+      color: var(--orange);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding-top: 0.35rem;
+    }
+    .review-row blockquote {
+      font-size: 1rem;
+      color: var(--text-2);
+      line-height: 1.55;
+      margin-bottom: 0.55rem;
+    }
+    .review-row cite {
+      font-style: normal;
+      font-size: 0.82rem;
+      color: var(--text-3);
+    }
+    .review-row cite strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    @media (max-width: 900px) {
+      .reviews-shell { grid-template-columns: 1fr; gap: 2rem; }
+      .reviews-aside .section-title { max-width: none; }
+    }
+
+    /* ——— Web teaser ——— */
+    .web-teaser {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .web-teaser-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 1.75rem 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-2);
+    }
+    .web-teaser h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+    .web-teaser p {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      max-width: 28rem;
+    }
+    .notify-form {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .notify-form input {
+      font: inherit;
+      font-size: 0.9rem;
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      min-width: 220px;
+      outline: none;
+    }
+    .notify-form input:focus { border-color: #3f3f46; }
+    .notify-form input::placeholder { color: var(--text-3); }
+    .notify-form button {
+      padding: 0.65rem 1.1rem;
+      border-radius: 10px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: border-color 0.15s;
+    }
+    .notify-form button:hover { border-color: #3f3f46; }
+    .notify-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
+    .notify-msg {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      margin-top: 0;
+      display: none;
+    }
+    .notify-msg.show { display: block; }
+
+    /* ——— Final CTA ——— */
+    .final-cta {
+      padding: var(--pad-y) 0;
+      text-align: center;
+    }
+    .final-cta h2 {
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+      margin-bottom: 0.85rem;
+    }
+    .final-cta .lead {
+      color: var(--text-2);
+      margin-bottom: 1.75rem;
+      font-size: 1.05rem;
+    }
+    .final-cta .store-btns { justify-content: center; }
+    .privacy-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-3);
+    }
+
+    /* ——— Footer ——— */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-2);
+      padding: 3.5rem 0 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .footer-brand .logo { margin-bottom: 0.25rem; }
+    .footer-brand p {
+      font-size: 0.9rem;
+      color: var(--text-3);
+      max-width: 22rem;
+      line-height: 1.55;
+    }
+    .footer-col h4 {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 1rem;
+    }
+    .footer-col ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .footer-col a {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--text-3);
+    }
+
+    /* ——— Responsive ——— */
+    @media (max-width: 960px) {
+      .hero { min-height: 0; }
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+      .chapter,
+      .spotlight-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .chapter.reverse .chapter-copy,
+      .chapter.reverse .chapter-visual { order: unset; }
+      .hero h1 { max-width: none; }
+      .hero-visual { order: -1; margin-bottom: 0; }
+      .hero-proof-inner { justify-content: center; }
+      .steps { grid-template-columns: 1fr; gap: 0.75rem; }
+      .step {
+        display: grid;
+        grid-template-columns: 1fr 130px;
+        gap: 0.65rem 1.15rem;
+        align-items: start;
+      }
+      .step-num { grid-column: 1; }
+      .step h3, .step p { grid-column: 1; }
+      .step-shot {
+        grid-column: 2;
+        grid-row: 1 / 4;
+        aspect-ratio: 9 / 16;
+        margin-top: 0;
+      }
+      .bento { grid-template-columns: 1fr 1fr; }
+      .bento-card.wide { grid-column: span 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links,
+      .nav-cta { display: none; }
+      .menu-toggle { display: inline-flex; }
+      .hero-proof-divider { display: none; }
+      .hero-visual { margin-bottom: 0; }
+      .hero-phone { width: min(100%, 220px); }
+      .hero-chips { gap: 0.6rem; }
+      .hero-chip { font-size: 0.82rem; }
+      .step {
+        grid-template-columns: 1fr;
+      }
+      .step-shot {
+        grid-column: 1;
+        grid-row: auto;
+        max-width: 180px;
+        aspect-ratio: 9 / 14;
+      }
+      .bento { grid-template-columns: 1fr; }
+      .bento-card.wide { grid-column: span 1; }
+      .web-teaser-inner { flex-direction: column; align-items: stretch; }
+      .notify-form { width: 100%; }
+      .notify-form input { flex: 1; min-width: 0; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="bg-pattern"></div>
-    <div class="bg-grid"></div>
-    <div class="target-bg">
-        <div class="target-ring"></div>
-        <div class="target-ring"></div>
-        <div class="target-ring"></div>
-        <div class="target-ring"></div>
-        <div class="target-ring"></div>
-    </div>
-
-    <nav>
-        <a href="/" class="logo">
-            <div class="logo-icon"><img src="assets/icon.png" alt="ZeroPoint"></div>
-            ZeroPoint
+  <!-- Nav -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="ZeroPoint home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="28" height="28">
+          <circle cx="16" cy="16" r="13.25" stroke="#F97316" stroke-width="2"/>
+          <circle cx="16" cy="16" r="7.5" stroke="#F97316" stroke-width="1.75"/>
+          <circle cx="16" cy="16" r="2.75" fill="#F97316"/>
+          <path d="M16 3.5v3.25M16 25.25V28.5M3.5 16h3.25M25.25 16H28.5" stroke="#F97316" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+        <span>ZeroPoint</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="support.html">Support</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">
+          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4.5 3.15a1.1 1.1 0 0 0-1.65.95v15.8a1.1 1.1 0 0 0 1.65.95l13.4-7.9a1.1 1.1 0 0 0 0-1.9L4.5 3.15Z"/></svg>
+          Play
         </a>
-        <div class="nav-links">
-            <a href="#preview">App</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="privacy">Privacy</a>
-            <a href="support">Support</a>
-        </div>
-        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-    </nav>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#preview" onclick="toggleMenu()">App</a>
-        <a href="#roadmap" onclick="toggleMenu()">Roadmap</a>
-        <a href="privacy">Privacy</a>
-        <a href="terms">Terms</a>
-        <a href="support">Support</a>
+        <a class="btn-store btn-store-primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.7 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8s-1.7-.8-2.8-.7c-1.5.1-2.8.8-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1 2.6-2c.8-1.2 1.2-2.3 1.2-2.4-.1 0-2.2-.8-2.3-3.4zM14.4 5.5c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z"/></svg>
+          App Store
+        </a>
+      </div>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" id="menu-toggle">
+        <span></span>
+      </button>
     </div>
+    <div class="mobile-menu container" id="mobile-menu">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="support.html">Support</a>
+      <div class="nav-cta">
+        <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">Google Play</a>
+        <a class="btn-store btn-store-primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">App Store</a>
+      </div>
+    </div>
+  </header>
 
-    <main>
-        <section class="hero">
-            <div class="badge">
-                <span class="badge-dot"></span>
-                Available on iOS & Android
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <picture>
+          <source srcset="assets/hero-range.webp" type="image/webp">
+          <img src="assets/hero-range.jpg" alt="" width="2200" height="1100" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-copy fade-in">
+          <div class="badge">Available on iOS &amp; Android</div>
+          <h1>Every range day, <span class="accent">logged.</span></h1>
+          <p class="hero-sub">Capture the range, who you shot with, guns and ammo used — then see it all on a calendar. Track inventory, get low-ammo alerts, and set cleaning reminders by rounds fired.</p>
+          <div class="hero-chips" aria-label="Key features">
+            <div class="hero-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <path d="M3 10h18M8 3v4M16 3v4" stroke-linecap="round"/>
+              </svg>
+              Log sessions
             </div>
-            <h1>TRACK YOUR<br><span class="gradient-text">SHOOTING PROGRESS</span></h1>
-            <p class="hero-subtitle">
-                ZeroPoint is your ultimate range companion. Log sessions, track firearms, 
-                analyze targets, and watch your skills improve over time.
-            </p>
-            <div class="app-buttons">
-                <a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" class="app-button" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                    </svg>
-                    <div class="app-button-text">
-                        <small>Download on the</small>
-                        <span>App Store</span>
-                    </div>
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=com.zeropoint" class="app-button" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
-                    </svg>
-                    <div class="app-button-text">
-                        <small>Get it on</small>
-                        <span>Google Play</span>
-                    </div>
-                </a>
+            <div class="hero-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                <path d="M20.5 7.5a3.5 3.5 0 01-3.5 3.5H9l-4 4V5.5A2.5 2.5 0 017.5 3H17a3.5 3.5 0 013.5 3.5z" stroke-linejoin="round"/>
+                <circle cx="9.5" cy="14.5" r="2.5"/>
+                <path d="M14.5 17a2.5 2.5 0 014.6 1.4c0 1.4-1.4 2.1-2.3 2.6" stroke-linecap="round"/>
+              </svg>
+              Tag range &amp; gear
             </div>
-            <div class="scroll-indicator">
-                <span>Scroll to explore</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 5v14M5 12l7 7 7-7"/>
-                </svg>
+            <div class="hero-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                <path d="M4 8.5L12 4l8 4.5v7L12 20l-8-4.5v-7z" stroke-linejoin="round"/>
+                <path d="M12 12v8M4 8.5l8 3.5 8-3.5" stroke-linejoin="round"/>
+                <path d="M18 3v4M16 5h4" stroke-linecap="round"/>
+              </svg>
+              Inventory &amp; alerts
             </div>
-        </section>
-
-        <!-- App Preview Carousel -->
-        <section class="app-preview" id="preview">
-            <div class="section-header fade-in">
-                <h2>SEE ZEROPOINT IN ACTION</h2>
-                <p>Swipe through to explore our powerful features</p>
-            </div>
-            <div class="carousel-container">
-                <div class="carousel-wrapper">
-                    <div class="carousel" id="carousel">
-                        <div class="carousel-slide" data-index="0">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-1.PNG" alt="Home Dashboard">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Home Dashboard</h3>
-                                <p>Your performance at a glance — sessions, targets, and total rounds tracked.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="1">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-2.PNG" alt="Log Session">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Log Sessions</h3>
-                                <p>Quickly log range visits with firearm, position, round count, and more.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="2">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-3.PNG" alt="Calendar">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Calendar View</h3>
-                                <p>Visualize your training history and never miss a range day.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="3">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-4.PNG" alt="Statistics">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Detailed Statistics</h3>
-                                <p>AI insights, training habits, and performance trends over time.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="4">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-5.PNG" alt="Shooting Buddies">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Shooting Buddies</h3>
-                                <p>Track who you train with and build your shooting community.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="5">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-6.PNG" alt="My Armory">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>My Armory</h3>
-                                <p>Manage your entire firearms collection with caliber tracking.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="6">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-7.PNG" alt="Drill Library">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Drill Library</h3>
-                                <p>Access premade drills like Dot Torture and Bill Drill to sharpen skills.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-slide" data-index="7">
-                            <div class="phone-frame">
-                                <div class="phone-screen">
-                                    <img src="assets/screenshot-8.PNG" alt="Pro Features">
-                                </div>
-                            </div>
-                            <div class="slide-info">
-                                <h3>Pro Features</h3>
-                                <p>Cloud sync, advanced analytics, and unlimited storage with Pro.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-nav">
-                    <button class="carousel-btn" onclick="prevSlide()" aria-label="Previous">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M15 18l-6-6 6-6"/>
-                        </svg>
-                    </button>
-                    <button class="carousel-btn" onclick="nextSlide()" aria-label="Next">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="carousel-dots" id="carouselDots"></div>
-            </div>
-        </section>
-
-        <!-- Roadmap Section -->
-        <section class="roadmap" id="roadmap">
-            <div class="roadmap-header fade-in">
-                <h2>WHAT'S COMING NEXT</h2>
-                <p>We're constantly improving ZeroPoint with features you've asked for</p>
-                <div class="roadmap-release">
-                    🎯 Version 2.0 — February 2026
-                </div>
-            </div>
-            <div class="roadmap-grid">
-                <div class="roadmap-card pro fade-in">
-                    <div class="roadmap-icon timer">⏱️</div>
-                    <span class="roadmap-badge pro">Pro</span>
-                    <h3>Built-in Drill Timer</h3>
-                    <p>A shot timer built right into the app with random start delays and par time tracking.</p>
-                    <ul class="roadmap-features">
-                        <li>Random start delay</li>
-                        <li>Par time & split times</li>
-                        <li>Integrates with session logging</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-card pro fade-in">
-                    <div class="roadmap-icon ammo">📦</div>
-                    <span class="roadmap-badge pro">Pro</span>
-                    <h3>Ammunition Inventory</h3>
-                    <p>Track your ammo stockpile by caliber, brand, and lot number.</p>
-                    <ul class="roadmap-features">
-                        <li>Cost per round tracking</li>
-                        <li>Auto-deduct from sessions</li>
-                        <li>Low stock alerts</li>
-                        <li>"You've spent $X on ammo this year"</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-card free fade-in">
-                    <div class="roadmap-icon streak">🔥</div>
-                    <span class="roadmap-badge free">Free</span>
-                    <h3>Training Streaks & Goals</h3>
-                    <p>Stay motivated with streaks and weekly training goals.</p>
-                    <ul class="roadmap-features">
-                        <li>Daily training streaks</li>
-                        <li>Weekly/monthly round goals</li>
-                        <li>Streak freeze recovery</li>
-                        <li>Push reminders</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-card free fade-in">
-                    <div class="roadmap-icon trophy">🏆</div>
-                    <span class="roadmap-badge free">Free</span>
-                    <h3>Personal Records & Badges</h3>
-                    <p>Celebrate milestones with achievements and shareable PR cards.</p>
-                    <ul class="roadmap-features">
-                        <li>Best group size records</li>
-                        <li>Badges: 100 Sessions, 10K Rounds</li>
-                        <li>Achievement notifications</li>
-                        <li>Shareable PR cards</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-card pro fade-in">
-                    <div class="roadmap-icon weather">🌤️</div>
-                    <span class="roadmap-badge pro">Pro</span>
-                    <h3>Environmental Data</h3>
-                    <p>Auto-fetch weather conditions and correlate with your performance.</p>
-                    <ul class="roadmap-features">
-                        <li>Wind, temp, humidity, pressure</li>
-                        <li>Performance correlation insights</li>
-                        <li>Essential for DOPE tracking</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-card pro fade-in">
-                    <div class="roadmap-icon wrench">🔧</div>
-                    <span class="roadmap-badge pro">Pro</span>
-                    <h3>Firearm Maintenance</h3>
-                    <p>Never forget to clean your firearms with automatic round tracking.</p>
-                    <ul class="roadmap-features">
-                        <li>Round count per firearm</li>
-                        <li>Cleaning reminders</li>
-                        <li>Maintenance log history</li>
-                        <li>Push notifications when due</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="coming-soon fade-in" id="web-app">
-            <div class="coming-soon-container">
-                <div class="coming-soon-content">
-                    <div class="coming-soon-badge">
-                        🚀 Coming Soon
-                    </div>
-                    <h2>WEB SESSION VIEWER</h2>
-                    <p>View and analyze your shooting sessions right from your browser. We're working hard to bring ZeroPoint to the web.</p>
-                    <form class="notify-form" onsubmit="handleNotify(event)">
-                        <input type="email" placeholder="Enter your email" required>
-                        <button type="submit" class="notify-btn">Notify Me</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <a href="/" class="logo">
-                    <div class="logo-icon"><img src="assets/icon.png" alt="ZeroPoint"></div>
-                    ZeroPoint
-                </a>
-                <p>Your ultimate shooting range companion. Track sessions, analyze targets, and improve your skills with precision.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Product</h4>
-                <ul>
-                    <li><a href="#preview">Features</a></li>
-                    <li><a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener">App Store</a></li>
-                    <li><a href="https://play.google.com/store/apps/details?id=com.zeropoint" target="_blank" rel="noopener">Google Play</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="privacy">Privacy Policy</a></li>
-                    <li><a href="terms">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="support">Help Center</a></li>
-                    <li><a href="mailto:support@zeropointlog.com">Contact Us</a></li>
-                </ul>
-            </div>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <span>© 2026 ZeroPoint. All rights reserved.</span>
-            <div class="social-links">
-                <a href="mailto:support@zeropointlog.com" aria-label="Email">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                </a>
-            </div>
+        <div class="hero-visual fade-in">
+          <img class="hero-phone" src="assets/hero-phone.png" alt="ZeroPoint home dashboard on iPhone" width="506" height="1000" loading="eager">
         </div>
-    </footer>
+      </div>
+      <div class="hero-proof">
+        <div class="container hero-proof-inner">
+          <div class="hero-proof-left">
+            <a class="hero-proof-rating" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">
+              <span class="stars" aria-hidden="true">★★★★★</span>
+              <span><strong>5.0</strong> · 5 ratings on the App Store</span>
+            </a>
+            <div class="hero-proof-divider" aria-hidden="true"></div>
+            <p class="hero-proof-trust">Built for range days · Free to start · Pro optional</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <script>
-        // Mobile menu toggle
-        function toggleMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
+    <!-- How it works -->
+    <section class="section how" id="how">
+      <div class="container">
+        <div class="how-header fade-in">
+          <p class="section-label">How it works</p>
+          <h2 class="section-title">Three steps from bay to calendar.</h2>
+          <p class="section-sub">Log the session, tag range and gear, then open the calendar anytime — inventory and alerts stay with you.</p>
+        </div>
+        <div class="steps">
+          <article class="step fade-in">
+            <div class="step-num">01</div>
+            <h3>Log the session</h3>
+            <p>Range, friends, guns, ammo, and notes — a full range day in under a minute.</p>
+            <div class="step-shot">
+              <img src="assets/screenshot-2.PNG" alt="Log session screen with firearm and round details" loading="lazy">
+            </div>
+          </article>
+          <article class="step fade-in">
+            <div class="step-num">02</div>
+            <h3>Tag range &amp; gear</h3>
+            <p>Which range, who you shot with, which guns and ammo — tagged once, searchable later.</p>
+            <div class="step-shot">
+              <img src="assets/screenshot-1.PNG" alt="Home dashboard with recent sessions and tags" loading="lazy">
+            </div>
+          </article>
+          <article class="step fade-in">
+            <div class="step-num">03</div>
+            <h3>See it on the calendar</h3>
+            <p>A heatmap of range days, plus inventory and maintenance alerts when you need them.</p>
+            <div class="step-shot">
+              <img src="assets/screenshot-3.PNG" alt="Calendar heatmap of range days" loading="lazy">
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-        // Notify form
-        function handleNotify(e) {
-            e.preventDefault();
-            const email = e.target.querySelector('input').value;
-            alert('Thanks! We\'ll notify you at ' + email + ' when the web app launches.');
-            e.target.reset();
-        }
+    <!-- Three product chapters -->
+    <section class="chapters" id="features">
+      <div class="container">
+        <article class="chapter fade-in">
+          <div class="chapter-copy">
+            <p class="chapter-kicker">Log</p>
+            <h2>Session logging that stays organized.</h2>
+            <p class="chapter-lead">Capture the range day once — range, friends, guns, ammo, and notes — then find it again on the calendar.</p>
+            <ul class="chapter-bullets">
+              <li><span><strong>Sessions</strong> with range, friends, guns, and ammo</span></li>
+              <li><span><strong>Armory &amp; calibers</strong> so every firearm stays labeled</span></li>
+              <li><span><strong>Ammo inventory</strong> by brand and grain</span></li>
+              <li><span><strong>Drills</strong> — Dot Torture, Bill Drill, and custom</span></li>
+            </ul>
+          </div>
+          <div class="chapter-visual">
+            <div class="phone phone-sm">
+              <img src="assets/screenshot-2.PNG" alt="Logging a range session in ZeroPoint" loading="lazy">
+            </div>
+          </div>
+        </article>
 
-        // Carousel functionality
-        let currentSlide = 0;
-        const totalSlides = 8;
-        const carousel = document.getElementById('carousel');
-        const dotsContainer = document.getElementById('carouselDots');
+        <article class="chapter reverse fade-in">
+          <div class="chapter-copy">
+            <p class="chapter-kicker">Inventory &amp; alerts</p>
+            <h2>Guns, ammo, and maintenance in one place.</h2>
+            <p class="chapter-lead">Track what you own and what you used. Get low-ammo alerts and cleaning reminders based on rounds logged.</p>
+            <ul class="chapter-bullets">
+              <li><span><strong>Gun &amp; ammo inventory</strong> by brand and grain</span></li>
+              <li><span><strong>Low-ammo alerts</strong> before the next range day</span></li>
+              <li><span><strong>Maintenance alerts</strong> by rounds fired — you set the interval</span></li>
+              <li><span><strong>Calendar &amp; weekly digest</strong> of sessions and rounds</span></li>
+            </ul>
+          </div>
+          <div class="chapter-visual">
+            <div class="phone phone-sm">
+              <img src="assets/screenshot-6.PNG" alt="Firearm inventory armory screen in ZeroPoint" loading="lazy">
+            </div>
+          </div>
+        </article>
 
-        // Create dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.onclick = () => goToSlide(i);
-            dotsContainer.appendChild(dot);
-        }
+        <article class="chapter fade-in">
+          <div class="chapter-copy">
+            <p class="chapter-kicker">Train with others</p>
+            <h2>Tag buddies and share results.</h2>
+            <p class="chapter-lead">Keep a list of who you shoot with, join crews, and share a session or drill card when you want to.</p>
+            <ul class="chapter-bullets">
+              <li><span><strong>Shooting buddies</strong> tagged on sessions</span></li>
+              <li><span><strong>Crews &amp; leaderboards</strong> for the group that trains together</span></li>
+              <li><span><strong>One-tap share cards</strong> for a session or drill result</span></li>
+            </ul>
+          </div>
+          <div class="chapter-visual">
+            <div class="phone phone-sm">
+              <img src="assets/screenshot-5.PNG" alt="Shooting buddies list in ZeroPoint" loading="lazy">
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
 
-        function updateCarousel() {
-            // slideWidth = card width (280px) + gap (32px = 2rem)
-            const slideWidth = window.innerWidth <= 768 ? 272 : 312;
-            carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-            
-            // Update active states
-            document.querySelectorAll('.carousel-slide').forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
-            
-            document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-        }
+    <!-- Signature spotlight -->
+    <section class="spotlight" id="rhythm">
+      <div class="container spotlight-grid">
+        <div class="spotlight-copy fade-in">
+          <p class="section-label">Training rhythm</p>
+          <h2>Calendar and weekly digest.</h2>
+          <p>See which days you made it to the range, then get a short weekly summary of sessions and rounds — no digging through notes.</p>
+          <ul class="spotlight-lines">
+            <li>
+              <span class="mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+              </span>
+              <span class="line-body">
+                <span class="line-title">Range-day heatmap</span>
+                <span class="line-desc">Which days you logged a session, at a glance</span>
+              </span>
+            </li>
+            <li>
+              <span class="mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>
+              </span>
+              <span class="line-body">
+                <span class="line-title">Weekly digest</span>
+                <span class="line-desc">Rounds fired, sessions logged, and trend direction</span>
+              </span>
+            </li>
+            <li>
+              <span class="mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+              </span>
+              <span class="line-body">
+                <span class="line-title">Consistency check</span>
+                <span class="line-desc">Notice quiet weeks so you can plan the next range day</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="spotlight-visual fade-in">
+          <div class="phone">
+            <img src="assets/screenshot-3.PNG" alt="ZeroPoint calendar heatmap showing training rhythm across the month" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateCarousel();
-        }
+    <!-- Now in ZeroPoint -->
+    <section class="section now" id="now">
+      <div class="container">
+        <div class="now-header fade-in">
+          <p class="section-label">In the app</p>
+          <h2 class="section-title">Now in ZeroPoint</h2>
+          <p class="section-sub">Additional tools that ship with the range log — available today on iOS and Android.</p>
+        </div>
+        <div class="bento">
+          <article class="bento-card fade-in">
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3.5"/><path d="M5 19c1.5-3.5 4-5 7-5s5.5 1.5 7 5"/><path d="M16 4.5c1 .6 1.6 1.6 1.6 2.8"/></svg>
+            </div>
+            <h3>Profile customization</h3>
+            <p>Set a cover and display name so your profile matches how you train at the range.</p>
+          </article>
+          <article class="bento-card fade-in">
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M4 16l3-3 2 2 4-4 3 3"/></svg>
+            </div>
+            <h3>Armory &amp; drills</h3>
+            <p>Keep firearms and calibers organized, then run Dot Torture, Bill Drill, or your own.</p>
+          </article>
+          <article class="bento-card fade-in">
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5.1L12 14.8 7.5 16.8l.9-5.1L4.8 8.2l5-.7L12 3z"/></svg>
+            </div>
+            <h3>Achievements &amp; shooter rank</h3>
+            <p>Unlock milestones and a shooter rank as you log sessions and complete drills.</p>
+          </article>
+          <article class="bento-card fade-in">
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+            </div>
+            <h3>One-tap share cards</h3>
+            <p>Turn a session or drill result into a shareable card for a buddy or your notes.</p>
+          </article>
+          <article class="bento-card fade-in">
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4v2M12 18v2M4 12H2M22 12h-2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4"/><circle cx="12" cy="12" r="3.5"/></svg>
+            </div>
+            <h3>Smart alerts</h3>
+            <p>Notifications for low ammo, maintenance due by rounds fired, and buddy activity.</p>
+          </article>
+          <article class="bento-card fade-in">
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 14v4M12 10v8M16 6v12"/><path d="M4 20h16"/></svg>
+            </div>
+            <h3>Pro stats depth</h3>
+            <p>Optional Pro adds deeper trends, sync, and extras on top of the free logging core.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        }
+    <!-- Social proof -->
+    <section class="reviews" id="reviews" aria-labelledby="reviews-heading">
+      <div class="container reviews-shell">
+        <aside class="reviews-aside fade-in">
+          <p class="section-label">App Store</p>
+          <h2 class="section-title" id="reviews-heading">What shooters say.</h2>
+          <div class="reviews-score">
+            <strong>5.0</strong>
+            <span class="stars" aria-hidden="true">★★★★★</span>
+          </div>
+          <p class="reviews-meta">Based on 5 ratings on the App Store</p>
+          <a class="reviews-link" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">Read on the App Store →</a>
+        </aside>
+        <div class="fade-in">
+          <article class="review-feature">
+            <blockquote>“Excellent app. You can add friends and compete — see each other's progress. 10/10.”</blockquote>
+            <cite><strong>Kiela S</strong> · App Store</cite>
+          </article>
+          <div class="review-list">
+            <article class="review-row">
+              <span class="stars" aria-label="5 stars">★★★★★</span>
+              <div>
+                <blockquote>“Looking for an app to track, measure, and improve at the range — fell in love with it.”</blockquote>
+                <cite><strong>Chaseanderson5</strong> · App Store</cite>
+              </div>
+            </article>
+            <article class="review-row">
+              <span class="stars" aria-label="5 stars">★★★★★</span>
+              <div>
+                <blockquote>“Solid for logging range sessions and seeing improvement without feeling overcomplicated.”</blockquote>
+                <cite><strong>Frequent Cava Customer</strong> · App Store</cite>
+              </div>
+            </article>
+            <article class="review-row">
+              <span class="stars" aria-label="5 stars">★★★★★</span>
+              <div>
+                <blockquote>“Perfect for when I go to the range. Able to keep all my notes private and on my phone.”</blockquote>
+                <cite><strong>Alan 6 7 6 7</strong> · App Store</cite>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarousel();
-        }
+    <!-- Web session viewer teaser -->
+    <section class="web-teaser" id="web">
+      <div class="container">
+        <div class="web-teaser-inner fade-in">
+          <div>
+            <h2>Web session viewer (coming soon)</h2>
+            <p>Review the same range logs on a larger screen. Leave an email if you want a notice when it launches.</p>
+          </div>
+          <div class="notify-wrap">
+            <form class="notify-form" id="notify-form" action="#" method="post">
+              <label class="visually-hidden" for="notify-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email</label>
+              <input type="email" id="notify-email" name="email" placeholder="you@email.com" required autocomplete="email">
+              <button type="submit">Notify me</button>
+            </form>
+            <p class="notify-msg" id="notify-msg" role="status"></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        // Click on slide to navigate
-        document.querySelectorAll('.carousel-slide').forEach((slide, index) => {
-            slide.addEventListener('click', () => goToSlide(index));
+    <!-- Final CTA -->
+    <section class="final-cta" id="download">
+      <div class="container fade-in">
+        <h2>Download ZeroPoint</h2>
+        <p class="lead">Free to start on iOS and Android. Pro is optional when you want sync and deeper stats.</p>
+        <div class="store-btns">
+          <a class="store-btn primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.7 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8s-1.7-.8-2.8-.7c-1.5.1-2.8.8-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1 2.6-2c.8-1.2 1.2-2.3 1.2-2.4-.1 0-2.2-.8-2.3-3.4zM14.4 5.5c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z"/></svg>
+            <span class="label"><small>Download on the</small><strong>App Store</strong></span>
+          </a>
+          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">
+            <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4.5 3.15a1.1 1.1 0 0 0-1.65.95v15.8a1.1 1.1 0 0 0 1.65.95l13.4-7.9a1.1 1.1 0 0 0 0-1.9L4.5 3.15Z"/></svg>
+            <span class="label"><small>Get it on</small><strong>Google Play</strong></span>
+          </a>
+        </div>
+        <p class="privacy-note">Your data stays on your device by default.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="28" height="28">
+          <circle cx="16" cy="16" r="13.25" stroke="#F97316" stroke-width="2"/>
+          <circle cx="16" cy="16" r="7.5" stroke="#F97316" stroke-width="1.75"/>
+          <circle cx="16" cy="16" r="2.75" fill="#F97316"/>
+          <path d="M16 3.5v3.25M16 25.25V28.5M3.5 16h3.25M25.25 16H28.5" stroke="#F97316" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+            <span>ZeroPoint</span>
+          </a>
+          <p>Session logging and inventory for shooting ranges — calendar, gear tags, and alerts in one app.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">App Store</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">Google Play</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Help</h4>
+          <ul>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="mailto:support@zeropointlog.com">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> ZeroPoint. All rights reserved.</span>
+        <span>zeropointlog.com</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById('menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      var nav = document.getElementById('nav');
+
+      if (toggle && menu) {
+        toggle.addEventListener('click', function () {
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          menu.classList.toggle('open', !open);
         });
-
-        // Touch/swipe support
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        carousel.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
+        menu.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            toggle.setAttribute('aria-expanded', 'false');
+            menu.classList.remove('open');
+          });
         });
+      }
 
-        carousel.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) nextSlide();
-            if (touchEndX - touchStartX > 50) prevSlide();
+      function onScroll() {
+        if (!nav) return;
+        nav.classList.toggle('scrolled', window.scrollY > 8);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+        document.querySelectorAll('.fade-in').forEach(function (el) { io.observe(el); });
+      } else {
+        document.querySelectorAll('.fade-in').forEach(function (el) { el.classList.add('visible'); });
+      }
+
+      var form = document.getElementById('notify-form');
+      var msg = document.getElementById('notify-msg');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = form.querySelector('input[type="email"]').value;
+          if (msg) {
+            msg.textContent = 'Thanks — we\'ll notify ' + email + ' when the web viewer is ready.';
+            msg.classList.add('show');
+          }
+          form.reset();
         });
+      }
 
-        // Initialize carousel
-        updateCarousel();
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in, .scale-in').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
+      var year = document.getElementById('year');
+      if (year) year.textContent = String(new Date().getFullYear());
+    })();
+  </script>
 </body>
 </html>

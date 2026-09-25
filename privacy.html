@@ -1,484 +1,555 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - ZeroPoint</title>
-    <meta name="description" content="ZeroPoint Privacy Policy - Learn how we collect, use, and protect your data.">
-    <link rel="icon" type="image/png" href="assets/icon.png">
-    <link rel="apple-touch-icon" href="assets/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --bg-card: #18181b;
-            --accent: #ef4444;
-            --accent-dark: #dc2626;
-            --accent-glow: rgba(239, 68, 68, 0.3);
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --border: #27272a;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — ZeroPoint</title>
+  <meta name="description" content="ZeroPoint Privacy Policy — how we collect, use, and protect your data.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0b0a;
+      --bg-2: #141210;
+      --bg-3: #1c1916;
+      --text: #fafafa;
+      --text-2: #a1a1aa;
+      --text-3: #71717a;
+      --border: #2a2622;
+      --orange: #f97316;
+      --orange-dark: #ea580c;
+      --orange-soft: rgba(249, 115, 22, 0.14);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --max: 1120px;
+      --prose: 720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { font: inherit; border: none; background: none; cursor: pointer; color: inherit; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    .container {
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.7;
-            min-height: 100vh;
-        }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 11, 10, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+    .logo-mark { width: 28px; height: 28px; flex-shrink: 0; display: block; }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+    .nav-links a {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      transition: color 0.15s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--text); }
+    .nav-links a.active { color: var(--orange); }
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--text);
+      position: relative;
+    }
+    .menu-toggle span::before,
+    .menu-toggle span::after { content: ''; position: absolute; left: 0; }
+    .menu-toggle span::before { top: -6px; }
+    .menu-toggle span::after { top: 6px; }
+    .mobile-menu {
+      display: none;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      padding: 0.5rem 0 1rem;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      color: var(--text-2);
+      font-size: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a.active { color: var(--orange); }
 
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow), transparent),
-                var(--bg-primary);
-        }
+    main {
+      width: min(100% - 2.5rem, var(--prose));
+      margin: 0 auto;
+      padding: 4rem 0 5rem;
+    }
+    .page-header { margin-bottom: 2.5rem; }
+    .page-header .eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+    .page-header h1 {
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.65rem;
+    }
+    .page-header .updated,
+    .page-header .lede {
+      color: var(--text-2);
+      font-size: 1rem;
+    }
 
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 11, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-        }
+    .prose {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(1.75rem, 4vw, 2.75rem);
+    }
+    .prose h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-top: 2.25rem;
+      margin-bottom: 0.85rem;
+      color: var(--text);
+    }
+    .prose h2:first-child { margin-top: 0; }
+    .prose h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.55rem;
+      color: var(--text);
+    }
+    .prose p {
+      color: var(--text-2);
+      margin-bottom: 1rem;
+      font-size: 0.98rem;
+    }
+    .prose ul {
+      color: var(--text-2);
+      margin-bottom: 1rem;
+      padding-left: 1.25rem;
+      list-style: disc;
+    }
+    .prose li { margin-bottom: 0.45rem; font-size: 0.98rem; }
+    .prose strong { color: var(--text); font-weight: 500; }
+    .prose a { color: var(--orange); }
+    .prose a:hover { text-decoration: underline; }
+    .prose hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.25rem 0;
+    }
+    .callout {
+      background: var(--orange-soft);
+      border: 1px solid rgba(249, 115, 22, 0.28);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      margin: 1.35rem 0;
+    }
+    .callout p { margin: 0; color: var(--text); }
+    .legal-caps {
+      text-transform: uppercase;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
+    /* Support-specific */
+    main.support-main {
+      width: min(100% - 2.5rem, 880px);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .contact-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+    }
+    .contact-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .contact-card p {
+      color: var(--text-2);
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+      line-height: 1.55;
+    }
+    .contact-card a {
+      color: var(--orange);
+      font-weight: 500;
+      font-size: 0.92rem;
+    }
+    .contact-card a:hover { text-decoration: underline; }
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .contact-icon svg { width: 18px; height: 18px; }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+    .faq-section { margin-bottom: 3rem; }
+    .faq-section h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .faq-item {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.65rem;
+      overflow: hidden;
+    }
+    .faq-item:hover { border-color: #3d342e; }
+    .faq-question {
+      width: 100%;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .faq-question:hover { background: rgba(255,255,255,0.02); }
+    .faq-question svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-3);
+      flex-shrink: 0;
+      transition: transform 0.25s, color 0.15s;
+    }
+    .faq-item.open .faq-question svg {
+      transform: rotate(180deg);
+      color: var(--orange);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 480px; }
+    .faq-answer-content {
+      padding: 0 1.35rem 1.25rem;
+      color: var(--text-2);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    .faq-answer-content a { color: var(--orange); }
+    .faq-answer-content a:hover { text-decoration: underline; }
 
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    .response-info {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
+      text-align: center;
+    }
+    .response-info h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+    }
+    .response-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      background: var(--orange-soft);
+      color: var(--orange);
+      font-size: 0.88rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .response-info p {
+      color: var(--text-2);
+      font-size: 0.92rem;
+      max-width: 28rem;
+      margin: 0 auto;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-        }
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-2);
+      padding: 2rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-3);
+    }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-2); }
+    .footer-links a:hover { color: var(--text); }
 
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-            position: relative;
-        }
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .menu-toggle { display: inline-flex; }
+      main { padding: 3rem 0 4rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--text-primary);
-        }
-
-        .nav-links a.active::after,
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-        }
-
-        .page-header {
-            margin-bottom: 3rem;
-        }
-
-        .page-header h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.02em;
-        }
-
-        .page-header .updated {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .content {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 3rem;
-        }
-
-        .content h2 {
-            font-size: 1.5rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .content h2:first-child {
-            margin-top: 0;
-        }
-
-        .content h3 {
-            font-size: 1.15rem;
-            margin-top: 1.75rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .content p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .content ul {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-        }
-
-        .content li {
-            margin-bottom: 0.5rem;
-        }
-
-        .content strong {
-            color: var(--text-primary);
-        }
-
-        .content a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .content a:hover {
-            text-decoration: underline;
-        }
-
-        .highlight-box {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 12px;
-            padding: 1.25rem 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .highlight-box p {
-            margin: 0;
-            color: var(--text-primary);
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 2.5rem 0;
-        }
-
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 4rem;
-            background: var(--bg-secondary);
-        }
-
-        footer a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin: 0 0.5rem;
-        }
-
-        footer a:hover {
-            color: var(--accent);
-        }
-
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(10, 10, 11, 0.98);
-            z-index: 99;
-            padding: 6rem 2rem;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .mobile-menu.active {
-            display: flex;
-        }
-
-        .mobile-menu a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 500;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            main {
-                padding: 6rem 1rem 2rem;
-            }
-
-            .content {
-                padding: 1.75rem;
-            }
-
-            .page-header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+  </style>
 </head>
 <body>
-    <div class="bg-pattern"></div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo" aria-label="ZeroPoint home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="28" height="28">
+          <circle cx="16" cy="16" r="13.25" stroke="#F97316" stroke-width="2"/>
+          <circle cx="16" cy="16" r="7.5" stroke="#F97316" stroke-width="1.75"/>
+          <circle cx="16" cy="16" r="2.75" fill="#F97316"/>
+          <path d="M16 3.5v3.25M16 25.25V28.5M3.5 16h3.25M25.25 16H28.5" stroke="#F97316" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+        <span>ZeroPoint</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="privacy.html" class="active">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="support.html">Support</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" id="menu-toggle">
+        <span></span>
+      </button>
+    </div>
+    <div class="mobile-menu container" id="mobile-menu">
+      <a href="index.html">Home</a>
+      <a href="privacy.html" class="active">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="support.html">Support</a>
+    </div>
+  </header>
 
-    <nav>
-        <a href="index.html" class="logo">
-            <div class="logo-icon"><img src="assets/icon.png" alt="ZeroPoint"></div>
-            ZeroPoint
-        </a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="privacy.html" class="active">Privacy</a>
-            <a href="terms.html">Terms</a>
-            <a href="support.html">Support</a>
-        </div>
-        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-    </nav>
+  <main>
+    <div class="page-header">
+      <p class="eyebrow">Legal</p>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: January 2, 2026</p>
+    </div>
 
-    <div class="mobile-menu" id="mobileMenu">
+    <article class="prose">
+      <h2>Introduction</h2>
+      <p>ZeroPoint ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application ZeroPoint (the "App") — a session-logging and inventory app for shooting ranges.</p>
+      <p>Please read this Privacy Policy carefully. By using the App, you agree to the collection and use of information in accordance with this policy.</p>
+
+      <h2>Information We Collect</h2>
+      <h3>Information you provide</h3>
+      <p>When you use the App, you may provide:</p>
+      <ul>
+        <li><strong>Account information</strong> — email address and password when you create an account</li>
+        <li><strong>Profile information</strong> — display name and optional profile picture</li>
+        <li><strong>Session data</strong> — range visits, dates, times, locations, round counts, positions, weather notes, and free-form notes</li>
+        <li><strong>Firearm information</strong> — names, types, calibers, and nicknames</li>
+        <li><strong>Ammo inventory</strong> — brands, grain, and quantities you track</li>
+        <li><strong>Photos</strong> — range-day photos, target photos, receipts, or other images you choose to attach to a session</li>
+        <li><strong>Shooting buddies</strong> — names and nicknames of people you shoot with</li>
+        <li><strong>Range information</strong> — names and locations of ranges you visit</li>
+        <li><strong>Drill information</strong> — custom drills you create</li>
+      </ul>
+
+      <h3>Information collected automatically</h3>
+      <ul>
+        <li><strong>Device information</strong> — device type, operating system, unique device identifiers</li>
+        <li><strong>Usage data</strong> — features used, session frequency, and interaction patterns</li>
+        <li><strong>Crash reports</strong> — technical information when the app crashes (to improve stability)</li>
+      </ul>
+
+      <h2>How We Use Your Information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Provide, maintain, and improve the App</li>
+        <li>Create and manage your account</li>
+        <li>Store and sync your shooting session data (Pro users)</li>
+        <li>Show calendar views, inventory counts, and alerts based on what you logged</li>
+        <li>Provide customer support</li>
+        <li>Send important service notifications</li>
+        <li>Process subscription payments (through Apple / Google)</li>
+      </ul>
+
+      <h2>Data Storage</h2>
+      <h3>Free users</h3>
+      <ul>
+        <li>All data is stored <strong>locally on your device</strong> only</li>
+        <li>No data is transmitted to our servers</li>
+        <li>If you delete the app, your data is permanently lost</li>
+      </ul>
+      <h3>Pro users (subscribers)</h3>
+      <ul>
+        <li>Data is stored locally and backed up to our secure cloud servers</li>
+        <li>Cloud storage is provided through Supabase (hosted on AWS)</li>
+        <li>Images are stored in secure cloud storage</li>
+        <li>Data can sync across your devices</li>
+        <li>You can delete your cloud data at any time</li>
+      </ul>
+
+      <h2>Data Sharing</h2>
+      <div class="callout">
+        <p>We do <strong>not</strong> sell your personal information.</p>
+      </div>
+      <p>We may share information only in these limited circumstances:</p>
+      <ul>
+        <li><strong>Service providers</strong> — Supabase for cloud storage and RevenueCat for subscription management. These services have access only to data necessary to perform their functions.</li>
+        <li><strong>Legal requirements</strong> — if required by law or to protect our rights</li>
+        <li><strong>Business transfers</strong> — if we merge with or are acquired by another company, your information may be transferred</li>
+      </ul>
+
+      <h2>Third-Party Services</h2>
+      <p>The App uses:</p>
+      <ul>
+        <li><strong>Supabase</strong> — cloud database and authentication (Pro users)</li>
+        <li><strong>RevenueCat</strong> — subscription and payment processing</li>
+        <li><strong>Apple App Store / Google Play</strong> — distribution and in-app purchases</li>
+      </ul>
+      <p>Each service has its own privacy policy governing its use of your data.</p>
+
+      <h2>Data Security</h2>
+      <p>We implement appropriate technical and organizational measures, including:</p>
+      <ul>
+        <li>Encryption in transit (HTTPS/TLS)</li>
+        <li>Encryption at rest for cloud-stored data</li>
+        <li>Secure authentication practices</li>
+        <li>Regular security assessments</li>
+      </ul>
+      <p>No method of transmission over the Internet or electronic storage is 100% secure.</p>
+
+      <h2>Your Rights and Choices</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of your personal data</li>
+        <li><strong>Correction</strong> — update or correct inaccurate data</li>
+        <li><strong>Deletion</strong> — delete your account and associated data</li>
+        <li><strong>Data portability</strong> — export your data</li>
+        <li><strong>Opt out of cloud sync</strong> — by not subscribing to Pro</li>
+      </ul>
+      <p>To exercise these rights, contact us at <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a>.</p>
+
+      <h2>Children's Privacy</h2>
+      <p>The App is not intended for children under 13. We do not knowingly collect personal information from children under 13.</p>
+
+      <h2>Changes to This Privacy Policy</h2>
+      <p>We may update this Privacy Policy from time to time. We will post the updated policy in the App and revise the "Last updated" date.</p>
+
+      <h2>Contact Us</h2>
+      <p>Questions about this Privacy Policy:</p>
+      <p><strong>Email</strong>: <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a><br>
+      <strong>Website</strong>: <a href="https://zeropointlog.com">zeropointlog.com</a></p>
+
+      <hr>
+
+      <h2>California Privacy Rights (CCPA)</h2>
+      <p>If you are a California resident, you have additional rights under the CCPA:</p>
+      <ul>
+        <li>Right to know what personal information is collected</li>
+        <li>Right to know if personal information is sold or disclosed</li>
+        <li>Right to opt out of the sale of personal information (we do not sell your data)</li>
+        <li>Right to deletion</li>
+        <li>Right to non-discrimination for exercising your rights</li>
+      </ul>
+
+      <h2>European Privacy Rights (GDPR)</h2>
+      <p>If you are in the European Economic Area (EEA), you have additional rights under GDPR, including access, rectification, erasure, restriction, portability, and objection. Our legal basis for processing is your consent and performance of our contract with you (providing the App).</p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 ZeroPoint. All rights reserved.</span>
+      <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
         <a href="support.html">Support</a>
+      </div>
     </div>
-
-    <main>
-        <div class="page-header">
-            <h1>PRIVACY POLICY</h1>
-            <p class="updated">Last Updated: January 2, 2026</p>
-        </div>
-
-        <div class="content">
-            <h2>Introduction</h2>
-            <p>ZeroPoint ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application ZeroPoint (the "App").</p>
-            <p>Please read this Privacy Policy carefully. By using the App, you agree to the collection and use of information in accordance with this policy.</p>
-
-            <h2>Information We Collect</h2>
-
-            <h3>Information You Provide Directly</h3>
-            <p>When you use our App, you may provide us with the following information:</p>
-            <ul>
-                <li><strong>Account Information</strong>: Email address and password when you create an account</li>
-                <li><strong>Profile Information</strong>: Display name, profile picture (optional)</li>
-                <li><strong>Session Data</strong>: Range visits, dates, times, locations, round counts, shooting positions, weather conditions, and notes</li>
-                <li><strong>Firearm Information</strong>: Firearm names, types, calibers, and nicknames</li>
-                <li><strong>Target Images</strong>: Photos of your shooting targets</li>
-                <li><strong>Other Photos</strong>: Range day photos, receipts, and memories you choose to upload</li>
-                <li><strong>Shooting Buddies</strong>: Names and nicknames of people you shoot with</li>
-                <li><strong>Range Information</strong>: Names and locations of shooting ranges you visit</li>
-                <li><strong>Drill Information</strong>: Custom drills you create</li>
-            </ul>
-
-            <h3>Information Collected Automatically</h3>
-            <ul>
-                <li><strong>Device Information</strong>: Device type, operating system, unique device identifiers</li>
-                <li><strong>Usage Data</strong>: App features used, session frequency, and interaction patterns</li>
-                <li><strong>Crash Reports</strong>: Technical information when the app crashes (to improve stability)</li>
-            </ul>
-
-            <h2>How We Use Your Information</h2>
-            <p>We use the information we collect to:</p>
-            <ul>
-                <li>Provide, maintain, and improve the App</li>
-                <li>Create and manage your account</li>
-                <li>Store and sync your shooting session data (Pro users)</li>
-                <li>Display statistics and insights about your training</li>
-                <li>Provide customer support</li>
-                <li>Send important service notifications</li>
-                <li>Process subscription payments (through Apple/Google)</li>
-            </ul>
-
-            <h2>Data Storage</h2>
-
-            <h3>Free Users</h3>
-            <ul>
-                <li>All data is stored <strong>locally on your device</strong> only</li>
-                <li>No data is transmitted to our servers</li>
-                <li>If you delete the app, your data is permanently lost</li>
-            </ul>
-
-            <h3>Pro Users (Subscribers)</h3>
-            <ul>
-                <li>Data is stored locally AND backed up to our secure cloud servers</li>
-                <li>Cloud storage is provided through Supabase (hosted on AWS)</li>
-                <li>Images are stored in secure cloud storage</li>
-                <li>Data is synced across your devices</li>
-                <li>You can delete your cloud data at any time</li>
-            </ul>
-
-            <h2>Data Sharing</h2>
-            
-            <div class="highlight-box">
-                <p>We do <strong>NOT</strong> sell your personal information.</p>
-            </div>
-
-            <p>We may share information only in these limited circumstances:</p>
-            <ul>
-                <li><strong>Service Providers</strong>: We use Supabase for cloud storage and RevenueCat for subscription management. These services have access only to data necessary to perform their functions.</li>
-                <li><strong>Legal Requirements</strong>: We may disclose information if required by law or to protect our rights.</li>
-                <li><strong>Business Transfers</strong>: If we merge with or are acquired by another company, your information may be transferred.</li>
-            </ul>
-
-            <h2>Third-Party Services</h2>
-            <p>Our App uses the following third-party services:</p>
-            <ul>
-                <li><strong>Supabase</strong>: Cloud database and authentication (for Pro users)</li>
-                <li><strong>RevenueCat</strong>: Subscription and payment processing</li>
-                <li><strong>Apple App Store / Google Play</strong>: App distribution and in-app purchases</li>
-            </ul>
-            <p>Each of these services has their own privacy policy governing their use of your data.</p>
-
-            <h2>Data Security</h2>
-            <p>We implement appropriate technical and organizational measures to protect your personal information, including:</p>
-            <ul>
-                <li>Encryption in transit (HTTPS/TLS)</li>
-                <li>Encryption at rest for cloud-stored data</li>
-                <li>Secure authentication practices</li>
-                <li>Regular security assessments</li>
-            </ul>
-            <p>However, no method of transmission over the Internet or electronic storage is 100% secure.</p>
-
-            <h2>Your Rights and Choices</h2>
-            <p>You have the right to:</p>
-            <ul>
-                <li><strong>Access</strong>: Request a copy of your personal data</li>
-                <li><strong>Correction</strong>: Update or correct inaccurate data</li>
-                <li><strong>Deletion</strong>: Delete your account and associated data</li>
-                <li><strong>Data Portability</strong>: Export your data</li>
-                <li><strong>Opt-Out</strong>: Disable cloud sync (by not subscribing to Pro)</li>
-            </ul>
-            <p>To exercise these rights, contact us at <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a>.</p>
-
-            <h2>Children's Privacy</h2>
-            <p>Our App is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13.</p>
-
-            <h2>Changes to This Privacy Policy</h2>
-            <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy in the App and updating the "Last Updated" date.</p>
-
-            <h2>Contact Us</h2>
-            <p>If you have questions about this Privacy Policy, please contact us at:</p>
-            <p><strong>Email</strong>: <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a><br>
-            <strong>Website</strong>: zeropointlog.com</p>
-
-            <hr>
-
-            <h2>California Privacy Rights (CCPA)</h2>
-            <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA):</p>
-            <ul>
-                <li>Right to know what personal information is collected</li>
-                <li>Right to know if personal information is sold or disclosed</li>
-                <li>Right to opt-out of the sale of personal information (we do not sell your data)</li>
-                <li>Right to deletion</li>
-                <li>Right to non-discrimination for exercising your rights</li>
-            </ul>
-
-            <h2>European Privacy Rights (GDPR)</h2>
-            <p>If you are in the European Economic Area (EEA), you have additional rights under GDPR:</p>
-            <ul>
-                <li>Right to access</li>
-                <li>Right to rectification</li>
-                <li>Right to erasure</li>
-                <li>Right to restrict processing</li>
-                <li>Right to data portability</li>
-                <li>Right to object</li>
-                <li>Rights related to automated decision-making</li>
-            </ul>
-            <p>Our legal basis for processing your data is your consent (by using the App) and the performance of our contract with you (providing the App services).</p>
-        </div>
-    </main>
-
-    <footer>
-        <p>© 2026 ZeroPoint. All rights reserved.</p>
-        <p><a href="index.html">Home</a> | <a href="terms.html">Terms</a> | <a href="support.html">Support</a></p>
-    </footer>
-
-    <script>
-        function toggleMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
-    </script>
+  </footer>
+  <script>
+    (function () {
+      var toggle = document.getElementById('menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      if (toggle && menu) {
+        toggle.addEventListener('click', function () {
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          menu.classList.toggle('open', !open);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
