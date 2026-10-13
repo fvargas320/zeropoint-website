@@ -1,1679 +1,441 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZeroPoint — Every range day, logged</title>
-  <meta name="description" content="Log range days, tag range, friends, guns and ammo, track inventory with low-ammo and maintenance alerts — on iOS and Android.">
-  <link rel="icon" type="image/png" href="assets/icon.png">
-  <link rel="apple-touch-icon" href="assets/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0c0b0a;
-      --bg-2: #141210;
-      --bg-3: #1c1916;
-      --text: #fafafa;
-      --text-2: #a1a1aa;
-      --text-3: #71717a;
-      --border: #2a2622;
-      --orange: #f97316;
-      --orange-dark: #ea580c;
-      --orange-soft: rgba(249, 115, 22, 0.14);
-      --radius: 16px;
-      --radius-sm: 10px;
-      --max: 1120px;
-      --pad-y: clamp(4.5rem, 8vw, 6rem);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Outfit', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    img { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; }
-    ul { list-style: none; }
-    button { font: inherit; border: none; background: none; cursor: pointer; color: inherit; }
-
-    .container {
-      width: min(100% - 2.5rem, var(--max));
-      margin-inline: auto;
-    }
-
-    /* ——— Nav ——— */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(12, 11, 10, 0.55);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .nav.scrolled {
-      border-bottom-color: var(--border);
-      background: rgba(12, 11, 10, 0.9);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      gap: 1rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      font-weight: 600;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
-    }
-    .logo-mark {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-      display: block;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.75rem;
-    }
-    .nav-links a {
-      font-size: 0.9rem;
-      color: var(--text-2);
-      transition: color 0.15s;
-    }
-    .nav-links a:hover { color: var(--text); }
-
-    .nav-cta {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-store {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.45rem 0.85rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--bg-3);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text);
-      transition: border-color 0.15s, background 0.15s;
-      white-space: nowrap;
-    }
-    .btn-store:hover { border-color: #3f3f46; background: #1f1f23; }
-    .btn-store svg { width: 15px; height: 15px; flex-shrink: 0; display: block; }
-
-    .btn-store-primary {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: #0a0a0b;
-      font-weight: 600;
-    }
-    .btn-store-primary:hover {
-      background: var(--orange-dark);
-      border-color: var(--orange-dark);
-    }
-
-    .menu-toggle {
-      display: none;
-      width: 40px;
-      height: 40px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-    .menu-toggle span,
-    .menu-toggle span::before,
-    .menu-toggle span::after {
-      display: block;
-      width: 18px;
-      height: 1.5px;
-      background: var(--text);
-      position: relative;
-      transition: transform 0.2s;
-    }
-    .menu-toggle span::before,
-    .menu-toggle span::after {
-      content: '';
-      position: absolute;
-      left: 0;
-    }
-    .menu-toggle span::before { top: -6px; }
-    .menu-toggle span::after { top: 6px; }
-    .menu-toggle[aria-expanded="true"] span { background: transparent; }
-    .menu-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
-    .menu-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
-
-    .mobile-menu {
-      display: none;
-      border-top: 1px solid var(--border);
-      background: var(--bg);
-      padding: 1rem 0 1.25rem;
-    }
-    .mobile-menu.open { display: block; }
-    .mobile-menu a {
-      display: block;
-      padding: 0.75rem 0;
-      color: var(--text-2);
-      font-size: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .mobile-menu a:last-of-type { border-bottom: none; }
-    .mobile-menu .nav-cta {
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-
-    /* ——— Shared ——— */
-    .section { padding: var(--pad-y) 0; }
-    .section-label {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: 0.85rem;
-    }
-    .section-sub {
-      font-size: 1.05rem;
-      color: var(--text-2);
-      max-width: 36rem;
-      line-height: 1.6;
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* Phone frame */
-    .phone {
-      position: relative;
-      width: min(100%, 280px);
-      margin-inline: auto;
-      aspect-ratio: 9 / 19.5;
-      border-radius: 36px;
-      border: 1.5px solid #3f3f46;
-      background: #0c0b0a;
-      padding: 10px;
-      box-shadow:
-        0 0 0 1px rgba(249, 115, 22, 0.28),
-        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-        0 28px 70px rgba(0, 0, 0, 0.65),
-        0 14px 32px rgba(0, 0, 0, 0.45),
-        0 0 80px rgba(249, 115, 22, 0.2),
-        0 0 140px rgba(234, 88, 12, 0.1);
-      overflow: hidden;
-    }
-    .phone::before {
-      content: '';
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 72px;
-      height: 22px;
-      background: #0c0b0a;
-      border-radius: 12px;
-      z-index: 2;
-    }
-    .phone img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 26px;
-    }
-    .phone-sm {
-      width: min(100%, 220px);
-      border-radius: 28px;
-      padding: 8px;
-    }
-    .phone-sm::before {
-      width: 56px;
-      height: 18px;
-      top: 11px;
-      border-radius: 10px;
-    }
-    .phone-sm img { border-radius: 20px; }
-
-    /* Store buttons large */
-    .store-btns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    .store-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      padding: 0.7rem 1.15rem;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--bg-3);
-      transition: border-color 0.15s, background 0.15s, transform 0.15s;
-    }
-    .store-btn:hover {
-      border-color: #3f3f46;
-      background: #1f1f23;
-      transform: translateY(-1px);
-    }
-    .store-btn.primary {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: #0a0a0b;
-    }
-    .store-btn.primary:hover {
-      background: var(--orange-dark);
-      border-color: var(--orange-dark);
-    }
-    .store-btn svg { width: 22px; height: 22px; flex-shrink: 0; display: block; }
-    .store-btn .play-icon { width: 22px; height: 22px; }
-    .btn-store .play-icon { width: 14px; height: 14px; }
-    .store-btn .label { display: flex; flex-direction: column; line-height: 1.15; }
-    .store-btn .label small {
-      font-size: 0.65rem;
-      opacity: 0.75;
-      font-weight: 400;
-    }
-    .store-btn .label strong {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-    .store-btn.primary .label small { opacity: 0.85; }
-
-    /* ——— Hero ——— */
-    .hero {
-      position: relative;
-      z-index: 2;
-      min-height: min(84vh, 760px);
-      padding: clamp(1rem, 2.5vw, 1.75rem) 0 0;
-      border-bottom: none;
-      background: #0a0908;
-      overflow: hidden;
-      isolation: isolate;
-      display: flex;
-      flex-direction: column;
-    }
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .hero-bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 62% 45%;
-    }
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(8, 7, 6, 0.92) 0%, rgba(8, 7, 6, 0.78) 28%, rgba(8, 7, 6, 0.42) 52%, rgba(8, 7, 6, 0.18) 72%, rgba(8, 7, 6, 0.28) 100%),
-        linear-gradient(180deg, rgba(8, 7, 6, 0.55) 0%, rgba(8, 7, 6, 0.15) 28%, rgba(8, 7, 6, 0.2) 62%, rgba(8, 7, 6, 0.88) 100%),
-        radial-gradient(ellipse 50% 60% at 18% 42%, rgba(0, 0, 0, 0.45), transparent 70%);
-    }
-    .hero-stage {
-      display: none;
-    }
-    .hero-grid {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-      gap: 1.25rem 1.75rem;
-      align-items: center;
-      flex: 1;
-      padding-top: 0.5rem;
-      padding-bottom: clamp(1rem, 2.5vw, 2rem);
-      width: min(100% - 2.5rem, var(--max));
-      margin-inline: auto;
-    }
-    .hero-copy {
-      min-width: 0;
-      max-width: 34rem;
-      align-self: center;
-      padding-top: 0;
-      margin-top: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(20, 18, 16, 0.65);
-      backdrop-filter: blur(8px);
-      font-size: 0.78rem;
-      color: var(--text-2);
-      margin-bottom: 1.15rem;
-      align-self: flex-start;
-    }
-    .badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--orange);
-      box-shadow: 0 0 8px var(--orange);
-    }
-    .hero h1 {
-      font-family: 'Outfit', system-ui, sans-serif;
-      font-size: clamp(2.35rem, 5.5vw, 3.55rem);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -0.035em;
-      margin-bottom: 1.25rem;
-      max-width: 18ch;
-      color: #fff;
-    }
-    .hero h1 .accent {
-      color: var(--orange);
-    }
-    .hero-sub {
-      font-size: 1.08rem;
-      color: rgba(250, 250, 250, 0.78);
-      max-width: 30rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-    .hero-ctas {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.6rem;
-      max-width: 26rem;
-      margin-bottom: 0.85rem;
-    }
-    .hero-ctas .store-btn {
-      width: 100%;
-      min-width: 0;
-      padding: 0.6rem 0.85rem;
-    }
-    .hero-ctas .store-btn .label { min-width: 0; }
-    .hero-note {
-      font-size: 0.85rem;
-      color: rgba(250, 250, 250, 0.62);
-      margin-bottom: 1.35rem;
-      line-height: 1.5;
-    }
-    .hero-note strong { color: rgba(250, 250, 250, 0.9); font-weight: 500; }
-    .hero-chips {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.25rem;
-    }
-    .hero-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.4rem 0.65rem 0.4rem 0.5rem;
-      border-radius: 999px;
-      border: 1px solid rgba(249, 115, 22, 0.28);
-      background: rgba(12, 11, 10, 0.55);
-      backdrop-filter: blur(8px);
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: rgba(250, 250, 250, 0.92);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .hero-chip svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      color: var(--orange);
-    }
-    .hero-visual {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-      margin-bottom: 0;
-      padding-top: 0;
-    }
-    .hero-phone {
-      width: min(100%, 265px);
-      height: auto;
-      display: block;
-      background: #0c0b0a;
-      border: 5px solid #252525;
-      border-radius: 32px;
-      box-shadow: 0 0 0 1px #626262, 0 24px 44px rgba(0, 0, 0, 0.5);
-    }
-    .hero-visual::after {
-      content: '';
-      position: absolute;
-      inset: 12% 8% 5%;
-      background: radial-gradient(ellipse at 50% 40%, rgba(249, 115, 22, 0.22), transparent 68%);
-      pointer-events: none;
-      z-index: -1;
-      filter: blur(8px);
-    }
-
-    .hero .fade-in { opacity: 1; transform: none; }
-    a:focus-visible, button:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
-
-    /* Hero bottom proof / CTA bar */
-    .hero-proof {
-      position: relative;
-      z-index: 3;
-      width: 100%;
-      margin-top: 0;
-      padding: 1.1rem 0 2rem;
-      border-top: none;
-      background: linear-gradient(180deg, transparent 0%, rgba(8, 7, 6, 0.08) 55%, rgba(8, 7, 6, 0.28) 100%);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      pointer-events: none;
-    }
-    .hero-proof a,
-    .hero-proof .hero-proof-inner {
-      pointer-events: auto;
-    }
-    .hero-proof-inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.85rem 1.5rem;
-      text-align: center;
-    }
-    .hero-proof-left {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.85rem 1.35rem;
-    }
-    .hero-proof-rating {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0;
-      border-radius: 0;
-      border: none;
-      background: transparent;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      box-shadow: none;
-      color: rgba(250, 250, 250, 0.88);
-      font-size: 0.9rem;
-      text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
-      transition: color 0.15s;
-    }
-    .hero-proof-rating:hover { color: #fff; }
-    .hero-proof-rating .stars {
-      color: var(--orange);
-      letter-spacing: 0.06em;
-      font-size: 0.95rem;
-    }
-    .hero-proof-rating strong { color: #fff; font-weight: 600; }
-    .hero-proof-divider {
-      width: 1px;
-      height: 22px;
-      background: rgba(255, 255, 255, 0.14);
-    }
-    .hero-proof-trust {
-      font-size: 0.88rem;
-      color: rgba(250, 250, 250, 0.78);
-      letter-spacing: 0.01em;
-      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.65);
-    }
-    .hero-proof .store-btns {
-      gap: 0.6rem;
-    }
-    .hero-proof .store-btn {
-      padding: 0.55rem 0.95rem;
-      border-radius: 10px;
-    }
-    .hero-proof .store-btn svg { width: 18px; height: 18px; }
-    .hero-proof .store-btn .label small { font-size: 0.58rem; }
-    .hero-proof .store-btn .label strong { font-size: 0.85rem; }
-
-    /* ——— How it works ——— */
-    .how {
-      background: var(--bg);
-    }
-    .how-header {
-      margin-bottom: 2.25rem;
-      max-width: 38rem;
-    }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.9rem;
-    }
-    .step {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: #151310;
-      padding: clamp(1.4rem, 2.8vw, 1.85rem) clamp(1.15rem, 2.4vw, 1.6rem) clamp(1.4rem, 2.8vw, 1.85rem);
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      min-width: 0;
-    }
-    .step-num {
-      font-family: 'Outfit', system-ui, sans-serif;
-      font-size: 1.85rem;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--orange);
-      letter-spacing: -0.03em;
-    }
-    .step h3 {
-      font-size: 1.08rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-top: -0.15rem;
-    }
-    .step p {
-      font-size: 0.9rem;
-      color: var(--text-2);
-      line-height: 1.55;
-    }
-    .step-shot {
-      margin-top: auto;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      aspect-ratio: 9 / 14;
-      background: #0c0b0a;
-    }
-    .step-shot img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-    }
-
-    /* ——— Chapters ——— */
-    .chapters {
-      background: var(--bg);
-      padding-top: 1rem;
-    }
-    .chapter {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(2.5rem, 5vw, 4rem);
-      align-items: center;
-      padding: clamp(3.5rem, 7vw, 5.5rem) 0;
-      border-top: 1px solid var(--border);
-    }
-    .chapter:first-child { border-top: none; padding-top: clamp(2.5rem, 5vw, 3.5rem); }
-    .chapter.reverse .chapter-copy { order: 2; }
-    .chapter.reverse .chapter-visual { order: 1; }
-    .chapter-kicker {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.65rem;
-    }
-    .chapter h2 {
-      font-size: clamp(1.65rem, 3.5vw, 2.15rem);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      max-width: 18ch;
-    }
-    .chapter-lead {
-      color: var(--text-2);
-      margin-bottom: 1.35rem;
-      max-width: 34rem;
-      font-size: 1.02rem;
-      line-height: 1.6;
-    }
-    .chapter-bullets {
-      display: flex;
-      flex-direction: column;
-      gap: 0.95rem;
-    }
-    .chapter-bullets li {
-      display: flex;
-      gap: 0.75rem;
-      font-size: 0.95rem;
-      color: var(--text-2);
-      line-height: 1.45;
-    }
-    .chapter-bullets li::before {
-      content: '';
-      flex-shrink: 0;
-      width: 6px;
-      height: 6px;
-      margin-top: 0.55rem;
-      border-radius: 50%;
-      background: var(--orange);
-    }
-    .chapter-bullets strong { color: var(--text); font-weight: 500; }
-    .chapter-visual { display: flex; justify-content: center; }
-
-    /* ——— Spotlight ——— */
-    .spotlight {
-      background: var(--bg-2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: var(--pad-y) 0;
-    }
-    .spotlight-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 3rem;
-      align-items: center;
-    }
-    .spotlight h2 {
-      font-family: 'Outfit', system-ui, sans-serif;
-      font-size: clamp(1.85rem, 4vw, 2.65rem);
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      line-height: 1.12;
-      margin-bottom: 1rem;
-      max-width: 16ch;
-    }
-    .spotlight-copy p {
-      color: var(--text-2);
-      margin-bottom: 1.75rem;
-      max-width: 30rem;
-      font-size: 1.05rem;
-    }
-    .spotlight-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .spotlight-lines li {
-      display: flex;
-      gap: 0.85rem;
-      align-items: flex-start;
-      font-size: 0.95rem;
-      color: var(--text-2);
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .spotlight-lines .line-body {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      min-width: 0;
-    }
-    .spotlight-lines .line-title {
-      font-size: 0.98rem;
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: -0.01em;
-    }
-    .spotlight-lines .line-desc {
-      font-size: 0.9rem;
-      color: var(--text-2);
-      line-height: 1.5;
-    }
-    .spotlight-lines li:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-    .spotlight-lines .mark {
-      flex-shrink: 0;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--orange);
-    }
-    .spotlight-lines .mark svg { width: 14px; height: 14px; }
-    .spotlight-visual {
-      display: flex;
-      justify-content: center;
-      position: relative;
-    }
-    .spotlight-visual::after {
-      content: '';
-      position: absolute;
-      inset: 6% 0;
-      background: radial-gradient(ellipse at 50% 40%, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.06) 45%, transparent 72%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .spotlight .phone {
-      position: relative;
-      z-index: 1;
-      width: min(100%, 300px);
-      box-shadow:
-        0 0 0 1px rgba(249, 115, 22, 0.26),
-        0 32px 80px rgba(0, 0, 0, 0.6),
-        0 0 80px rgba(249, 115, 22, 0.16);
-    }
-
-    /* ——— Bento ——— */
-    .now { background: var(--bg); }
-    .now-header {
-      margin-bottom: 1.75rem;
-      max-width: 38rem;
-    }
-    .bento {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.85rem;
-    }
-    .bento-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: #151310;
-      padding: 1.35rem 1.25rem 1.4rem;
-      transition: border-color 0.15s;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .bento-card:hover { border-color: #3d342e; }
-    .bento-card.wide { grid-column: span 2; }
-    .bento-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      background: var(--bg-3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0.95rem;
-      color: var(--orange);
-    }
-    .bento-icon svg { width: 17px; height: 17px; stroke-width: 1.5; }
-    .bento-card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
-      line-height: 1.3;
-    }
-    .bento-card p {
-      font-size: 0.88rem;
-      color: var(--text-2);
-      line-height: 1.55;
-    }
-
-    /* ——— Reviews ——— */
-    .reviews {
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: var(--pad-y) 0;
-    }
-    .reviews-shell {
-      display: grid;
-      grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.4fr);
-      gap: clamp(2rem, 5vw, 4rem);
-      align-items: start;
-    }
-    .reviews-aside .section-label { margin-bottom: 0.75rem; }
-    .reviews-aside .section-title {
-      margin-bottom: 1.25rem;
-      max-width: 12ch;
-    }
-    .reviews-score {
-      display: flex;
-      align-items: baseline;
-      gap: 0.65rem;
-      margin-bottom: 0.5rem;
-    }
-    .reviews-score strong {
-      font-size: clamp(3rem, 6vw, 4.25rem);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1;
-    }
-    .reviews-score .stars {
-      color: var(--orange);
-      font-size: 1rem;
-      letter-spacing: 0.12em;
-    }
-    .reviews-meta {
-      font-size: 0.9rem;
-      color: var(--text-2);
-      margin-bottom: 1.5rem;
-    }
-    .reviews-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--orange);
-      transition: opacity 0.15s;
-    }
-    .reviews-link:hover { opacity: 0.85; }
-    .review-feature {
-      border-left: 2px solid var(--orange);
-      padding: 0.25rem 0 0.25rem 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-    .review-feature blockquote {
-      font-size: clamp(1.25rem, 2.4vw, 1.65rem);
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-      color: var(--text);
-      margin-bottom: 1.15rem;
-    }
-    .review-feature cite {
-      font-style: normal;
-      font-size: 0.9rem;
-      color: var(--text-3);
-    }
-    .review-feature cite strong {
-      color: var(--text);
-      font-weight: 500;
-    }
-    .review-list {
-      display: flex;
-      flex-direction: column;
-      border-top: 1px solid var(--border);
-    }
-    .review-row {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1rem 1.35rem;
-      padding: 1.35rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .review-row .stars {
-      color: var(--orange);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      padding-top: 0.35rem;
-    }
-    .review-row blockquote {
-      font-size: 1rem;
-      color: var(--text-2);
-      line-height: 1.55;
-      margin-bottom: 0.55rem;
-    }
-    .review-row cite {
-      font-style: normal;
-      font-size: 0.82rem;
-      color: var(--text-3);
-    }
-    .review-row cite strong {
-      color: var(--text);
-      font-weight: 500;
-    }
-    @media (max-width: 900px) {
-      .reviews-shell { grid-template-columns: 1fr; gap: 2rem; }
-      .reviews-aside .section-title { max-width: none; }
-    }
-
-    /* ——— Web teaser ——— */
-    .web-teaser {
-      padding: 3rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .web-teaser-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      flex-wrap: wrap;
-      padding: 1.75rem 1.75rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-2);
-    }
-    .web-teaser h2 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.35rem;
-    }
-    .web-teaser p {
-      font-size: 0.9rem;
-      color: var(--text-2);
-      max-width: 28rem;
-    }
-    .notify-form {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .notify-form input {
-      font: inherit;
-      font-size: 0.9rem;
-      padding: 0.65rem 0.9rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      min-width: 220px;
-      outline: none;
-    }
-    .notify-form input:focus { border-color: #3f3f46; }
-    .notify-form input::placeholder { color: var(--text-3); }
-    .notify-form button {
-      padding: 0.65rem 1.1rem;
-      border-radius: 10px;
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: border-color 0.15s;
-    }
-    .notify-form button:hover { border-color: #3f3f46; }
-    .notify-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
-    .notify-msg {
-      font-size: 0.85rem;
-      color: var(--text-2);
-      margin-top: 0;
-      display: none;
-    }
-    .notify-msg.show { display: block; }
-
-    /* ——— Final CTA ——— */
-    .final-cta {
-      padding: var(--pad-y) 0;
-      text-align: center;
-    }
-    .final-cta h2 {
-      font-family: 'Outfit', system-ui, sans-serif;
-      font-size: clamp(1.85rem, 4.5vw, 2.75rem);
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      line-height: 1.12;
-      margin-bottom: 0.85rem;
-    }
-    .final-cta .lead {
-      color: var(--text-2);
-      margin-bottom: 1.75rem;
-      font-size: 1.05rem;
-    }
-    .final-cta .store-btns { justify-content: center; }
-    .privacy-note {
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: var(--text-3);
-    }
-
-    /* ——— Footer ——— */
-    footer {
-      border-top: 1px solid var(--border);
-      background: var(--bg-2);
-      padding: 3.5rem 0 2rem;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr 1fr;
-      gap: 2.5rem;
-      margin-bottom: 3rem;
-    }
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-    .footer-brand .logo { margin-bottom: 0.25rem; }
-    .footer-brand p {
-      font-size: 0.9rem;
-      color: var(--text-3);
-      max-width: 22rem;
-      line-height: 1.55;
-    }
-    .footer-col h4 {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-bottom: 1rem;
-    }
-    .footer-col ul {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-    .footer-col a {
-      font-size: 0.9rem;
-      color: var(--text-2);
-      transition: color 0.15s;
-    }
-    .footer-col a:hover { color: var(--text); }
-    .footer-bottom {
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      font-size: 0.82rem;
-      color: var(--text-3);
-    }
-
-    /* ——— Responsive ——— */
-    @media (max-width: 960px) {
-      .hero { min-height: 0; }
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 1.75rem;
-      }
-      .chapter,
-      .spotlight-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-      .chapter.reverse .chapter-copy,
-      .chapter.reverse .chapter-visual { order: unset; }
-      .hero-copy { width: 100%; margin-inline: auto; }
-      .hero h1 { max-width: none; }
-      .hero-visual { justify-content: center; margin-bottom: 0; }
-      .hero-proof-inner { justify-content: center; }
-      .steps { grid-template-columns: 1fr; gap: 0.75rem; }
-      .step {
-        display: grid;
-        grid-template-columns: 1fr 130px;
-        gap: 0.65rem 1.15rem;
-        align-items: start;
-      }
-      .step-num { grid-column: 1; }
-      .step h3, .step p { grid-column: 1; }
-      .step-shot {
-        grid-column: 2;
-        grid-row: 1 / 4;
-        aspect-ratio: 9 / 16;
-        margin-top: 0;
-      }
-      .bento { grid-template-columns: 1fr 1fr; }
-      .bento-card.wide { grid-column: span 2; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 720px) {
-      .nav-inner { height: 56px; }
-      .nav-links,
-      .nav-cta { display: none; }
-      .menu-toggle { display: inline-flex; width: 44px; height: 44px; }
-      .mobile-menu .nav-cta { display: flex; }
-      .hero { padding-top: 1.25rem; }
-      .hero-grid { gap: 1.25rem; padding-top: 0; }
-      .hero .badge { margin-bottom: 0.9rem; }
-      .hero h1 { font-size: clamp(2.25rem, 9.5vw, 2.7rem); margin-bottom: 0.85rem; }
-      .hero-sub { font-size: 1rem; line-height: 1.5; margin-bottom: 1.1rem; }
-      .hero-note { margin-bottom: 0; }
-      .hero-proof-divider { display: none; }
-      .hero-visual { margin-bottom: 0; }
-      .hero-phone { width: min(72vw, 260px); }
-      .hero-ctas .store-btn { min-height: 54px; padding: 0.65rem 0.8rem; gap: 0.65rem; }
-      .hero-ctas .store-btn svg { width: 22px; height: 22px; }
-      .hero-ctas .store-btn .label small { font-size: 0.65rem; }
-      .hero-ctas .store-btn .label strong { font-size: 1rem; }
-      .hero-chips { display: none; }
-      .hero-chip { font-size: 0.82rem; }
-      .step {
-        grid-template-columns: 1fr;
-      }
-      .step-shot {
-        grid-column: 1;
-        grid-row: auto;
-        max-width: 180px;
-        aspect-ratio: 9 / 14;
-      }
-      .bento { grid-template-columns: 1fr; }
-      .bento-card.wide { grid-column: span 1; }
-      .web-teaser-inner { flex-direction: column; align-items: stretch; }
-      .notify-form { width: 100%; }
-      .notify-form input { flex: 1; min-width: 0; }
-      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZeroPoint — Every range day, logged</title>
+<meta name="description" content="Your range days, gear, ammo, and progress in one place. Log sessions, track inventory, and get ready for your next visit with ZeroPoint for iOS and Android.">
+<meta name="theme-color" content="#f7f7f2">
+<link rel="icon" type="image/png" href="assets/favicon-zeropoint.png">
+<link rel="apple-touch-icon" href="assets/favicon-zeropoint.png">
+<link rel="preload" href="assets/fonts/anton.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="landing.css">
+<script src="landing-screens.js" defer>
+</script>
+<script src="landing.js" defer>
+</script>
+<script src="navigation.js" defer></script>
 </head>
 <body>
-  <!-- Nav -->
-  <header class="nav" id="nav">
-    <div class="container nav-inner">
-      <a href="/" class="logo" aria-label="ZeroPoint home">
-        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="28" height="28">
-          <circle cx="16" cy="16" r="13.25" stroke="#F97316" stroke-width="2"/>
-          <circle cx="16" cy="16" r="7.5" stroke="#F97316" stroke-width="1.75"/>
-          <circle cx="16" cy="16" r="2.75" fill="#F97316"/>
-          <path d="M16 3.5v3.25M16 25.25V28.5M3.5 16h3.25M25.25 16H28.5" stroke="#F97316" stroke-width="1.75" stroke-linecap="round"/>
-        </svg>
-        <span>ZeroPoint</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="support.html">Support</a>
-      </nav>
-      <div class="nav-cta">
-        <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">
-          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4.5 3.15a1.1 1.1 0 0 0-1.65.95v15.8a1.1 1.1 0 0 0 1.65.95l13.4-7.9a1.1 1.1 0 0 0 0-1.9L4.5 3.15Z"/></svg>
-          Play
-        </a>
-        <a class="btn-store btn-store-primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.7 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8s-1.7-.8-2.8-.7c-1.5.1-2.8.8-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1 2.6-2c.8-1.2 1.2-2.3 1.2-2.4-.1 0-2.2-.8-2.3-3.4zM14.4 5.5c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z"/></svg>
-          App Store
-        </a>
-      </div>
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" id="menu-toggle">
-        <span></span>
-      </button>
-    </div>
-    <div class="mobile-menu container" id="mobile-menu">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="support.html">Support</a>
-      <div class="nav-cta">
-        <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">Google Play</a>
-        <a class="btn-store btn-store-primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">App Store</a>
-      </div>
-    </div>
-  </header>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header wrap">
+<a class="brand wordmark" href="./" aria-label="ZeroPoint home">
+<img src="assets/zeropoint-wordmark-ink.png" alt="ZeroPoint" width="967" height="555">
+</a>
+<nav aria-label="Main navigation">
+<a href="#features">Features</a>
+<a href="#progress">Your progress</a>
+<a href="#crew">Friends &amp; crews</a>
+<a href="support.html">Support</a>
+</nav>
+<details class="mobile-nav"><summary aria-label="Open navigation">Menu <span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation"><a href="#mobile-features" class="compact-feature-link">Features</a><a href="#features" class="full-feature-link">Features</a><a href="index.html#crew">Friends &amp; crews</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></details>
+<a class="header-cta" href="#download">Get the app <span aria-hidden="true">↗</span>
+</a>
+</header>
+<main id="main">
+<section class="hero wrap" aria-labelledby="hero-title">
+<div class="hero-copy">
+<p class="eyebrow">THE RANGE LOG THAT GOES WITH YOU</p>
+<h1 id="hero-title">Every range<br>day, <span class="hero-highlight">logged<span class="orange">.</span></span>
+</h1>
+<p class="intro hero-desktop-intro">Good days deserve good records. Keep your sessions, gear, ammo, and progress together—ready for the next trip.</p><p class="intro hero-mobile-intro">Log every round. Know your gear.<br>Make the next range day even better.</p>
+<div class="downloads">
+<a class="store apple" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer" aria-label="Download ZeroPoint for iOS on the App Store">
+<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+<path d="M16.6 12.9c0-2 1.6-3 1.7-3.1-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.6 2.2-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3.1-.7s1.9.7 3.1.7c1.3 0 2.1-1.1 2.8-2.2.9-1.2 1.3-2.5 1.3-2.6-.1 0-2.8-1.1-2.8-3.8zM14.3 6.6c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.2 1.8-1.1 2.9 1 .1 2.1-.5 2.8-1.3z"/>
+</svg>
+<span>
+<small>Download for iOS</small>
+<strong>App Store</strong>
+</span>
+</a>
+<a class="store android" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer" aria-label="Download ZeroPoint for Android on Google Play">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true">
+<path d="M4 3l17 9-17 9zM4 3l11 12M4 21l11-12"/>
+</svg>
+<span>
+<small>Download for Android</small>
+<strong>Google Play</strong>
+</span>
+</a>
+</div>
+<p class="micro"><span class="hero-free-dot" aria-hidden="true"></span>Free to start<span class="hero-micro-divider"> · </span>Built for range days.</p>
+</div>
+<div class="hero-stage">
+<div class="range-photo" aria-hidden="true">
+</div>
+<p class="hand-note">YOUR WEEK.<br>IN VIEW.
+</p>
+<div class="phone"><span class="phone-island" aria-hidden="true"></span><div class="phone-screen">
+<img data-screen="home" src="assets/hero-dashboard.png" alt="ZeroPoint home showing recent activity and a weekly range streak" width="1179" height="3210" fetchpriority="high">
+</div></div>
+<div class="mobile-hero-art" aria-hidden="true">
+<div class="hero-range-ticket"><span>RANGE DAY</span><strong>Log.<br>Learn.<br>Repeat.</strong><i></i><small>MAKE EVERY<br>ROUND COUNT.</small></div>
+<img class="hero-earmuffs" src="assets/landing/ear-protection.webp" alt="" width="1024" height="1024">
+</div>
+<span class="stage-caption">YOUR RANGE DAY. ALL IN ONE PLACE.</span>
+</div>
+</section>
+<section class="range-strip" aria-label="Your range day essentials">
+<div class="strip-inner wrap">
+<img class="strip-ears" src="assets/landing/ear-protection.webp" alt="" width="1024" height="1024">
+<img class="strip-ammo" src="assets/landing/ammo-tray.webp" alt="" width="1024" height="1024">
+<div class="session-ticket">
+<div class="ticket-top">
+<span>RANGE DAY</span>
+<svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+<circle cx="20" cy="20" r="17"/>
+<circle cx="20" cy="20" r="10"/>
+<circle cx="20" cy="20" r="3" fill="currentColor" stroke="none"/>
+<path d="M20 1v10m0 18v10M1 20h10m18 0h10"/>
+</svg>
+</div>
+<p>Make a little room for the details.</p>
+<div class="ticket-stats">
+<span>
+<b>150</b>rounds</span>
+<span>
+<b>9mm</b>caliber</span>
+<span>
+<b>Oct 6</b>session</span>
+</div>
+<small>EXAMPLE SESSION</small>
+</div>
+<img class="strip-notebook" src="assets/landing/range-notebook.webp" alt="Range notebook listing lane, ammo, and target costs" width="1024" height="1024">
+</div>
+</section>
+<section class="mobile-features wrap" id="mobile-features" aria-labelledby="mobile-features-title">
+<p class="eyebrow">FROM FIRST ROUND TO NEXT TIME</p>
+<h2 id="mobile-features-title">Less to remember.<br><span class="orange">More to build on.</span></h2>
+<p class="mobile-feature-intro">Your logbook, range bag, and progress. All in one place.</p>
+<div class="mobile-feature-list">
+<details><summary><span class="feature-number">01</span><span><strong>Log your range day.</strong><small>Rounds, costs, gear, and notes.</small></span><span class="expand-mark" aria-hidden="true">+</span></summary>
+<div class="mobile-feature-body"><p>Save where you shot, who joined you, and what you used. Keep the details worth remembering with each session.</p><figure class="mobile-feature-screen"><img data-screen="session" src="assets/screens/session.png" alt="ZeroPoint session details" width="786" height="3549" loading="lazy"></figure></div></details>
+<details><summary><span class="feature-number">02</span><span><strong>Keep your bag ready.</strong><small>Inventory, ammo, and care reminders.</small></span><span class="expand-mark" aria-hidden="true">+</span></summary>
+<div class="mobile-feature-body"><p>Organize guns and gear, track ammo, and get low-stock alerts and cleaning reminders before your next trip.</p><figure class="mobile-feature-screen"><img data-screen="inventory" src="assets/screens/inventory.png" alt="ZeroPoint inventory" width="786" height="1704" loading="lazy"></figure></div></details>
+<details id="mobile-progress"><summary><span class="feature-number">03</span><span><strong>See your progress.</strong><small>Session history, personal bests, streaks.</small></span><span class="expand-mark" aria-hidden="true">+</span></summary>
+<div class="mobile-feature-body"><p>Look back through your range calendar, record drill results, and build a weekly streak as you keep showing up.</p><div class="mobile-milestone"><img src="assets/landing/streak.png" alt="" width="512" height="512" loading="lazy"><div><strong>In the Groove</strong><p>A milestone earned with a four-week training streak.</p></div></div></div></details>
+</div>
+</section>
+<section class="session-section wrap" id="features" aria-labelledby="sessions-title">
+<div class="session-copy">
+<div class="eyebrow">
+<span>01</span> / REMEMBER THE DETAILS</div>
+<h2 id="sessions-title">Every detail.<br>One session.</h2>
+<p class="section-intro">Where you went. What you brought. How it felt. Give every range day a place to live.</p>
+<div class="session-explainer">
+<div class="big-stat">
+<span>150</span>
+<b>ROUNDS LOGGED</b>
+<small>EXAMPLE SESSION</small>
+</div>
+<ul class="feature-notes">
+<li>
+<span class="line-icon" aria-hidden="true">⌖</span>
+<div>
+<h3>Capture the range</h3>
+<p>Keep track of where and when you shot.</p>
+</div>
+</li>
+<li>
+<span class="line-icon" aria-hidden="true">⊞</span>
+<div>
+<h3>Tag your gear</h3>
+<p>Connect your session to the guns and ammo you used.</p>
+</div>
+</li>
+<li>
+<span class="line-icon" aria-hidden="true">≡</span>
+<div>
+<h3>Keep your notes</h3>
+<p>Remember what went well—and what to work on next.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="session-visual">
+<span class="annotation">ALL THE DETAILS.<br>NONE OF THE GUESSWORK.</span>
+<svg class="session-pointer" viewBox="0 0 80 100" fill="none" aria-hidden="true"><path d="M8 8C65 8 68 40 48 82M35 69L48 84L65 75" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<figure class="screen-frame session-screen">
+<img data-screen="session" src="assets/screens/session.png" alt="ZeroPoint session details with rounds, costs, gear, and reflections" width="786" height="3549" loading="lazy">
+</figure>
+<p class="screen-caption">A page from your range history.</p>
+</div>
+</section>
+<section class="inventory-section dark" id="inventory" aria-labelledby="inventory-title">
+<div class="wrap inventory-grid">
+<div>
+<div class="eyebrow">
+<span>02</span> / YOUR RANGE BAG</div>
+<h2 id="inventory-title">Know what<br>you have.</h2>
+<p class="section-intro">Your guns, gear, and ammo, organized. See what’s on hand before you head out.</p>
+<div class="mini-features">
+<div>
+<span aria-hidden="true">⊞</span>
+<h3>Guns & gear</h3>
+<p>The equipment you bring, all together.</p>
+</div>
+<div>
+<span aria-hidden="true">▥</span>
+<h3>Ammo on hand</h3>
+<p>Keep quantities and purchases in view.</p>
+</div>
+<div>
+<span aria-hidden="true">⌕</span>
+<h3>Less guesswork</h3>
+<p>Know what’s ready and what’s running low.</p>
+</div>
+</div>
+</div>
+<div class="inventory-visual">
+<span class="small-label">PACK WITH A PLAN.</span>
+<figure class="screen-frame inventory-screen">
+<img data-screen="inventory" src="assets/screens/inventory.png" alt="ZeroPoint ammo inventory with quantities and low-stock indicators" width="786" height="1704" loading="lazy">
+</figure>
+</div>
+</div>
+<div class="inventory-art wrap" aria-hidden="true">
+<img class="inventory-ears" src="assets/landing/ear-protection.webp" alt="" width="1024" height="1024" loading="lazy">
+<img class="inventory-ammo" src="assets/landing/ammo-tray.webp" alt="" width="1024" height="1024" loading="lazy">
+</div>
+<div class="target-rings inventory-rings" aria-hidden="true">
+</div>
+</section>
+<section class="care-section" aria-labelledby="care-title">
+<div class="wrap care-grid">
+<div>
+<div class="eyebrow">
+<span>03</span> / READY FOR THE NEXT ONE</div>
+<h2 id="care-title" class="orange">Ready for<br>next time.</h2>
+<p class="section-intro">Leave yourself one less thing to remember. Stay on top of ammo and care between range days.</p>
+<div class="care-benefits">
+<div>
+<h3>
+<span aria-hidden="true">△</span> Low-ammo alerts</h3>
+<p>Get a heads-up when your supply runs low.</p>
+</div>
+<div>
+<h3>
+<span aria-hidden="true">⌁</span> Cleaning reminders</h3>
+<p>Keep maintenance on your radar as rounds add up.</p>
+</div>
+</div>
+</div>
+<div class="care-visual">
+<div class="reminder-paper">
+<div class="paper-heading">A LITTLE HEADS-UP <span aria-hidden="true">↗</span>
+</div>
+<div class="reminder-row">
+<span class="reminder-dot">
+</span>
+<div>
+<strong>Running low on 9mm</strong>
+<p>A good time to check your inventory.</p>
+</div>
+</div>
+<div class="reminder-row">
+<span class="reminder-dot">
+</span>
+<div>
+<strong>Time for a clean</strong>
+<p>Your next range day starts here.</p>
+</div>
+</div>
+<small>ILLUSTRATIVE REMINDERS</small>
+</div>
+<img class="care-kit" src="assets/landing/range-care.webp" alt="" width="1024" height="1024" loading="lazy">
+<span class="annotation care-note">A little care goes a long way.</span>
+</div>
+</div>
+<div class="target-rings care-rings" aria-hidden="true">
+</div>
+</section>
+<div class="rhythm-strip" aria-label="Log your days. Connect with your crew. Come back for more."><div class="rhythm-track" aria-hidden="true"><span>LOG YOUR DAYS <i>✳</i> FIND YOUR CREW <i>✳</i> MAKE THE NEXT ONE COUNT <i>✳</i></span><span>LOG YOUR DAYS <i>✳</i> FIND YOUR CREW <i>✳</i> MAKE THE NEXT ONE COUNT <i>✳</i></span></div></div>
+<section class="progress-section wrap" id="progress" aria-labelledby="progress-title">
+<div class="progress-heading">
+<div>
+<div class="eyebrow">
+<span>04</span> / LOOK BACK. KEEP GOING.</div>
+<h2 id="progress-title">See your range<br>days add up.</h2>
+</div>
+<p class="section-intro">From the first session to your new personal best. Look back at your history and find your rhythm.</p>
+</div>
+<div class="progress-layout">
+<div class="progress-notes">
+<div>
+<span class="line-icon" aria-hidden="true">▦</span>
+<h3>Your range calendar</h3>
+<p>Find the days, notes, and sessions worth coming back to.</p>
+</div>
+<div>
+<span class="line-icon" aria-hidden="true">↗</span>
+<h3>Your personal bests</h3>
+<p>Keep a record of drills and the milestones along the way.</p>
+</div>
+<p class="annotation">One day becomes a habit.</p>
+</div>
+<div class="calendar-composition">
+<div class="calendar">
+<div class="calendar-heading">
+<span>OCTOBER <b>2026</b>
+</span>
+<span aria-hidden="true">← &nbsp; →</span>
+</div>
+<div class="calendar-grid" aria-label="Illustrative October calendar with range sessions highlighted">
+<span class="weekday">M</span>
+<span class="weekday">T</span>
+<span class="weekday">W</span>
+<span class="weekday">T</span>
+<span class="weekday">F</span>
+<span class="weekday">S</span>
+<span class="weekday">S</span>
+<span class="blank" aria-hidden="true">
+</span>
+<span class="blank" aria-hidden="true">
+</span>
+<span class="blank" aria-hidden="true">
+</span>
+<span class="day ">1</span>
+<span class="day ">2</span>
+<span class="day ">3</span>
+<span class="day ">4</span>
+<span class="day logged">5</span>
+<span class="day logged">6</span>
+<span class="day logged">7</span>
+<span class="day ">8</span>
+<span class="day ">9</span>
+<span class="day ">10</span>
+<span class="day ">11</span>
+<span class="day ">12</span>
+<span class="day logged">13</span>
+<span class="day ">14</span>
+<span class="day ">15</span>
+<span class="day ">16</span>
+<span class="day ">17</span>
+<span class="day ">18</span>
+<span class="day ">19</span>
+<span class="day logged">20</span>
+<span class="day ">21</span>
+<span class="day ">22</span>
+<span class="day ">23</span>
+<span class="day logged">24</span>
+<span class="day ">25</span>
+<span class="day ">26</span>
+<span class="day ">27</span>
+<span class="day ">28</span>
+<span class="day ">29</span>
+<span class="day ">30</span>
+<span class="day ">31</span>
+</div>
+<p class="calendar-key">
+<span>
+</span> A range day worth remembering <small>EXAMPLE HISTORY</small>
+</p>
+</div>
+<div class="pb-card">
+<span class="eyebrow">A NEW BENCHMARK</span>
+<h3>Bill Drill</h3>
+<div>
+<b>2.84<span>s</span>
+</b>
+<span class="pb-arrow" aria-hidden="true">↗</span>
+</div>
+<small>ILLUSTRATIVE PERSONAL BEST</small>
+</div>
+</div>
+</div>
+</section>
+<section class="achievements dark" aria-labelledby="achievements-title">
+<div class="wrap streak-layout"><div class="streak-copy"><div class="eyebrow"><span>05</span> / TURN RANGE DAYS INTO A HABIT</div>
+<h2 id="achievements-title">Show up.<br><span class="orange">Build your streak.</span></h2>
+<p class="section-intro">One session becomes a week. One week becomes a rhythm. Track your consistency and earn milestones as you keep coming back.</p>
+<div class="streak-explanation"><h3>Progress you can point to.</h3><p>Your weekly streak puts those repeat visits in view. Achievements mark the milestones you’ve actually reached.</p></div></div>
+<figure class="streak-story"><div class="streak-count"><b>4</b><div><strong>WEEKS.<br>ONE GOOD HABIT.</strong><small>EXAMPLE WEEKLY STREAK</small></div></div>
+<ol class="streak-weeks" aria-label="Example: four consecutive weeks with a logged session"><li><span>✓</span><b>WEEK 01</b><small>Session logged</small></li><li><span>✓</span><b>WEEK 02</b><small>Session logged</small></li><li><span>✓</span><b>WEEK 03</b><small>Session logged</small></li><li><span>✓</span><b>WEEK 04</b><small>Session logged</small></li></ol>
+<figcaption class="earned-milestone"><img src="assets/landing/streak.png" alt="" width="512" height="512" loading="lazy"><div><span class="eyebrow">A MILESTONE WITH A MEANING</span><h3>In the Groove</h3><p>Reach a four-week training streak.<br>A record of showing up, week after week.</p></div></figcaption></figure></div></section>
+<section class="social-section" id="crew" aria-labelledby="crew-title"><div class="wrap"><div class="social-heading"><div><div class="eyebrow"><span>06</span> / YOUR PEOPLE. YOUR NEXT RANGE DAY.</div><h2 id="crew-title">Better with<br> your <span class="orange">crew.</span></h2></div><p class="section-intro">Turn “we should go sometime” into a plan. Add friends, bring them into a crew, and put the next range day on the calendar.</p></div>
+<div class="social-layout"><ol class="social-steps"><li><span>01</span><div><h3>Add your friends.</h3><p>Connect with the people you like to shoot with.</p></div></li><li><span>02</span><div><h3>Create your crew.</h3><p>Bring your range friends together in one place.</p></div></li><li><span>03</span><div><h3>Make the next plan.</h3><p>Schedule a range day with a place and time. See who’s going, who’s a maybe, and who can’t make it.</p></div></li></ol>
+<figure class="crew-plan"><div class="crew-banner"><div class="crew-avatars" aria-hidden="true"><span>JD</span><span>AL</span><span>MK</span><span>YOU</span></div><div><small>YOUR CREW</small><strong>The Saturday Regulars</strong></div></div>
+<div class="range-day-plan"><div class="plan-date"><span>OCT</span><b>24</b><strong>SATURDAY</strong></div><div class="plan-details"><p class="eyebrow">NEXT RANGE DAY</p><h3>Saturday at the range</h3><p>North Range<br><strong>10:00 AM</strong></p><div class="rsvp-counts"><span><i></i> 3 going</span><span>1 maybe</span></div></div></div>
+<figcaption><span>THE CREW. THE PLACE. THE PLAN.</span><small>ILLUSTRATIVE CREW &amp; EVENT</small></figcaption></figure></div>
+</div></section>
+<section class="faq-section wrap" aria-labelledby="faq-title">
+<div>
+<p class="eyebrow">A FEW THINGS BEFORE YOU GO</p>
+<h2 id="faq-title">Quick questions.</h2>
+</div>
+<div class="faq-list">
+<details>
+<summary>Available on iOS and Android?<span aria-hidden="true">+</span>
+</summary>
+<p>Yes. Download ZeroPoint from the App Store for iOS or Google Play for Android using the buttons below.</p>
+</details>
+<details>
+<summary>What can I track?<span aria-hidden="true">+</span>
+</summary>
+<p>Log range sessions, rounds, guns, ammo, notes, and the people you shot with. Organize your inventory, review your calendar, and record drill results. You can also add friends, create crews, and schedule range days together.</p>
+</details>
+<details>
+<summary>Is ZeroPoint free to start?<span aria-hidden="true">+</span>
+</summary>
+<p>Yes. ZeroPoint is free to start, with optional Pro features. See the app for current plan details and pricing.</p>
+</details>
+<details>
+<summary>Where can I get help?<span aria-hidden="true">+</span>
+</summary>
+<p>Visit our <a href="support.html">support page</a> or email <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a>.</p>
+</details>
+</div>
+</section>
+<section class="closing" id="download" aria-labelledby="closing-title">
+<div class="wrap">
+<p class="eyebrow">SEE YOU AT THE RANGE</p>
+<h2 id="closing-title">Let the next<br> one count<span class="orange">.</span>
+</h2>
+<div class="downloads">
+<a class="store apple" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer" aria-label="Download ZeroPoint for iOS on the App Store">
+<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+<path d="M16.6 12.9c0-2 1.6-3 1.7-3.1-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.6 2.2-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3.1-.7s1.9.7 3.1.7c1.3 0 2.1-1.1 2.8-2.2.9-1.2 1.3-2.5 1.3-2.6-.1 0-2.8-1.1-2.8-3.8zM14.3 6.6c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.2 1.8-1.1 2.9 1 .1 2.1-.5 2.8-1.3z"/>
+</svg>
+<span>
+<small>Download for iOS</small>
+<strong>App Store</strong>
+</span>
+</a>
+<a class="store android" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer" aria-label="Download ZeroPoint for Android on Google Play">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true">
+<path d="M4 3l17 9-17 9zM4 3l11 12M4 21l11-12"/>
+</svg>
+<span>
+<small>Download for Android</small>
+<strong>Google Play</strong>
+</span>
+</a>
+</div>
+</div>
+<div class="target-rings closing-rings" aria-hidden="true">
+</div>
+</section>
+</main>
+<footer class="site-footer wrap">
+<a class="brand" href="./" aria-label="ZeroPoint home">
+<svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+<circle cx="20" cy="20" r="17"/>
+<circle cx="20" cy="20" r="10"/>
+<circle cx="20" cy="20" r="3" fill="currentColor" stroke="none"/>
+<path d="M20 1v10m0 18v10M1 20h10m18 0h10"/>
+</svg>
+<span>ZeroPoint</span>
+</a>
+<nav aria-label="Footer navigation">
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
+<a href="support.html">Support</a>
+</nav>
+<button class="motion-toggle" type="button" aria-pressed="false" hidden>Reduce motion</button>
+<small>© <span id="year">2026</span> ZeroPoint</small>
+</footer>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-bg" aria-hidden="true">
-        <picture>
-          <source srcset="assets/hero-range.webp" type="image/webp">
-          <img src="assets/hero-range.jpg" alt="" width="2200" height="1100" fetchpriority="high">
-        </picture>
-      </div>
-      <div class="hero-grid">
-        <div class="hero-copy fade-in">
-          <div class="badge">Available on iOS &amp; Android</div>
-          <h1>Every range day, <span class="accent">logged.</span></h1>
-          <p class="hero-sub">Log every session. Track your guns and ammo. Stay on top of cleaning — all in one app.</p>
-          <div class="hero-ctas">
-            <a class="store-btn primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer" aria-label="Download ZeroPoint on the iOS App Store">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.7 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8s-1.7-.8-2.8-.7c-1.5.1-2.8.8-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1 2.6-2c.8-1.2 1.2-2.3 1.2-2.4-.1 0-2.2-.8-2.3-3.4zM14.4 5.5c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z"/></svg>
-              <span class="label"><small>Download for</small><strong>iOS</strong></span>
-            </a>
-            <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer" aria-label="Get ZeroPoint on Google Play for Android">
-              <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4.5 3.15a1.1 1.1 0 0 0-1.65.95v15.8a1.1 1.1 0 0 0 1.65.95l13.4-7.9a1.1 1.1 0 0 0 0-1.9L4.5 3.15Z"/></svg>
-              <span class="label"><small>Download for</small><strong>Android</strong></span>
-            </a>
-          </div>
-          <p class="hero-note"><strong>Free to start</strong> · Pro optional</p>
-          <div class="hero-chips" aria-label="Key features">
-            <div class="hero-chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="16" rx="2"/>
-                <path d="M3 10h18M8 3v4M16 3v4" stroke-linecap="round"/>
-              </svg>
-              Log sessions
-            </div>
-            <div class="hero-chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M20.5 7.5a3.5 3.5 0 01-3.5 3.5H9l-4 4V5.5A2.5 2.5 0 017.5 3H17a3.5 3.5 0 013.5 3.5z" stroke-linejoin="round"/>
-                <circle cx="9.5" cy="14.5" r="2.5"/>
-                <path d="M14.5 17a2.5 2.5 0 014.6 1.4c0 1.4-1.4 2.1-2.3 2.6" stroke-linecap="round"/>
-              </svg>
-              Tag range &amp; gear
-            </div>
-            <div class="hero-chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M4 8.5L12 4l8 4.5v7L12 20l-8-4.5v-7z" stroke-linejoin="round"/>
-                <path d="M12 12v8M4 8.5l8 3.5 8-3.5" stroke-linejoin="round"/>
-                <path d="M18 3v4M16 5h4" stroke-linecap="round"/>
-              </svg>
-              Inventory &amp; alerts
-            </div>
-          </div>
-        </div>
-        <div class="hero-visual fade-in">
-          <img class="hero-phone" src="assets/hero-dashboard.png" alt="ZeroPoint home dashboard with recent session, weekly streak, and ammo tracking" width="1179" height="3210" loading="eager">
-        </div>
-      </div>
-      <div class="hero-proof">
-        <div class="container hero-proof-inner">
-          <div class="hero-proof-left">
-            <a class="hero-proof-rating" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">
-              <span class="stars" aria-hidden="true">★★★★★</span>
-              <span><strong>5.0</strong> · 5 ratings on the App Store</span>
-            </a>
-            <div class="hero-proof-divider" aria-hidden="true"></div>
-            <p class="hero-proof-trust">Built for range days · Free to start · Pro optional</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- How it works -->
-    <section class="section how" id="how">
-      <div class="container">
-        <div class="how-header fade-in">
-          <p class="section-label">How it works</p>
-          <h2 class="section-title">Three steps from bay to calendar.</h2>
-          <p class="section-sub">Log the session, tag range and gear, then open the calendar anytime — inventory and alerts stay with you.</p>
-        </div>
-        <div class="steps">
-          <article class="step fade-in">
-            <div class="step-num">01</div>
-            <h3>Log the session</h3>
-            <p>Range, friends, guns, ammo, and notes — a full range day in under a minute.</p>
-            <div class="step-shot">
-              <img src="assets/screenshot-2.PNG" alt="Log session screen with firearm and round details" loading="lazy">
-            </div>
-          </article>
-          <article class="step fade-in">
-            <div class="step-num">02</div>
-            <h3>Tag range &amp; gear</h3>
-            <p>Which range, who you shot with, which guns and ammo — tagged once, searchable later.</p>
-            <div class="step-shot">
-              <img src="assets/screenshot-1.PNG" alt="Home dashboard with recent sessions and tags" loading="lazy">
-            </div>
-          </article>
-          <article class="step fade-in">
-            <div class="step-num">03</div>
-            <h3>See it on the calendar</h3>
-            <p>A heatmap of range days, plus inventory and maintenance alerts when you need them.</p>
-            <div class="step-shot">
-              <img src="assets/screenshot-3.PNG" alt="Calendar heatmap of range days" loading="lazy">
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Three product chapters -->
-    <section class="chapters" id="features">
-      <div class="container">
-        <article class="chapter fade-in">
-          <div class="chapter-copy">
-            <p class="chapter-kicker">Log</p>
-            <h2>Session logging that stays organized.</h2>
-            <p class="chapter-lead">Capture the range day once — range, friends, guns, ammo, and notes — then find it again on the calendar.</p>
-            <ul class="chapter-bullets">
-              <li><span><strong>Sessions</strong> with range, friends, guns, and ammo</span></li>
-              <li><span><strong>Armory &amp; calibers</strong> so every firearm stays labeled</span></li>
-              <li><span><strong>Ammo inventory</strong> by brand and grain</span></li>
-              <li><span><strong>Drills</strong> — Dot Torture, Bill Drill, and custom</span></li>
-            </ul>
-          </div>
-          <div class="chapter-visual">
-            <div class="phone phone-sm">
-              <img src="assets/screenshot-2.PNG" alt="Logging a range session in ZeroPoint" loading="lazy">
-            </div>
-          </div>
-        </article>
-
-        <article class="chapter reverse fade-in">
-          <div class="chapter-copy">
-            <p class="chapter-kicker">Inventory &amp; alerts</p>
-            <h2>Guns, ammo, and maintenance in one place.</h2>
-            <p class="chapter-lead">Track what you own and what you used. Get low-ammo alerts and cleaning reminders based on rounds logged.</p>
-            <ul class="chapter-bullets">
-              <li><span><strong>Gun &amp; ammo inventory</strong> by brand and grain</span></li>
-              <li><span><strong>Low-ammo alerts</strong> before the next range day</span></li>
-              <li><span><strong>Maintenance alerts</strong> by rounds fired — you set the interval</span></li>
-              <li><span><strong>Calendar &amp; weekly digest</strong> of sessions and rounds</span></li>
-            </ul>
-          </div>
-          <div class="chapter-visual">
-            <div class="phone phone-sm">
-              <img src="assets/screenshot-6.PNG" alt="Firearm inventory armory screen in ZeroPoint" loading="lazy">
-            </div>
-          </div>
-        </article>
-
-        <article class="chapter fade-in">
-          <div class="chapter-copy">
-            <p class="chapter-kicker">Train with others</p>
-            <h2>Tag buddies and share results.</h2>
-            <p class="chapter-lead">Keep a list of who you shoot with, join crews, and share a session or drill card when you want to.</p>
-            <ul class="chapter-bullets">
-              <li><span><strong>Shooting buddies</strong> tagged on sessions</span></li>
-              <li><span><strong>Crews &amp; leaderboards</strong> for the group that trains together</span></li>
-              <li><span><strong>One-tap share cards</strong> for a session or drill result</span></li>
-            </ul>
-          </div>
-          <div class="chapter-visual">
-            <div class="phone phone-sm">
-              <img src="assets/screenshot-5.PNG" alt="Shooting buddies list in ZeroPoint" loading="lazy">
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Signature spotlight -->
-    <section class="spotlight" id="rhythm">
-      <div class="container spotlight-grid">
-        <div class="spotlight-copy fade-in">
-          <p class="section-label">Training rhythm</p>
-          <h2>Calendar and weekly digest.</h2>
-          <p>See which days you made it to the range, then get a short weekly summary of sessions and rounds — no digging through notes.</p>
-          <ul class="spotlight-lines">
-            <li>
-              <span class="mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-              </span>
-              <span class="line-body">
-                <span class="line-title">Range-day heatmap</span>
-                <span class="line-desc">Which days you logged a session, at a glance</span>
-              </span>
-            </li>
-            <li>
-              <span class="mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>
-              </span>
-              <span class="line-body">
-                <span class="line-title">Weekly digest</span>
-                <span class="line-desc">Rounds fired, sessions logged, and trend direction</span>
-              </span>
-            </li>
-            <li>
-              <span class="mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
-              </span>
-              <span class="line-body">
-                <span class="line-title">Consistency check</span>
-                <span class="line-desc">Notice quiet weeks so you can plan the next range day</span>
-              </span>
-            </li>
-          </ul>
-        </div>
-        <div class="spotlight-visual fade-in">
-          <div class="phone">
-            <img src="assets/screenshot-3.PNG" alt="ZeroPoint calendar heatmap showing training rhythm across the month" loading="lazy">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Now in ZeroPoint -->
-    <section class="section now" id="now">
-      <div class="container">
-        <div class="now-header fade-in">
-          <p class="section-label">In the app</p>
-          <h2 class="section-title">Now in ZeroPoint</h2>
-          <p class="section-sub">Additional tools that ship with the range log — available today on iOS and Android.</p>
-        </div>
-        <div class="bento">
-          <article class="bento-card fade-in">
-            <div class="bento-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3.5"/><path d="M5 19c1.5-3.5 4-5 7-5s5.5 1.5 7 5"/><path d="M16 4.5c1 .6 1.6 1.6 1.6 2.8"/></svg>
-            </div>
-            <h3>Profile customization</h3>
-            <p>Set a cover and display name so your profile matches how you train at the range.</p>
-          </article>
-          <article class="bento-card fade-in">
-            <div class="bento-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M4 16l3-3 2 2 4-4 3 3"/></svg>
-            </div>
-            <h3>Armory &amp; drills</h3>
-            <p>Keep firearms and calibers organized, then run Dot Torture, Bill Drill, or your own.</p>
-          </article>
-          <article class="bento-card fade-in">
-            <div class="bento-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5.1L12 14.8 7.5 16.8l.9-5.1L4.8 8.2l5-.7L12 3z"/></svg>
-            </div>
-            <h3>Achievements &amp; shooter rank</h3>
-            <p>Unlock milestones and a shooter rank as you log sessions and complete drills.</p>
-          </article>
-          <article class="bento-card fade-in">
-            <div class="bento-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
-            </div>
-            <h3>One-tap share cards</h3>
-            <p>Turn a session or drill result into a shareable card for a buddy or your notes.</p>
-          </article>
-          <article class="bento-card fade-in">
-            <div class="bento-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4v2M12 18v2M4 12H2M22 12h-2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4"/><circle cx="12" cy="12" r="3.5"/></svg>
-            </div>
-            <h3>Smart alerts</h3>
-            <p>Notifications for low ammo, maintenance due by rounds fired, and buddy activity.</p>
-          </article>
-          <article class="bento-card fade-in">
-            <div class="bento-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 14v4M12 10v8M16 6v12"/><path d="M4 20h16"/></svg>
-            </div>
-            <h3>Pro stats depth</h3>
-            <p>Optional Pro adds deeper trends, sync, and extras on top of the free logging core.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Social proof -->
-    <section class="reviews" id="reviews" aria-labelledby="reviews-heading">
-      <div class="container reviews-shell">
-        <aside class="reviews-aside fade-in">
-          <p class="section-label">App Store</p>
-          <h2 class="section-title" id="reviews-heading">What shooters say.</h2>
-          <div class="reviews-score">
-            <strong>5.0</strong>
-            <span class="stars" aria-hidden="true">★★★★★</span>
-          </div>
-          <p class="reviews-meta">Based on 5 ratings on the App Store</p>
-          <a class="reviews-link" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">Read on the App Store →</a>
-        </aside>
-        <div class="fade-in">
-          <article class="review-feature">
-            <blockquote>“Excellent app. You can add friends and compete — see each other's progress. 10/10.”</blockquote>
-            <cite><strong>Kiela S</strong> · App Store</cite>
-          </article>
-          <div class="review-list">
-            <article class="review-row">
-              <span class="stars" aria-label="5 stars">★★★★★</span>
-              <div>
-                <blockquote>“Looking for an app to track, measure, and improve at the range — fell in love with it.”</blockquote>
-                <cite><strong>Chaseanderson5</strong> · App Store</cite>
-              </div>
-            </article>
-            <article class="review-row">
-              <span class="stars" aria-label="5 stars">★★★★★</span>
-              <div>
-                <blockquote>“Solid for logging range sessions and seeing improvement without feeling overcomplicated.”</blockquote>
-                <cite><strong>Frequent Cava Customer</strong> · App Store</cite>
-              </div>
-            </article>
-            <article class="review-row">
-              <span class="stars" aria-label="5 stars">★★★★★</span>
-              <div>
-                <blockquote>“Perfect for when I go to the range. Able to keep all my notes private and on my phone.”</blockquote>
-                <cite><strong>Alan 6 7 6 7</strong> · App Store</cite>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Web session viewer teaser -->
-    <section class="web-teaser" id="web">
-      <div class="container">
-        <div class="web-teaser-inner fade-in">
-          <div>
-            <h2>Web session viewer (coming soon)</h2>
-            <p>Review the same range logs on a larger screen. Leave an email if you want a notice when it launches.</p>
-          </div>
-          <div class="notify-wrap">
-            <form class="notify-form" id="notify-form" action="#" method="post">
-              <label class="visually-hidden" for="notify-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email</label>
-              <input type="email" id="notify-email" name="email" placeholder="you@email.com" required autocomplete="email">
-              <button type="submit">Notify me</button>
-            </form>
-            <p class="notify-msg" id="notify-msg" role="status"></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="final-cta" id="download">
-      <div class="container fade-in">
-        <h2>Download ZeroPoint</h2>
-        <p class="lead">Free to start on iOS and Android. Pro is optional when you want sync and deeper stats.</p>
-        <div class="store-btns">
-          <a class="store-btn primary" href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.7 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8s-1.7-.8-2.8-.7c-1.5.1-2.8.8-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7 1.9-1 2.6-2c.8-1.2 1.2-2.3 1.2-2.4-.1 0-2.2-.8-2.3-3.4zM14.4 5.5c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z"/></svg>
-            <span class="label"><small>Download on the</small><strong>App Store</strong></span>
-          </a>
-          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">
-            <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4.5 3.15a1.1 1.1 0 0 0-1.65.95v15.8a1.1 1.1 0 0 0 1.65.95l13.4-7.9a1.1 1.1 0 0 0 0-1.9L4.5 3.15Z"/></svg>
-            <span class="label"><small>Get it on</small><strong>Google Play</strong></span>
-          </a>
-        </div>
-        <p class="privacy-note">Your data stays on your device by default.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="logo">
-            <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="28" height="28">
-          <circle cx="16" cy="16" r="13.25" stroke="#F97316" stroke-width="2"/>
-          <circle cx="16" cy="16" r="7.5" stroke="#F97316" stroke-width="1.75"/>
-          <circle cx="16" cy="16" r="2.75" fill="#F97316"/>
-          <path d="M16 3.5v3.25M16 25.25V28.5M3.5 16h3.25M25.25 16H28.5" stroke="#F97316" stroke-width="1.75" stroke-linecap="round"/>
-        </svg>
-            <span>ZeroPoint</span>
-          </a>
-          <p>Session logging and inventory for shooting ranges — calendar, gear tags, and alerts in one app.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Product</h4>
-          <ul>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how">How it works</a></li>
-            <li><a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">App Store</a></li>
-            <li><a href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint&hl=en_US" target="_blank" rel="noopener noreferrer">Google Play</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Help</h4>
-          <ul>
-            <li><a href="support.html">Support</a></li>
-            <li><a href="mailto:support@zeropointlog.com">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© <span id="year">2026</span> ZeroPoint. All rights reserved.</span>
-        <span>zeropointlog.com</span>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    (function () {
-      var toggle = document.getElementById('menu-toggle');
-      var menu = document.getElementById('mobile-menu');
-      var nav = document.getElementById('nav');
-
-      if (toggle && menu) {
-        toggle.addEventListener('click', function () {
-          var open = toggle.getAttribute('aria-expanded') === 'true';
-          toggle.setAttribute('aria-expanded', String(!open));
-          menu.classList.toggle('open', !open);
-        });
-        menu.querySelectorAll('a').forEach(function (link) {
-          link.addEventListener('click', function () {
-            toggle.setAttribute('aria-expanded', 'false');
-            menu.classList.remove('open');
-          });
-        });
-      }
-
-      function onScroll() {
-        if (!nav) return;
-        nav.classList.toggle('scrolled', window.scrollY > 8);
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              io.unobserve(e.target);
-            }
-          });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-        document.querySelectorAll('.fade-in').forEach(function (el) { io.observe(el); });
-      } else {
-        document.querySelectorAll('.fade-in').forEach(function (el) { el.classList.add('visible'); });
-      }
-
-      var form = document.getElementById('notify-form');
-      var msg = document.getElementById('notify-msg');
-      if (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var email = form.querySelector('input[type="email"]').value;
-          if (msg) {
-            msg.textContent = 'Thanks — we\'ll notify ' + email + ' when the web viewer is ready.';
-            msg.classList.add('show');
-          }
-          form.reset();
-        });
-      }
-
-      var year = document.getElementById('year');
-      if (year) year.textContent = String(new Date().getFullYear());
-    })();
-  </script>
 </body>
 </html>
