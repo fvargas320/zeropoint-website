@@ -6,6 +6,12 @@
     image.alt = screen.alt;
     image.style.objectPosition = screen.position || 'top';
   });
+  document.querySelectorAll('[data-art]').forEach(image => {
+    const art = window.ZEROPOINT_ARTWORK?.[image.dataset.art];
+    if (!art) return;
+    image.src = art.src;
+    image.alt = art.alt;
+  });
   document.getElementById('year').textContent = String(new Date().getFullYear());
 })();
 
@@ -92,7 +98,7 @@
 (() => {
   function followFeatureLink() {
     if (!matchMedia('(max-width: 650px)').matches) return;
-    const targets = {'#features': '#mobile-features', '#inventory': '#mobile-features', '#progress': '#mobile-progress'};
+    const targets = {'#features': '#mobile-features', '#inventory': '#mobile-inventory', '#crew': '#mobile-crew', '#progress': '#mobile-progress'};
     const target = document.querySelector(targets[location.hash] || ':not(*)');
     if (!target) return;
     if (target.tagName === 'DETAILS') target.open = true;
