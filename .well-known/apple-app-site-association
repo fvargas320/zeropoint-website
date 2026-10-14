@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["VWZ46FQA8B.com.zeropoint.zeropoint"],
+        "components": [
+          { "/": "/your-data", "comment": "Media-retention email: open Your data" },
+          { "/": "/your-data/*" }
+        ]
+      }
+    ]
+  }
+}
