@@ -723,18 +723,173 @@ h2{font-size:55px}
  .mobile-story{padding-bottom:22px;margin-bottom:16px}
 }
 
-/* Pair the feature illustration with a small, complete real-app detail. */
+/* Each feature is one integrated illustration with app-like UI and range objects. */
 @media(max-width:650px){
- .feature-composition{position:relative;max-width:400px;margin-top:12px;padding-bottom:4px}
- .mobile-story .feature-composition .hybrid-art{width:88%;margin:0;aspect-ratio:4/3}
- .composition-inventory .hybrid-art{margin-left:auto!important}
- .app-peek{position:relative;width:82%;margin:-18px 0 0 auto;z-index:1}
- .composition-inventory .app-peek{margin-left:0;margin-right:auto}
- .app-peek-frame{position:relative;overflow:hidden;border-radius:13px;background:#202020;outline:4px solid var(--paper);box-shadow:0 7px 14px #00000018;aspect-ratio:706/306}
- .app-peek-frame img{position:absolute;display:block;width:111.33%;height:auto;max-width:none;left:-5.66%;top:0;transform:translateY(-11.8%)}
- .composition-inventory .app-peek-frame{aspect-ratio:706/337;background:#0c0c0c}
- .composition-inventory .app-peek-frame img{transform:translateY(-30.5%)}
- .app-peek figcaption{font-size:12px;font-weight:700;color:var(--muted);padding:11px 0 0;line-height:1.5}
- .app-peek figcaption span{color:#be3d00;margin-right:5px}
+ .mobile-story .integrated-art{width:calc(100% + 12px);max-width:420px;margin:16px -6px 0;aspect-ratio:1168/880}
+ .competition-art{aspect-ratio:4/3;margin:10px -8px -5px}
+ .competition-art img{width:100%;height:100%;object-fit:contain}
 }
-@media(max-width:650px){.composition-inventory .app-peek-frame img{width:105%;left:-2.5%}}
+
+/* Keep the notification avatar as the exact brand asset, independently replaceable. */
+@media(max-width:650px){
+ .ammo-art{position:relative}
+ .mobile-story .ammo-art .notification-avatar{position:absolute;left:17.65%;top:66.05%;width:5.7%;height:auto;aspect-ratio:1;border-radius:22%;transform:rotate(8deg);object-fit:cover}
+}
+
+@media(max-width:650px){
+ .mobile-story .ammo-art .range-panel-edit{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mask-image:linear-gradient(to right,transparent 25%,#000 28%,#000 75%,transparent 78%),linear-gradient(to bottom,transparent 16%,#000 18.5%,#000 64%,transparent 66%);mask-composite:intersect;-webkit-mask-composite:source-in}
+}
+
+/* Desktop feature artwork has a reading-size limit independent of the page width. */
+@media(min-width:651px){
+ .desktop-session-art{width:100%;max-width:510px;margin-inline:auto}
+ .desktop-session-art img{width:100%;height:auto;aspect-ratio:1168/880;object-fit:contain}
+ .desktop-session-art figcaption{text-align:center;margin-top:14px;font-size:14px;color:var(--muted)}
+ .session-art-visual{padding:0}
+ .progress-layout{grid-template-columns:minmax(240px,1fr) minmax(0,560px);gap:48px;margin-top:42px}
+ .calendar-composition{width:100%;max-width:560px;justify-self:center;padding:0 38px 55px 0}
+ .calendar{padding:24px;transform:rotate(-1deg)}
+ .calendar-grid{gap:7px}
+ .day{aspect-ratio:auto;height:42px;font-size:16px}
+ .logged{width:42px;justify-self:center}
+ .calendar-heading{font-size:16px;margin-bottom:18px}
+ .calendar-key{margin-top:16px;padding-top:12px}
+ .pb-card{right:0;padding:17px;min-width:165px}
+ .pb-card b{font-size:38px}
+ .pb-card h3{font-size:17px}
+ .pb-card .eyebrow{font-size:9px}
+ .crew-plan{width:100%;max-width:550px;justify-self:center}
+}
+@media(min-width:901px){
+ .session-copy>h2,.inventory-grid h2,.care-grid h2,.progress-heading h2,.social-heading h2,.achievements h2{font-size:clamp(58px,4.8vw,70px)}
+ .progress-section{padding-block:65px 85px}
+ .progress-heading{align-items:center}
+ .progress-notes{gap:24px}
+ .progress-notes .annotation{margin-top:8px}
+ .session-section{padding-bottom:100px}
+ .social-section{padding-top:100px}
+ .social-layout{margin-top:45px;gap:55px}
+}
+@media(min-width:651px) and (max-width:900px){
+ .progress-layout{grid-template-columns:minmax(190px,.8fr) minmax(0,1.2fr);gap:25px}
+ .calendar{padding:16px}.calendar-composition{padding-right:12px}
+ .calendar-grid{gap:4px}.day{height:32px;font-size:14px}.logged{width:32px}
+}
+@media(min-width:651px){
+ .range-strip{overflow-x:clip}
+}
+
+/* A shared composition carries the session story from copy into the notebook. */
+@media(min-width:651px){
+ .session-section{position:relative;isolation:isolate;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;max-width:1080px;padding-block:35px 95px}
+ .session-section:before{content:'';position:absolute;z-index:-1;pointer-events:none;inset:10% -4% 8%;background:radial-gradient(ellipse at 65% 55%,#dfb58032,transparent 68%)}
+ .session-copy .section-intro{max-width:390px;font-size:17px;margin-top:22px}
+ .session-explainer{display:block;margin-top:30px}
+ .session-copy .feature-notes{gap:18px;max-width:395px}
+ .session-copy .feature-notes li{gap:14px;align-items:flex-start}
+ .session-copy .feature-notes .line-icon{font-size:23px;width:25px;flex-shrink:0;margin-top:2px}
+ .session-copy .feature-notes h3{font-size:16px}
+ .session-copy .feature-notes p{font-size:14px;margin-top:3px}
+ .session-art-visual{align-self:center;margin-left:-10px}
+ .desktop-session-art{max-width:535px}
+}
+@media(min-width:651px) and (max-width:900px){
+ .session-section{gap:18px;grid-template-columns:1fr 1fr}
+ .session-copy>h2{font-size:52px}
+ .session-copy .section-intro{font-size:16px}
+ .session-copy .feature-notes{gap:14px}
+}
+/* Angled full-width bands must not create a horizontal page scrollbar. */
+html,body{overflow-x:clip}
+
+/* Closing invitation: warm range objects against a contained ink surface. */
+.hero .phone{scale:.9;transform-origin:top center}
+.closing{padding:40px 0 64px;overflow:visible}
+.closing-card{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;align-items:center;gap:35px;padding:56px 60px;background:#20241f;color:#f4ecdc;border-radius:22px;border:1px solid #3d4438;box-shadow:0 18px 38px #342b1915}
+.closing-card:before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 85% 65%,#756b4140,transparent 60%)}
+.closing .eyebrow{display:block;color:#fca171;margin-bottom:20px}
+.closing h2{font-size:clamp(52px,5vw,72px);line-height:1.08}
+.closing-intro{font-size:17px;line-height:1.75;color:#d2d4c8;max-width:400px;margin:22px 0 28px}
+.closing .downloads{justify-content:flex-start;margin:0}
+.closing .store{border-color:#f4ecdc;box-shadow:none;min-width:170px}
+.closing .apple{background:#f4ecdc;color:#171817}
+.closing .android{background:transparent;color:#f4ecdc}
+.closing-reassurance{font-size:12px;color:#c3c7b7;margin-top:18px}
+.closing-reassurance span{padding-inline:9px;color:#ff7838}
+.closing-art{height:350px;position:relative;min-width:0}
+.closing-target{position:absolute;width:290px;aspect-ratio:1;right:0;top:18px;border:1px solid #f4ecdc20;border-radius:50%;box-shadow:0 0 0 36px #f4ecdc06,0 0 0 72px #f4ecdc04}
+.closing-notebook{position:absolute;width:85%;right:-4%;top:0;transform:rotate(8deg);filter:drop-shadow(0 15px 20px #0005)}
+.closing-earpro{position:absolute;width:57%;left:-4%;bottom:0;transform:rotate(-14deg);filter:drop-shadow(0 10px 15px #0005)}
+.closing-signoff{position:absolute;right:2%;bottom:0;font:italic 22px Georgia,serif;color:#fca171;transform:rotate(-5deg)}
+@media(min-width:651px) and (max-width:1100px){.closing-card{padding:38px;gap:20px}.closing-art{height:285px}.closing .store{min-width:145px;padding:10px}.closing .store strong{font-size:16px}.closing .store small{font-size:10px}}
+@media(max-width:650px){
+ .closing{padding:22px 0 35px}
+ .closing-card{display:block;padding:28px 22px 24px;border-radius:16px}
+ .closing h2{font-size:clamp(43px,11vw,58px)}
+ .closing h2 br{display:block}
+ .closing .eyebrow{font-size:9px;margin-bottom:15px}
+ .closing-intro{font-size:15px;line-height:1.65;margin:18px 0 23px}
+ .closing .downloads{gap:9px;flex-wrap:nowrap}
+ .closing .store{min-width:0;padding:10px 8px;gap:6px}
+ .closing .store svg{width:20px;height:24px}
+ .closing .store strong{font-size:14px}.closing .store small{font-size:8px}
+ .closing-reassurance{font-size:11px;margin-top:15px}
+ .closing-art{height:135px;max-width:300px;margin:20px auto 0}
+ .closing-notebook{width:43%;right:8%;top:-8px}
+ .closing-earpro{width:38%;left:6%;bottom:0}
+ .closing-target{width:130px;right:20%;top:0}
+ .closing-signoff{font-size:16px;right:0;bottom:0}
+}
+/* Reference-led desktop hero: replaceable app screen over a painted range scene. */
+@media(min-width:651px){
+ .hero{grid-template-columns:1.05fr 1fr;min-height:710px;isolation:isolate}
+ .hero-copy{padding:35px 0 65px;position:relative}
+ .hero-stage{position:relative;min-height:680px;padding:0;isolation:isolate;display:block}
+ .hero-stage .range-photo{display:block;position:absolute;left:-10%;right:auto;top:-8px;width:calc(100% + 180px);height:710px;background:url('assets/landing/hero-range-scene.webp') center right/contain no-repeat;opacity:1;filter:none;z-index:-1;mask-image:linear-gradient(to bottom,#000 90%,transparent)}
+ .hero-stage .phone{position:absolute;top:28px;left:5%;right:auto;width:300px;transform:rotate(3deg);scale:.9;transform-origin:top center}
+ .hero-stage .hand-note{display:block;right:-45px;top:58px;font-size:28px;color:#ff661c;transform:rotate(3deg);text-shadow:0 2px 14px #0008}
+ .hero-stage .stage-caption{display:none}
+ .range-strip{margin-top:0}
+}
+@media(min-width:651px) and (max-width:1100px){
+ .hero{min-height:620px;grid-template-columns:1.05fr 1fr}
+ .hero-stage{min-height:600px}
+ .hero-stage .range-photo{width:calc(100% + 100px);height:610px;left:-12%;top:0}
+ .hero-stage .phone{width:255px;left:0;top:35px}
+ .hero-stage .hand-note{font-size:22px;right:-15px;top:20px}
+}
+@media(min-width:651px) and (max-width:850px){
+ .hero{min-height:560px;gap:12px}
+ .hero-stage{min-height:540px}
+ .hero-stage .range-photo{height:550px;width:calc(100% + 75px);left:-5%}
+ .hero-stage .phone{width:215px;left:0;top:60px}
+ .hero-stage .hand-note{font-size:19px;right:-8px;top:22px}
+ .hero h1{font-size:clamp(55px,8.2vw,70px)}
+ .hero-copy .intro{font-size:16px}
+ .hero .downloads{gap:9px;flex-wrap:wrap}
+ .hero .store{min-width:160px}
+}
+/* Keep the closing invitation on the site's cream-and-orange canvas. */
+.closing-card{background:#f4ecdc;color:var(--ink);border-color:#c9bea8;box-shadow:0 12px 30px #342b190a;border-radius:12px}
+.closing-card:before{background:radial-gradient(ellipse at 85% 65%,#e69a5033,transparent 65%)}
+.closing .eyebrow,.closing-signoff{color:#b43b00}
+.closing-intro,.closing-reassurance{color:var(--muted)}
+.closing .store{border-color:var(--ink)}
+.closing .apple{background:var(--ink);color:#f4ecdc}
+.closing .android{background:transparent;color:var(--ink)}
+.closing-target{border-color:#b43b0026;box-shadow:0 0 0 36px #bc753309,0 0 0 72px #bc753306}
+@media(min-width:851px) and (max-width:1100px){.hero-stage .phone{left:20px}}
+/* Anchor the annotation to the phone, not the outer edge of the viewport. */
+@media(min-width:1101px){
+ .hero-stage .hand-note{left:calc(5% + 300px);right:auto;top:82px;font-size:26px;line-height:1.12;white-space:nowrap}
+}
+@media(min-width:651px){
+ .hero-stage .hand-note:after{content:'';display:block;width:78px;height:3px;margin-top:12px;background:linear-gradient(90deg,#ff661c 70%,transparent)}
+}
+@media(min-width:851px) and (max-width:1100px){
+ .hero-stage .hand-note{left:265px;right:auto;top:72px;font-size:21px;line-height:1.12}
+}
+@media(min-width:651px) and (max-width:850px){
+ .hero-stage .hand-note{left:210px;right:auto;top:67px;font-size:16px;line-height:1.12}
+ .hero-stage .hand-note:after{width:48px;margin-top:8px;height:2px}
+}
