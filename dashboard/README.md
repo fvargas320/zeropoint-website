@@ -19,6 +19,8 @@ Sidebar: Overview, Sessions, Matches, Metrics, Armory, Training, Profile, and
 | `/` | Overview: month figures, rounds by week, recent sessions with target thumbnails, goals, next match |
 | `/sessions` | Filterable list + detail: target photo with group size, photos, video player, facts, notes (`?id=`, `?firearm=`, `?range=`, `?year=`, `?q=`) |
 | `/sessions/new` | Log a session: one page; photos/video upload straight to Storage under `<uid>/…`, then a server action writes `sessions` + `targets` |
+| `/sessions/<id>/edit` | Edit a session: details, notes, photos and video (add/remove). Rounds and ammo lock when the phone already deducted them, and for matches (official results stay as imported) |
+| Delete (on the session panel) | Confirm says what goes (photos, video) and how many rounds go back to which lot; runs `web_delete_session` |
 | `/matches` | Season (round 1b E) from `sessions.is_match` |
 | `/metrics` | Rounds, cost per round, spend by caliber, firearm usage, group size trend (`?period=month\|quarter\|year\|all`) |
 | `/armory` | Firearms (photo, rounds, sessions, cleaning bar), Ammo, Maintenance (`?tab=`) |
@@ -28,7 +30,21 @@ Sidebar: Overview, Sessions, Matches, Metrics, Armory, Training, Profile, and
 | `/sample` | Public sample season |
 | `/preview/*` | **Dev only** (404 in production): every page above with made-up data |
 
-Rules for things the web writes (`lib/create-session.ts`, `app/(app)/profile`):
+Rules for things the web writes (`lib/session-writes.ts`, `lib/edit-rules.ts`, `app/(app)/profile`):
+- **Delete** goes through the `web_delete_session` RPC (rangeai
+  `supabase/migrations/20261019120000_web_session_writes.sql`, **not applied
+  yet**): one transaction that gives deducted rounds back to the lot
+  (`ammo_deducted`, else `round_count` for legacy rows, clamped to the
+  purchase quantity), deletes the session (targets cascade; both tombstoned
+  for the phone) and recomputes the firearm's cached totals — the same steps
+  as the app's `SessionNotifier.deleteSession`. Files are removed after.
+- **Edit** never changes rounds or the ammo lot once the phone deducted
+  rounds (`editLocks`), nor a match's results. Firearm totals are
+  recomputed for the old and new firearm (`web_refresh_firearm_stats`).
+- A replacement video uploads under a new name; the old file is removed
+  only after the save succeeds.
+- The edit form turns the stored time into local time in the browser, not
+  on the server (Vercel runs in UTC).
 - `ammo_deducted = 0` when an ammo lot is named; the web never changes
   inventory, and 0 (not null) stops the phone from "giving back" rounds it
   never took when the session is later edited or deleted.

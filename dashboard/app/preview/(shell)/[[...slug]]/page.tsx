@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { NewSessionForm } from "@/components/new-session-form";
 import { ArmoryPage } from "@/components/pages/armory";
+import { EditSessionPage } from "@/components/pages/edit-session";
 import { MatchesPage } from "@/components/pages/matches";
 import { MetricsPage } from "@/components/pages/metrics";
 import { OverviewPage } from "@/components/pages/overview";
@@ -19,6 +20,8 @@ export default async function Preview({ params, searchParams }: {
   devOnly();
   const slug = (await params).slug?.join("/") ?? "";
   const q = await searchParams;
+  const edit = /^sessions\/([^/]+)\/edit$/.exec(slug);
+  if (edit) return <EditSessionPage repo={repo} base={base} id={edit[1]} uid="preview" />;
   switch (slug) {
     case "": return <OverviewPage repo={repo} base={base} />;
     case "sessions": return <SessionsPage repo={repo} base={base} query={q} />;

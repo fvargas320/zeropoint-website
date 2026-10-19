@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { DeleteSession } from "@/components/delete-session";
 import { fmtDate, money } from "@/lib/compute";
+import { editLocks, roundsGivenBack } from "@/lib/edit-rules";
 import type { Repo } from "@/lib/repo";
 import type { SessionRow, TargetRow } from "@/lib/types";
 
@@ -7,8 +9,12 @@ export interface SessionsQuery { id?: string; firearm?: string; range?: string; 
 
 const yd = (s: SessionRow) => (s.distance != null ? `${s.distance} ${s.distance_unit === "meters" ? "m" : "yd"}` : null);
 
-export async function SessionsPage({ repo, base, query }: { repo: Repo; base: string; query: SessionsQuery }) {
-  const [all, targets] = await Promise.all([repo.sessions(), repo.targets()]);
+export async function SessionsPage({ repo, base, query, deleteAction }: {
+  repo: Repo; base: string; query: SessionsQuery;
+  /// Server action bound per session id; absent on the dev preview.
+  deleteAction?: (uuid: string) => Promise<{ error: string } | void>;
+}) {
+  const [all, targets, lots] = await Promise.all([repo.sessions(), repo.targets(), repo.ammoLots()]);
   const years = [...new Set(all.map((s) => s.date_time.slice(0, 4)))].sort().reverse();
   const firearms = [...new Set(all.map((s) => s.firearm_label).filter(Boolean))] as string[];
   const ranges = [...new Set(all.map((s) => s.range_name).filter(Boolean))] as string[];
@@ -90,16 +96,24 @@ export async function SessionsPage({ repo, base, query }: { repo: Repo; base: st
             </div>
             {list.length > visible.length && <p className="quiet">Showing the latest 200. Filter to see older sessions.</p>}
           </section>
-          {selected && <SessionDetail s={selected} targets={selTargets} images={selImages} others={others} video={video} />}
+          {selected && (
+            <SessionDetail
+              s={selected} targets={selTargets} images={selImages} others={others} video={video} base={base}
+              lotLabel={(() => { const l = lots.find((x) => x.uuid === selected.ammo_lot_uuid); return l ? [l.caliber, l.brand, l.product_name].filter(Boolean).join(" ") : null; })()}
+              deleteAction={deleteAction ? deleteAction.bind(null, selected.uuid) : undefined}
+            />
+          )}
         </div>
       )}
     </main>
   );
 }
 
-function SessionDetail({ s, targets, images, others, video }: {
+function SessionDetail({ s, targets, images, others, video, base, lotLabel, deleteAction }: {
   s: SessionRow; targets: TargetRow[]; images: Record<string, string>; others: Record<string, string>; video: Record<string, string>;
+  base: string; lotLabel: string | null; deleteAction?: () => Promise<{ error: string } | void>;
 }) {
+  const locks = editLocks(s);
   const hero = targets.find((t) => t.cloud_image_path && images[t.cloud_image_path]);
   const videoUrl = s.cloud_video_path ? video[s.cloud_video_path] : undefined;
   const strip = [
@@ -122,6 +136,11 @@ function SessionDetail({ s, targets, images, others, video }: {
   return (
     <aside className="card detail" aria-label="Session details">
       <h2 style={{ marginBottom: 12 }}>{s.name || s.match_name || "Session"}</h2>
+      <div className="detail-actions">
+        <Link className="pill" href={`${base}/sessions/${s.uuid}/edit`}>Edit</Link>
+        <DeleteSession name={s.name || s.match_name || "this session"} givesBack={roundsGivenBack(s)} lotLabel={lotLabel} isMatch={!!s.is_match} action={deleteAction} />
+      </div>
+      {locks.roundsLocked && <p className="lock-note">{s.is_match ? "Official results stay as imported." : "Rounds and ammo are managed on your phone."}</p>}
       {videoUrl && <video className="player" src={videoUrl} controls preload="metadata" />}
       {hero ? (
         <>

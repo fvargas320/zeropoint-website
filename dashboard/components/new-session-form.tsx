@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { extOf, type NewSessionInput, PHOTO_MAX, PHOTO_TYPES, type UploadedMedia, VIDEO_MAX, VIDEO_TYPES } from "@/lib/new-session";
+import { extOf, PHOTO_MAX, PHOTO_TYPES, type SessionInput, type UploadedMedia, VIDEO_MAX, VIDEO_TYPES } from "@/lib/new-session";
+import type { ExistingMedia, SessionFormValues } from "@/lib/session-form-values";
 import type { AmmoLotRow, DrillRow, FirearmRow, PresetRow, RangeRow } from "@/lib/types";
 
 interface Item {
@@ -18,28 +19,50 @@ interface Item {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/// Web round 5 "Log a session": one page, four blocks. Files upload straight
-/// to Storage under the member's own folder while they fill in the rest; the
-/// save action then writes the session and its target rows.
-export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, save, preview, cancelHref }: {
+/// Web round 5 "Log a session", also used to edit one. One page, four
+/// blocks. Files upload straight to Storage under the member's own folder
+/// while they fill in the rest; the save action then writes the session
+/// and its target rows. On edit, rounds and ammo lock when the phone
+/// already took the rounds off a lot, or for a match (`roundsLocked`).
+export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, save, preview, cancelHref, initial, existing = [], roundsLocked, title = "Log a session" }: {
   uid: string;
   firearms: FirearmRow[];
   ammo: AmmoLotRow[];
   drills: DrillRow[];
   ranges: RangeRow[];
   presets: PresetRow[];
-  save?: (input: NewSessionInput) => Promise<{ error: string } | void>;
+  save?: (input: SessionInput) => Promise<{ error: string } | void>;
   preview?: boolean;
   cancelHref: string;
+  initial?: SessionFormValues;
+  existing?: ExistingMedia[];
+  roundsLocked?: string | null;
+  title?: string;
 }) {
+  const editing = !!initial;
   const now = new Date();
-  const sessionUuid = useMemo(() => crypto.randomUUID(), []);
-  const [f, setF] = useState({
-    date: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
-    time: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
-    rangeName: "", firearmId: "", ammoLotUuid: "", rounds: "", distance: "", distanceUnit: "yards" as "yards" | "meters",
-    drillId: "", cost: "", wentWell: "", needsWork: "", focusNext: "", notes: "",
+  const sessionUuid = useMemo(() => initial?.sessionUuid ?? crypto.randomUUID(), [initial]);
+  const [f, setF] = useState<Omit<SessionFormValues, "sessionUuid">>(() => {
+    if (initial) {
+      const { sessionUuid: _, dateTimeIso: __, ...rest } = initial;
+      return rest;
+    }
+    return {
+      date: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
+      time: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
+      rangeName: "", firearmId: "", ammoLotUuid: "", rounds: "", distance: "", distanceUnit: "yards",
+      drillId: "", cost: "", wentWell: "", needsWork: "", focusNext: "", notes: "",
+    };
   });
+  // Show the stored time in the member's own time zone (see dateTimeIso).
+  useEffect(() => {
+    if (!initial?.dateTimeIso) return;
+    const d = new Date(initial.dateTimeIso);
+    setF((s) => ({ ...s, date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`, time: `${pad(d.getHours())}:${pad(d.getMinutes())}` }));
+  }, [initial?.dateTimeIso]);
+  const [removed, setRemoved] = useState<Set<string>>(new Set());
+  const toggleRemoved = (id: string) => setRemoved((r) => { const n = new Set(r); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  const keptVideo = existing.some((m) => m.kind === "video" && !removed.has(m.uuid));
   const [items, setItems] = useState<Item[]>([]);
   const [over, setOver] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -73,7 +96,10 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
     const isVideo = item.kind === "video";
     const targetUuid = isVideo ? sessionUuid : crypto.randomUUID();
     // Same paths the app writes (supabase_sync_service.dart).
-    const path = isVideo ? `${uid}/sessions/${sessionUuid}/video.${extOf(item.file)}` : `${uid}/targets/${targetUuid}.${extOf(item.file)}`;
+    // A replacement video gets a fresh name so the old file can be removed
+    // only after the save succeeds (uploads never overwrite).
+    const videoName = editing ? `video.${Date.now()}.${extOf(item.file)}` : `video.${extOf(item.file)}`;
+    const path = isVideo ? `${uid}/sessions/${sessionUuid}/${videoName}` : `${uid}/targets/${targetUuid}.${extOf(item.file)}`;
     const bucket = isVideo ? "video-vault" : "target-images";
     update({ progress: 15 });
     const { error } = await createClient().storage.from(bucket).upload(path, item.file, { contentType: item.file.type || undefined, upsert: false });
@@ -103,7 +129,7 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
       if (!isVideo && !isPhoto) { setError(`${file.name}: use JPEG, PNG or HEIC photos, or an MP4/MOV video.`); continue; }
       if (isVideo && (file.size > VIDEO_MAX)) { setError(`${file.name} is over 50 MB. Trim it on your phone, or attach it there.`); continue; }
       if (isPhoto && file.size > PHOTO_MAX) { setError(`${file.name} is over 15 MB.`); continue; }
-      if (isVideo && (items.some((x) => x.kind === "video") || next.some((x) => x.kind === "video"))) { setError("One video per session."); continue; }
+      if (isVideo && (keptVideo || items.some((x) => x.kind === "video") || next.some((x) => x.kind === "video"))) { setError(keptVideo ? "This session already has a video. Remove it first to add another." : "One video per session."); continue; }
       next.push({ id: crypto.randomUUID(), file, preview: URL.createObjectURL(file), kind: isVideo ? "video" : "target", state: "uploading", progress: 5 });
     }
     setItems((xs) => [...xs, ...next]);
@@ -117,16 +143,20 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
     setBusy(true);
     setError(null);
     const media = items.filter((x) => x.state === "done" && x.media).map((x) => ({ ...x.media!, kind: x.kind }));
-    const res = await save({ sessionUuid, ...f, tzOffsetMinutes: new Date().getTimezoneOffset(), media });
+    const res = await save({
+      sessionUuid, ...f, tzOffsetMinutes: new Date().getTimezoneOffset(), media,
+      removeTargetUuids: existing.filter((m) => m.kind !== "video" && removed.has(m.uuid)).map((m) => m.uuid),
+      removeVideo: existing.some((m) => m.kind === "video" && removed.has(m.uuid)),
+    });
     if (res && "error" in res) { setError(res.error); setBusy(false); }
   }
 
   return (
     <form onSubmit={submit}>
       <div className="page-head">
-        <h1>Log a session</h1>
+        <h1>{title}</h1>
         <div className="spacer" />
-        {presets.length > 0 && (
+        {!editing && presets.length > 0 && (
           <select className="chip" defaultValue="" onChange={(e) => applyPreset(e.target.value)} aria-label="Start from a preset">
             <option value="">Start from a preset</option>
             {presets.map((p) => <option key={p.uuid} value={p.uuid}>{p.name}</option>)}
@@ -159,12 +189,12 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
           </div>
           <div className="field">
             <label htmlFor="ammo">Ammo <span className="hint">optional</span></label>
-            <select id="ammo" value={f.ammoLotUuid} onChange={set("ammoLotUuid")}>
+            <select id="ammo" value={f.ammoLotUuid} onChange={set("ammoLotUuid")} disabled={!!roundsLocked}>
               <option value="">None</option>
               {lots.map((a) => <option key={a.uuid} value={a.uuid}>{a.caliber} · {[a.brand, a.product_name].filter(Boolean).join(" ")}</option>)}
             </select>
           </div>
-          <div className="field"><label htmlFor="rounds">Rounds</label><input id="rounds" inputMode="numeric" pattern="[0-9]*" value={f.rounds} onChange={set("rounds")} maxLength={6} /></div>
+          <div className="field"><label htmlFor="rounds">Rounds</label><input id="rounds" inputMode="numeric" pattern="[0-9]*" value={f.rounds} onChange={set("rounds")} maxLength={6} readOnly={!!roundsLocked} aria-describedby="ammo-note" /></div>
           <div className="field">
             <label htmlFor="distance">Distance</label>
             <div style={{ display: "flex", gap: 8 }}>
@@ -181,7 +211,9 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
           </div>
           <div className="field"><label htmlFor="cost">Cost <span className="hint">optional, $</span></label><input id="cost" inputMode="decimal" value={f.cost} onChange={set("cost")} maxLength={8} /></div>
         </div>
-        <p className="quiet" style={{ margin: "12px 0 0", fontSize: 13 }}>Rounds aren&apos;t taken off your ammo here. Do that on your phone.</p>
+        <p id="ammo-note" className="quiet" style={{ margin: "12px 0 0", fontSize: 13 }}>
+          {roundsLocked ?? "Rounds aren\u2019t taken off your ammo here. Do that on your phone."}
+        </p>
       </section>
 
       <section className="card formcard">
@@ -197,6 +229,19 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
           <br /><span className="quiet" style={{ fontSize: 13 }}>Photos up to 15 MB (JPEG, PNG, HEIC) · one video up to 50 MB (MP4, MOV)</span>
           <input ref={input} type="file" multiple accept={[...PHOTO_TYPES, ...VIDEO_TYPES, ".heic"].join(",")} hidden onChange={(e) => e.target.files && addFiles(e.target.files)} />
         </label>
+        {existing.length > 0 && (
+          <div className="uploads" aria-label="Photos and video on this session">
+            {existing.map((m) => (
+              <div key={m.uuid} className="upload" style={removed.has(m.uuid) ? { opacity: 0.35 } : undefined}>
+                {m.url ? (m.kind === "video" ? <video src={m.url} muted preload="metadata" /> : <img src={m.url} alt="" />) : null}
+                <div className="meta">
+                  <span>{m.kind === "video" ? "Video" : m.kind === "social" ? "Photo" : "Target"}</span>
+                  <button type="button" onClick={() => toggleRemoved(m.uuid)}>{removed.has(m.uuid) ? "Keep" : "Remove"}</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
         {items.length > 0 && (
           <div className="uploads">
             {items.map((x) => (
@@ -229,7 +274,7 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
       {error && <div className="notice warn" role="alert" style={{ marginBottom: 12 }}>{error}</div>}
       <div className="savebar">
         <a className="pill" href={cancelHref}>Cancel</a>
-        <button className="pill brand" disabled={busy || !save}>{busy ? "Saving…" : preview ? "Save (preview)" : "Save session"}</button>
+        <button className="pill brand" disabled={busy || !save}>{busy ? "Saving…" : preview ? "Save (preview)" : editing ? "Save changes" : "Save session"}</button>
       </div>
     </form>
   );

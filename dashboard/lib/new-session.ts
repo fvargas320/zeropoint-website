@@ -12,7 +12,7 @@ export interface UploadedMedia {
   durationSeconds?: number;
 }
 
-export interface NewSessionInput {
+export interface SessionInput {
   sessionUuid: string;
   date: string; // yyyy-mm-dd (member's local date)
   time: string; // HH:mm
@@ -30,7 +30,12 @@ export interface NewSessionInput {
   focusNext: string;
   notes: string;
   media: UploadedMedia[];
+  /// Edit only: existing target rows to remove, and whether to drop the video.
+  removeTargetUuids?: string[];
+  removeVideo?: boolean;
 }
+
+export type NewSessionInput = SessionInput;
 
 export const extOf = (file: File) => {
   const fromName = file.name.split(".").pop()?.toLowerCase() ?? "";

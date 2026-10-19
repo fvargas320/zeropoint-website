@@ -322,3 +322,18 @@ video.player { width: 100%; border-radius: 14px; background: #000; display: bloc
 }
 table.data.compact { min-width: 520px; }
 table.data.compact td.name { min-width: 140px; }
+
+/* Destructive actions */
+:root { --danger: #ff5d5d; }
+.pill.danger { background: transparent; color: var(--danger); box-shadow: inset 0 0 0 1px rgba(255, 93, 93, 0.35); }
+.pill.danger:hover { background: rgba(255, 93, 93, 0.08); }
+.pill.danger-fill { background: var(--danger); color: #1a0505; }
+dialog.confirm {
+  border: 0; border-radius: var(--radius-card); background: var(--surface-raised); color: var(--text);
+  padding: 24px; width: min(460px, calc(100vw - 32px)); box-shadow: var(--shadow);
+}
+dialog.confirm::backdrop { background: rgba(0, 0, 0, 0.6); }
+dialog.confirm h2 { margin: 0 0 8px; font-size: 20px; }
+.detail-actions { display: flex; gap: 8px; margin: 0 0 14px; }
+.lock-note { color: var(--text-3); font-size: 13px; margin: -4px 0 12px; }
+.field input[readonly], .field select:disabled { opacity: 0.55; cursor: not-allowed; }

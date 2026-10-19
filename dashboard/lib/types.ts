@@ -23,6 +23,7 @@ export interface SessionRow {
   score_label: string | null;
   cost: number | null;
   ammo_lot_uuid: string | null;
+  ammo_deducted: number | null;
   ammo_brand: string | null;
   ammo_product: string | null;
   ammo_grain: number | null;
@@ -35,6 +36,7 @@ export interface SessionRow {
   match_name: string | null;
   match_level: string | null;
   match_result_json: string | null;
+  match_imported_at: string | null;
   cloud_other_image_paths: string[] | null;
   cloud_video_path: string | null;
   video_duration_seconds: number | null;

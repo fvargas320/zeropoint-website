@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { NewSessionForm } from "@/components/new-session-form";
-import { createSession } from "@/lib/create-session";
+import { createSession } from "@/lib/session-writes";
 import type { NewSessionInput } from "@/lib/new-session";
 import { getViewer } from "@/lib/session";
 
