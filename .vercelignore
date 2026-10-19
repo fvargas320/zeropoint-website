@@ -1,3 +1,0 @@
-# The marketing site deploys this folder as static files; keep the web app
-# source (its own Vercel project, Root Directory = dashboard) out of it.
-/dashboard

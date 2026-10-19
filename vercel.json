@@ -4,7 +4,24 @@
   "headers": [
     {
       "source": "/.well-known/apple-app-site-association",
-      "headers": [{ "key": "Content-Type", "value": "application/json" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/dashboard",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/dashboard/:path*",
+      "destination": "/",
+      "permanent": false
     }
   ]
 }
