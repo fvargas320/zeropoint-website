@@ -32,7 +32,7 @@
     { "source": "/get", "destination": "/", "statusCode": 302 }
   ],
   "rewrites": [
-    { "source": "/r/:code", "destination": "/r/index.html" },
-    { "source": "/g/:code", "destination": "/g/index.html" }
+    { "source": "/r/:code", "destination": "/r" },
+    { "source": "/g/:code", "destination": "/g" }
   ]
 }
