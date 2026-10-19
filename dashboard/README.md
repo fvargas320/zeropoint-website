@@ -7,15 +7,38 @@ in the rangeai repo; approved designs: `docs/design/web/index.html` there.
 This folder is its own Vercel project (Root Directory = `dashboard`), separate
 from the static marketing site at the repo root.
 
-## Phase 1 (this scaffold)
+## What's built (web round 5)
+
+Sidebar: Overview, Sessions, Matches, Metrics, Armory, Training, Profile, and
+**+ New** (Log a session; Import match results comes next).
 
 | Route | What |
 |---|---|
-| `/login` | Sign in with Apple / Google / email magic link (web round 3 C). Email never creates an account (`shouldCreateUser: false`) |
-| `/auth/callback` | OAuth / magic-link code exchange |
-| `/upgrade` | Signed in, not Pro (web round 4 C). Phase 1 sells Pro **only in the app**, so nobody can pay twice; "Check again" re-runs the Pro check |
-| `/` | Season page (round 1b E) from `sessions` where `is_match` — date, match, level, division, class, place, match %, rounds |
-| `/sample` | Public sample season (for the marketing site's link) |
+| `/login` | Sign in with Apple / Google / email magic link. Email never creates an account (`shouldCreateUser: false`) |
+| `/upgrade` | Signed in, not Pro. Phase 1 sells Pro **only in the app**; "Check again" re-runs the Pro check |
+| `/` | Overview: month figures, rounds by week, recent sessions with target thumbnails, goals, next match |
+| `/sessions` | Filterable list + detail: target photo with group size, photos, video player, facts, notes (`?id=`, `?firearm=`, `?range=`, `?year=`, `?q=`) |
+| `/sessions/new` | Log a session: one page; photos/video upload straight to Storage under `<uid>/…`, then a server action writes `sessions` + `targets` |
+| `/matches` | Season (round 1b E) from `sessions.is_match` |
+| `/metrics` | Rounds, cost per round, spend by caliber, firearm usage, group size trend (`?period=month\|quarter\|year\|all`) |
+| `/armory` | Firearms (photo, rounds, sessions, cleaning bar), Ammo, Maintenance (`?tab=`) |
+| `/training` | Goals with progress, classification, custom drills with run counts |
+| `/profile` | Shooter profile (division, class, member numbers editable), plan and where it's billed, account, CSV export |
+| `/export/sessions.csv` | Every session as CSV (formula-safe) |
+| `/sample` | Public sample season |
+| `/preview/*` | **Dev only** (404 in production): every page above with made-up data |
+
+Rules for things the web writes (`lib/create-session.ts`, `app/(app)/profile`):
+- `ammo_deducted = 0` when an ammo lot is named; the web never changes
+  inventory, and 0 (not null) stops the phone from "giving back" rounds it
+  never took when the session is later edited or deleted.
+- Media paths are the app's: `target-images/<uid>/targets/<target>.ext`,
+  `video-vault/<uid>/sessions/<session>/video.ext`; bucket limits apply
+  (photos 15 MB JPEG/PNG/HEIC, one video 50 MB MP4/MOV).
+- Shooter-profile saves merge into `user_profiles.shooter_profile`, changing
+  only division, class and member numbers.
+- Every write re-checks Pro on the server. RLS already limits rows to the
+  member; the storage quota (5 GB) is still only enforced by the app.
 
 Pro check (server only, `lib/pro.ts`): `my_pro_status()` RPC (grants + RevenueCat
 webhook mirror), then the `pro-status` edge function (live RevenueCat lookup)
@@ -27,6 +50,7 @@ when that says no. Everything under `app/(app)` redirects to `/upgrade` without 
 cp .env.example .env.local   # fill NEXT_PUBLIC_SUPABASE_ANON_KEY (the app's public anon key)
 npm install
 npm run dev
+# open http://localhost:3000/preview to see every page with sample data
 ```
 
 ## Before it can work signed in

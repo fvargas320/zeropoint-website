@@ -6,6 +6,7 @@ export interface ProStatus {
   pro: boolean;
   source: "grant" | "subscription" | "revenuecat" | null;
   expiresAt: string | null;
+  productId: string | null;
 }
 
 /// Server-side Pro check for the signed-in user. Two steps, cheapest first:
@@ -17,11 +18,11 @@ export interface ProStatus {
 export async function getProStatus(supabase: SupabaseClient, accessToken: string): Promise<ProStatus> {
   const { data, error } = await supabase.rpc("my_pro_status");
   if (!error && data && typeof data === "object" && (data as { pro?: unknown }).pro === true) {
-    const d = data as { source?: ProStatus["source"]; expires_at?: string | null };
-    return { pro: true, source: d.source ?? null, expiresAt: d.expires_at ?? null };
+    const d = data as { source?: ProStatus["source"]; expires_at?: string | null; product_id?: string | null };
+    return { pro: true, source: d.source ?? null, expiresAt: d.expires_at ?? null, productId: d.product_id ?? null };
   }
   if (error) console.warn("my_pro_status failed", error.code);
-  return { pro: await liveCheck(accessToken), source: "revenuecat", expiresAt: null };
+  return { pro: await liveCheck(accessToken), source: "revenuecat", expiresAt: null, productId: null };
 }
 
 async function liveCheck(accessToken: string): Promise<boolean> {

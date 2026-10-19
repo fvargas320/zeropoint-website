@@ -1,5 +1,5 @@
 import { SeasonBoard } from "@/components/season-board";
-import type { Account } from "@/components/top-bar";
+import type { Account } from "@/lib/account";
 import { Wordmark } from "@/components/wordmark";
 import { env } from "@/lib/env";
 import { sampleSeason } from "@/lib/sample-season";

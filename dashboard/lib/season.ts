@@ -15,17 +15,10 @@ export interface SeasonMatch {
 
 /// One row of `public.sessions` where is_match = true. `match_result_json`
 /// is the app's MatchResult.toJson() (lib/features/competition/models/match_result.dart).
-export interface SessionRow {
-  uuid: string;
-  date_time: string;
-  match_name: string | null;
-  name: string | null;
-  match_level: string | null;
-  division: string | null;
-  discipline: string | null;
-  round_count: number | null;
-  match_result_json: string | null;
-}
+export type SessionRow = Pick<
+  import("@/lib/types").SessionRow,
+  "uuid" | "date_time" | "match_name" | "name" | "match_level" | "division" | "discipline" | "round_count" | "match_result_json"
+>;
 
 export function fromSessionRow(row: SessionRow): SeasonMatch {
   let r: Record<string, unknown> = {};
