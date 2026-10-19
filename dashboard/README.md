@@ -29,17 +29,51 @@ npm install
 npm run dev
 ```
 
-## Before it can work signed in (none done)
+## Before it can work signed in
 
-1. Apply `supabase/migrations/20261019100000_my_pro_status.sql` (rangeai repo).
-2. Deploy `supabase/functions/pro-status` (config.toml: verify_jwt = false).
-3. Supabase Auth › URL configuration: add `https://app.zeropointlog.com/**`
-   (and `http://localhost:3000/**` for local testing) to the redirect allow-list.
-4. Apple: a Services ID with the Supabase callback URL, added to the Apple
-   provider's client IDs. Google: a Web OAuth client in the same Google Cloud
-   project as the iOS client, added to the Google provider.
-5. Vercel: new project from this repo with Root Directory `dashboard`, env vars
-   from `.env.example`, domain `app.zeropointlog.com` (CNAME).
+Done 2026-10-18 (project oxilkmjmtnslhhbcyamx):
+- [x] `my_pro_status()` applied (migration `my_pro_status`); checked: a granted
+      user gets `pro: true`, a free user `false`, `anon` can't call it.
+- [x] `pro-status` deployed (v1, verify_jwt false); checked: no token, a bad
+      token and the anon key all get 401, OPTIONS 200.
+
+You (dashboards and secrets — nothing here can be done from code):
+
+1. **Supabase › Authentication › URL Configuration › Redirect URLs**: add
+   `https://app.zeropointlog.com/**`, `http://localhost:3000/**`, and
+   `https://*-fvargas320s-projects.vercel.app/**` (Vercel previews). Leave the
+   Site URL as it is (the app's email links use it).
+2. **Google** (Google Cloud project of the iOS client `1064375127882-…`):
+   open the *Web* OAuth client the app already uses as `serverClientId`
+   (`lib/features/auth/services/auth_service.dart`). Under *Authorized
+   redirect URIs* add `https://oxilkmjmtnslhhbcyamx.supabase.co/auth/v1/callback`;
+   under *Authorized JavaScript origins* add `https://app.zeropointlog.com` and
+   `http://localhost:3000`. In Supabase › Authentication › Providers › Google,
+   make sure that web client's ID and **secret** are filled in (the ID is
+   probably there already for the app; the secret is what the web redirect
+   flow needs) and the iOS client ID stays in the authorized client IDs.
+3. **Apple** (developer.apple.com › Certificates, IDs & Profiles):
+   - Identifiers › **Services IDs** › new, e.g. `com.zeropoint.zeropoint.web`,
+     enable *Sign in with Apple*, primary App ID `com.zeropoint.zeropoint`,
+     domain `oxilkmjmtnslhhbcyamx.supabase.co`, return URL
+     `https://oxilkmjmtnslhhbcyamx.supabase.co/auth/v1/callback`.
+   - Keys › a key with *Sign in with Apple* (reuse one if it exists) → download
+     the `.p8`, note the Key ID and your Team ID (`VWZ46FQA8B`).
+   - Supabase › Providers › Apple: add the Services ID to **Client IDs**
+     (comma-separated, keep the bundle ID `com.zeropoint.zeropoint` first so the
+     app keeps working) and paste the **secret key** generated from the .p8
+     (Supabase's Apple page has the generator). **That secret expires after
+     6 months** — put a calendar reminder to regenerate it, or web Apple
+     sign-in stops working.
+   - Same Apple ID → same Supabase user, including Hide My Email (the relay
+     address is per app team, so phone and web match).
+4. **Vercel**: new project from this repo, Root Directory `dashboard`, env vars
+   from `.env.example` (the anon key is public), domain `app.zeropointlog.com`.
+   DNS: CNAME `app` → `cname.vercel-dns.com` at the registrar (add it after the
+   GoDaddy → Spaceship move, or add it now and copy it over).
+5. Test: sign in with Apple, Google and an email link on localhost with a Pro
+   account and a free one; the free one lands on `/upgrade`, "Check again"
+   after a test purchase in the app flips it to the Season page.
 
 Note: OAuth sign-in on the web can still create a new user if someone picks a
 different provider than on their phone (Supabase has no per-request switch for
