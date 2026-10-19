@@ -32,8 +32,8 @@ Sidebar: Overview, Sessions, Matches, Metrics, Armory, Training, Profile, and
 
 Rules for things the web writes (`lib/session-writes.ts`, `lib/edit-rules.ts`, `app/(app)/profile`):
 - **Delete** goes through the `web_delete_session` RPC (rangeai
-  `supabase/migrations/20261019120000_web_session_writes.sql`, **not applied
-  yet**): one transaction that gives deducted rounds back to the lot
+  `supabase/migrations/20261019120000_web_session_writes.sql`, **applied
+  2026-10-19**; checked in a rolled-back transaction): one transaction that gives deducted rounds back to the lot
   (`ammo_deducted`, else `round_count` for legacy rows, clamped to the
   purchase quantity), deletes the session (targets cascade; both tombstoned
   for the phone) and recomputes the firearm's cached totals — the same steps
@@ -74,6 +74,11 @@ npm run dev
 Done 2026-10-18 (project oxilkmjmtnslhhbcyamx):
 - [x] `my_pro_status()` applied (migration `my_pro_status`); checked: a granted
       user gets `pro: true`, a free user `false`, `anon` can't call it.
+- [x] `web_delete_session` / `web_refresh_firearm_stats` applied (migration
+      `web_session_writes`); checked in a rolled-back transaction: deducted
+      rounds go back (clamped to the purchase quantity), a web-logged
+      session (0 deducted) gives nothing back, firearm totals recompute,
+      `anon` can't call either.
 - [x] `pro-status` deployed (v1, verify_jwt false); checked: no token, a bad
       token and the anon key all get 401, OPTIONS 200.
 
