@@ -5,7 +5,14 @@
         "appIDs": ["VWZ46FQA8B.com.zeropoint.zeropoint"],
         "components": [
           { "/": "/your-data", "comment": "Media-retention email: open Your data" },
-          { "/": "/your-data/*" }
+          { "/": "/your-data/*" },
+          { "/": "/r/*", "comment": "Referral invite (rangeai docs/growth/domain.md)" },
+          { "/": "/i/*", "comment": "Alias of /r/" },
+          { "/": "/g/*", "comment": "Gift Pro code: app opens the redeem sheet" },
+          { "/": "/c/*", "comment": "Creator page: app stores the handle" },
+          { "/": "/s/*", "comment": "Shared range day (app opens Home until handled)" },
+          { "/": "/ch/*", "comment": "Shared challenge (app opens Home until handled)" },
+          { "/": "/m/*", "comment": "Match link from the web app" }
         ]
       }
     ]

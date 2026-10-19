@@ -1,0 +1,43 @@
+/* Link landing pages: /r/<CODE> (invite) and /g/<code> (gift).
+   One card on the site's paper background, readable at 320px and in dark
+   mode. Pages are served from nested paths, so every URL here is absolute. */
+:root {
+  --bg: #e8dfcc; --card: #f4ecdc; --line: #c9bea8; --text: #151413;
+  --muted: #53564a; --accent: #c2410c; --on-accent: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f0e; --card: #1c1b19; --line: #3a3833; --text: #f4ecdc;
+    --muted: #b3ad9f; --accent: #ff7a45; --on-accent: #151413;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--bg); color: var(--text); padding: 16px;
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+main {
+  width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 20px; padding: 28px 22px; text-align: center;
+}
+.brand img { width: 120px; height: auto; margin: 0 auto 16px; display: block; }
+@media (prefers-color-scheme: dark) { .brand img { filter: invert(1) hue-rotate(180deg); } }
+h1 { font-size: 26px; line-height: 1.2; margin: 0 0 8px; overflow-wrap: anywhere; }
+p { color: var(--muted); margin: 0 0 20px; }
+.label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.code {
+  font: 700 34px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 4px;
+  margin: 6px 0 4px; overflow-wrap: anywhere;
+}
+.code.long { font-size: 24px; letter-spacing: 1px; }
+a.btn, button.btn {
+  display: block; width: 100%; min-height: 48px; border-radius: 999px; border: 0;
+  font: 600 16px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-decoration: none; margin-top: 10px; cursor: pointer; padding: 14px 16px;
+}
+.primary { background: var(--accent); color: var(--on-accent); }
+.secondary { background: transparent; color: var(--text); box-shadow: inset 0 0 0 1.5px var(--muted); }
+.hidden { display: none !important; }
+.steps { text-align: left; color: var(--muted); font-size: 14px; margin: 20px 0 0; padding-left: 20px; }
+.fine { font-size: 13px; margin: 18px 0 0; }
