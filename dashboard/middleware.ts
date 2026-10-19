@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
-const PUBLIC_PATHS = ["/login", "/auth/callback", "/sample"];
+const PUBLIC_PATHS = ["/login", "/auth/callback", "/sample", "/preview"]; // /preview is dev-only (app/preview/guard.ts)
 
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);

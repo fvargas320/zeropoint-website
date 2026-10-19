@@ -1,5 +1,5 @@
-import { SeasonBoard } from "@/components/season-board";
-import { TopBar } from "@/components/top-bar";
+import { SeasonView } from "@/components/season-view";
+import { accountLabel } from "@/lib/account";
 import { fromSessionRow, type SessionRow } from "@/lib/season";
 import { getViewer } from "@/lib/session";
 
@@ -18,36 +18,5 @@ export default async function SeasonPage() {
     .order("date_time", { ascending: true })
     .limit(500);
   const matches = ((data ?? []) as SessionRow[]).map(fromSessionRow);
-  const year = new Date().getFullYear();
-
-  return (
-    <>
-      <TopBar user={user} current="season" />
-      <main className="page">
-        <div className="page-head">
-          <h1>Your season</h1>
-          <span className="quiet">All matches synced from your phone</span>
-          <div className="spacer" />
-          <span className="pill" aria-disabled="true" title="Coming soon">Export</span>
-        </div>
-        {error ? (
-          <div className="card empty" role="alert">
-            <h2>We couldn&apos;t load your matches</h2>
-            <p className="muted">Refresh the page to try again.</p>
-          </div>
-        ) : matches.length === 0 ? (
-          <div className="card empty">
-            <h2>No matches yet</h2>
-            <p className="muted">
-              Matches you log or import in the ZeroPoint app show up here once they sync. Logged one already? Open
-              the app so it can sync, then refresh.
-            </p>
-          </div>
-        ) : (
-          <SeasonBoard matches={matches} />
-        )}
-        <p className="quiet" style={{ marginTop: 16 }}>© {year} ZeroPoint</p>
-      </main>
-    </>
-  );
+  return <SeasonView account={accountLabel(user)} matches={matches} failed={!!error} />;
 }
