@@ -27,7 +27,7 @@ export async function OverviewPage({ repo, base }: { repo: Repo; base: string })
     <main className="page">
       <h1 className="greeting">{greeting()}{name ? `, ${name}` : ""}</h1>
       <p className="inline-figures">
-        {new Date().toLocaleDateString("en-US", { month: "long" })} · <b>{month.length}</b> sessions · <b>{monthRounds.toLocaleString()}</b> rounds · <b>{monthMatches}</b> {monthMatches === 1 ? "match" : "matches"}
+        {new Date().toLocaleDateString("en-US", { month: "long" })} · <b>{month.length}</b> {month.length === 1 ? "session" : "sessions"} · <b>{monthRounds.toLocaleString()}</b> rounds · <b>{monthMatches}</b> {monthMatches === 1 ? "match" : "matches"}
       </p>
       <div className="stack">
         <section className="card">

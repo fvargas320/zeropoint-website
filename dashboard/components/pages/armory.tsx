@@ -18,6 +18,9 @@ function service(f: FirearmRow, log: MaintenanceRow[]) {
   return { pct: Math.min(100, (since / interval) * 100), left: interval - since, due: since >= interval };
 }
 
+
+// MaintenanceType.displayName in the app.
+const MAINTENANCE_LABEL: Record<string, string> = { clean: "Clean", lube: "Lube", inspect: "Inspect", repair: "Repair", partReplace: "Part Replace" };
 export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo; base: string; tab?: string }) {
   const t = TABS.find((x) => x.key === tab)?.key ?? "firearms";
   const [firearms, ammo, log] = await Promise.all([repo.firearms(), repo.ammoLots(), repo.maintenance()]);
@@ -45,7 +48,7 @@ export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo;
                 <div className="body">
                   <h3>{f.name}</h3>
                   <p className="muted" style={{ margin: "2px 0 8px" }}>{[f.caliber, f.manufacturer && f.model ? `${f.manufacturer} ${f.model}` : null].filter(Boolean).join(" · ")}</p>
-                  <p style={{ margin: 0 }}><b>{(f.total_rounds ?? 0).toLocaleString()}</b> rounds · <b>{f.session_count ?? 0}</b> sessions</p>
+                  <p style={{ margin: 0 }}><b>{(f.total_rounds ?? 0).toLocaleString()}</b> rounds · <b>{f.session_count ?? 0}</b> {f.session_count === 1 ? "session" : "sessions"}</p>
                   {sv && (
                     <div className={`service${sv.due ? " due" : ""}`}>
                       <div className="bar-track"><div className={`bar-fill${sv.due ? " warn" : ""}`} style={{ width: `${sv.pct}%` }} /></div>
@@ -66,7 +69,9 @@ export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo;
               <thead><tr><th>Caliber</th><th>Ammo</th><th className="num">Left</th><th className="num">Bought</th><th className="num">Cost / round</th><th>Bought on</th></tr></thead>
               <tbody>
                 {ammo.map((a) => {
-                  const low = a.low_stock_threshold != null && (a.remaining_quantity ?? 0) <= a.low_stock_threshold;
+                  // Same rule as the app's lot row: an untouched lot is never flagged low.
+                  const left = a.remaining_quantity ?? 0;
+                  const low = a.low_stock_threshold != null && left <= a.low_stock_threshold && left < (a.purchase_quantity ?? 0);
                   return (
                     <tr key={a.uuid}>
                       <td>{a.caliber}</td>
@@ -95,7 +100,7 @@ export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo;
                   <tr key={m.uuid}>
                     <td>{fmtDate(m.date)}</td>
                     <td className="name">{names.get(m.firearm_uuid) ?? "—"}</td>
-                    <td>{m.type ? m.type.replace(/^\w/, (c) => c.toUpperCase()) : "—"}</td>
+                    <td>{m.type ? MAINTENANCE_LABEL[m.type] ?? m.type.replace(/^\w/, (c) => c.toUpperCase()) : "—"}</td>
                     <td className="num">{m.rounds_at_service?.toLocaleString() ?? "—"}</td>
                     <td style={{ whiteSpace: "normal" }}>{m.notes ?? ""}</td>
                   </tr>

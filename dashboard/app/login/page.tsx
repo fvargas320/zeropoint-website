@@ -20,7 +20,15 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           on a big screen<span className="dot">.</span>
         </h1>
         <p className="lead">Sign in with the same account you use on your phone.</p>
-        {error && <div className="notice warn" role="alert">Sign-in didn&apos;t finish. Please try again.</div>}
+        {error && (
+          <div className="notice warn" role="alert">
+            {error === "expired"
+              ? "That sign-in link has expired or was already used. Each link works once — send a new one."
+              : error === "browser"
+                ? "Open the sign-in link in the same browser you asked for it in. Send a new one from here."
+                : "Sign-in didn't finish. Please try again."}
+          </div>
+        )}
         <SignInOptions next={safeNext} />
         <p className="muted" style={{ marginTop: 18 }}>
           New here?{" "}

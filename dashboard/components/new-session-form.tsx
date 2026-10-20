@@ -191,7 +191,7 @@ export function NewSessionForm({ uid, firearms, ammo, drills, ranges, presets, s
             <label htmlFor="ammo">Ammo <span className="hint">optional</span></label>
             <select id="ammo" value={f.ammoLotUuid} onChange={set("ammoLotUuid")} disabled={!!roundsLocked}>
               <option value="">None</option>
-              {lots.map((a) => <option key={a.uuid} value={a.uuid}>{a.caliber} · {[a.brand, a.product_name].filter(Boolean).join(" ")}</option>)}
+              {lots.map((a) => <option key={a.uuid} value={a.uuid}>{[a.caliber, [a.brand, a.product_name].filter(Boolean).join(" ")].filter(Boolean).join(" · ")}{a.remaining_quantity != null ? ` (${a.remaining_quantity.toLocaleString()} left)` : ""}</option>)}
             </select>
           </div>
           <div className="field"><label htmlFor="rounds">Rounds</label><input id="rounds" inputMode="numeric" pattern="[0-9]*" value={f.rounds} onChange={set("rounds")} maxLength={6} readOnly={!!roundsLocked} aria-describedby="ammo-note" /></div>

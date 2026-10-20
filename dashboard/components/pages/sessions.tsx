@@ -74,7 +74,7 @@ export async function SessionsPage({ repo, base, query, deleteAction }: {
       ) : (
         <div className="split-pane">
           <section className="card">
-            <p className="summary"><b>{list.length}</b> sessions · <b>{list.reduce((a, s) => a + (s.round_count ?? 0), 0).toLocaleString()}</b> rounds</p>
+            <p className="summary"><b>{list.length}</b> {list.length === 1 ? "session" : "sessions"} · <b>{list.reduce((a, s) => a + (s.round_count ?? 0), 0).toLocaleString()}</b> rounds</p>
             <div className="table-wrap">
               <table className="data compact">
                 <thead><tr><th>Date</th><th>Session</th><th>Firearm</th><th className="num">Rounds</th><th aria-label="Photo" /></tr></thead>

@@ -32,7 +32,7 @@ export async function MetricsPage({ repo, base, period = "year" }: { repo: Repo;
           ))}
         </nav>
       </div>
-      <p className="inline-figures"><b>{list.length}</b> sessions · <b>{total.toLocaleString()}</b> rounds{cpr != null && <> · <b>{money(cpr)}</b> per round</>}</p>
+      <p className="inline-figures"><b>{list.length}</b> {list.length === 1 ? "session" : "sessions"} · <b>{total.toLocaleString()}</b> rounds{cpr != null && <> · <b>{money(cpr)}</b> per round</>}</p>
       <div className="stack">
         <div className="grid-2">
           <section className="card">

@@ -36,6 +36,7 @@ export async function ProfilePage({ repo, base, account, pro, saveProfile, saved
           <ShooterProfileForm
             division={sp.division ?? ""}
             officialClass={sp.officialClass ?? ""}
+            highestClass={sp.highestClass}
             memberNumbers={sp.memberNumbers ?? {}}
             disciplines={sp.disciplines ?? []}
             action={saveProfile}

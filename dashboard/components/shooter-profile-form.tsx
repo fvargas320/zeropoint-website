@@ -10,8 +10,8 @@ function SaveButton() {
   return <button className="pill brand" disabled={pending}>{pending ? "Saving…" : "Save"}</button>;
 }
 
-export function ShooterProfileForm({ division, officialClass, memberNumbers, disciplines, action }: {
-  division: string; officialClass: string; memberNumbers: Record<string, string>; disciplines: string[];
+export function ShooterProfileForm({ division, officialClass, highestClass, memberNumbers, disciplines, action }: {
+  division: string; officialClass: string; highestClass?: string; memberNumbers: Record<string, string>; disciplines: string[];
   action?: (form: FormData) => Promise<void>;
 }) {
   const [editing, setEditing] = useState(false);
@@ -22,7 +22,7 @@ export function ShooterProfileForm({ division, officialClass, memberNumbers, dis
     return (
       <>
         <div className="line"><span className="label">Division</span><span>{division || "—"}</span><button className="textbutton" onClick={() => setEditing(true)} disabled={!action}>Edit</button></div>
-        <div className="line"><span className="label">Class</span><span>{officialClass || "—"}</span><span /></div>
+        <div className="line"><span className="label">Class</span><span>{officialClass || (highestClass ? `${highestClass} (highest in your results)` : "—")}</span><span /></div>
         {bodies.map((b) => (
           <div key={b} className="line"><span className="label">{BODY_LABEL[b] ?? `${b} number`}</span><span>{memberNumbers[b] || "—"}</span><span /></div>
         ))}
