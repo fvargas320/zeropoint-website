@@ -39,9 +39,9 @@ export function Sidebar({ base, name }: { base: string; name: string }) {
           <Link href={`${base}/sessions/new`} role="menuitem">
             Log a session<small>A range day, with photos and video</small>
           </Link>
-          <span role="menuitem" aria-disabled="true">
-            Import match results<small>PractiScore files and PDFs · coming next</small>
-          </span>
+          <Link href={`${base}/matches/import`} role="menuitem">
+            Import match results<small>Results files and PDFs, many at once</small>
+          </Link>
         </div>
       </details>
       <nav aria-label="Sections">

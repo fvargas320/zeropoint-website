@@ -128,3 +128,16 @@ OAuth). The upgrade page's "Signed in as … with Apple" line and hint cover it.
 
 Match page, compare and import (web round 2) need the match archive tables and
 the shared Dart core; Web Billing is phase 2.
+
+## Import results (`/matches/import`)
+
+Bulk import of match results files, read in the browser by `public/zp_core.js` — the phone's
+own Dart parsers compiled to JavaScript (rangeai `packages/zp_core`). Rebuild it after any
+zp_core change with `packages/zp_core/tool/build_js.sh <path to this dashboard dir>` in rangeai;
+it also refreshes the copy inside the `import-match` edge function. `public/import-worker.js`
+runs it off the page's thread.
+
+Writes go through the `import-match` edge function (rangeai `supabase/functions/import-match`,
+needs migration `20261020090000_import_match_write.sql`): auth, Pro, duplicate checks, then the
+same rows the phone writes, in one transaction. Rounds are never taken off ammo on the web.
+Design preview with no writes: `/preview/matches/import` (dev only).

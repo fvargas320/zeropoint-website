@@ -337,3 +337,46 @@ dialog.confirm h2 { margin: 0 0 8px; font-size: 20px; }
 .detail-actions { display: flex; gap: 8px; margin: 0 0 14px; }
 .lock-note { color: var(--text-3); font-size: 13px; margin: -4px 0 12px; }
 .field input[readonly], .field select:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ── Import results (web bulk import) ───────────────────────────────── */
+.import-drop { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 40px 24px; margin-bottom: 16px; }
+.import-drop b { color: var(--text); font-size: 17px; }
+.found-you { margin-bottom: 16px; box-shadow: var(--shadow), inset 3px 0 0 var(--brand); }
+.found-you-rows { display: flex; flex-direction: column; gap: 12px; }
+.found-you-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.found-you-row .field { flex: 1 1 260px; max-width: 360px; }
+.found-you-row .field span { font-size: 13px; color: var(--text-2); font-weight: 600; }
+.import-queue .queue-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.import-queue .queue-head .summary { margin: 0; }
+.import-queue .queue-head .spacer { flex: 1; }
+table.import-table { min-width: 980px; }
+table.import-table tr { cursor: default; }
+table.import-table td { vertical-align: top; white-space: normal; }
+table.import-table td.name { min-width: 220px; max-width: 360px; }
+.match-name { font-weight: 700; }
+.match-meta, .match-files, .status-why, .you-how, .rounds-hint { font-size: 12px; margin-top: 3px; }
+.match-files { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 320px; }
+.status { display: inline-block; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; background: var(--surface-raised); color: var(--text-2); white-space: nowrap; }
+.status.ready { color: var(--text); box-shadow: inset 0 0 0 1px var(--line); }
+.status.review { color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber); background: transparent; }
+.status.duplicate { color: var(--text-3); }
+.status.failed, .status.error { color: var(--danger); }
+.status.added { background: var(--brand); color: var(--on-brand); }
+.status.adding { color: var(--brand-ink); }
+td.you { min-width: 240px; }
+td.you select.chip { width: 100%; max-width: 320px; }
+td.rounds { min-width: 170px; }
+.rounds-input { width: 96px; min-height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-raised); color: var(--text); padding: 0 12px; font: inherit; }
+.rounds-input:disabled { opacity: 0.55; }
+.textbutton.inline { min-height: 0; padding: 0; color: var(--brand-ink); font-size: 12px; }
+.textbutton.inline:hover { text-decoration: underline; }
+.checks { margin-top: 8px; font-size: 13px; color: var(--text-2); max-width: 320px; }
+.checks summary { cursor: pointer; color: var(--amber); font-weight: 600; }
+.checks ul { margin: 6px 0; padding-left: 18px; }
+.checks .check { display: flex; gap: 8px; align-items: center; min-height: 32px; }
+tr.row-muted td { color: var(--text-2); }
+.import-foot { margin: 14px 0 0; font-size: 13px; }
+.import-done { margin-bottom: 16px; display: flex; gap: 6px; flex-wrap: wrap; align-items: baseline; }
+.import-done b { color: var(--text); }
+.import-done:not(.warn) { box-shadow: inset 3px 0 0 var(--brand); }
+.check.remember { display: flex; gap: 8px; align-items: center; min-height: 32px; font-size: 12px; color: var(--text-2); margin-top: 4px; }

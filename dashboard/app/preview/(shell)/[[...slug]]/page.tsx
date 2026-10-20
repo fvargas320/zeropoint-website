@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ImportPage } from "@/components/import/import-page";
 import { NewSessionForm } from "@/components/new-session-form";
 import { ArmoryPage } from "@/components/pages/armory";
 import { EditSessionPage } from "@/components/pages/edit-session";
@@ -29,7 +30,8 @@ export default async function Preview({ params, searchParams }: {
       const [firearms, ammo, drills, ranges, presets] = await Promise.all([repo.firearms(), repo.ammoLots(), repo.drills(), repo.ranges(), repo.presets()]);
       return <main className="page" style={{ maxWidth: 1100 }}><NewSessionForm uid="preview" preview firearms={firearms} ammo={ammo} drills={drills} ranges={ranges} presets={presets} cancelHref={`${base}/sessions`} /></main>;
     }
-    case "matches": return <MatchesPage repo={repo} />;
+    case "matches": return <MatchesPage repo={repo} base={base} />;
+    case "matches/import": return <ImportPage uid="preview" base={base} preview displayName="Alex Rivera" memberNumbers={{}} />;
     case "metrics": return <MetricsPage repo={repo} base={base} period={q.period} />;
     case "armory": return <ArmoryPage repo={repo} base={base} tab={q.tab} />;
     case "training": return <TrainingPage repo={repo} />;
