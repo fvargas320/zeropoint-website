@@ -5,12 +5,13 @@ import { type SeasonMatch, ordinal, summarize } from "@/lib/season";
 
 type SortKey = "date" | "name" | "place" | "percent" | "rounds";
 
-const fmtDate = (iso: string, opts: Intl.DateTimeFormatOptions) =>
-  new Date(iso.length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("en-US", opts);
+// The server renders this too, so both sides format in the same zone ([tz]).
+const fmtDate = (iso: string, opts: Intl.DateTimeFormatOptions, tz?: string) =>
+  new Date(iso.length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("en-US", { ...opts, timeZone: tz });
 
 /// The approved Season layout (web round 1b E): one card where every match
 /// is a bar above its own table row; hovering or selecting either lights both.
-export function SeasonBoard({ matches, compact = false }: { matches: SeasonMatch[]; compact?: boolean }) {
+export function SeasonBoard({ matches, compact = false, tz }: { matches: SeasonMatch[]; compact?: boolean; tz?: string }) {
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "date", dir: 1 });
   const [active, setActive] = useState<string | null>(null);
   const byDate = useMemo(() => [...matches].sort((a, b) => a.date.localeCompare(b.date)), [matches]);
@@ -85,7 +86,7 @@ export function SeasonBoard({ matches, compact = false }: { matches: SeasonMatch
                     >
                       {active === m.id && (
                         <span className="tip">
-                          {fmtDate(m.date, { month: "short", day: "numeric" })}
+                          {fmtDate(m.date, { month: "short", day: "numeric" }, tz)}
                           <b>{m.percent.toFixed(2)}%</b>
                         </span>
                       )}
@@ -98,7 +99,7 @@ export function SeasonBoard({ matches, compact = false }: { matches: SeasonMatch
           {!compact && (
             <div className="xlabels" aria-hidden>
               {byDate.map((m) => (
-                <span key={m.id}>{fmtDate(m.date, { month: "short", day: "numeric" })}</span>
+                <span key={m.id}>{fmtDate(m.date, { month: "short", day: "numeric" }, tz)}</span>
               ))}
             </div>
           )}
@@ -127,7 +128,7 @@ export function SeasonBoard({ matches, compact = false }: { matches: SeasonMatch
                 onMouseEnter={() => setActive(m.id)}
                 onMouseLeave={() => setActive(null)}
               >
-                <td>{fmtDate(m.date, { month: "short", day: "2-digit", year: "numeric" })}</td>
+                <td>{fmtDate(m.date, { month: "short", day: "2-digit", year: "numeric" }, tz)}</td>
                 <td className="name">{m.name}</td>
                 <td>{m.level ?? "—"}</td>
                 <td>{m.division ?? "—"}</td>

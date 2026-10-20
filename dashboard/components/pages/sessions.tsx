@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { DeleteSession } from "@/components/delete-session";
 import { fmtDate, money } from "@/lib/compute";
+import { wall } from "@/lib/tz";
+import { divisionName } from "@/lib/divisions";
 import { editLocks, roundsGivenBack } from "@/lib/edit-rules";
 import type { Repo } from "@/lib/repo";
 import type { SessionRow, TargetRow } from "@/lib/types";
@@ -9,13 +11,14 @@ export interface SessionsQuery { id?: string; firearm?: string; range?: string; 
 
 const yd = (s: SessionRow) => (s.distance != null ? `${s.distance} ${s.distance_unit === "meters" ? "m" : "yd"}` : null);
 
-export async function SessionsPage({ repo, base, query, deleteAction }: {
-  repo: Repo; base: string; query: SessionsQuery;
+export async function SessionsPage({ repo, base, query, deleteAction, tz }: {
+  repo: Repo; base: string; query: SessionsQuery; tz?: string;
   /// Server action bound per session id; absent on the dev preview.
   deleteAction?: (uuid: string) => Promise<{ error: string } | void>;
 }) {
   const [all, targets, lots] = await Promise.all([repo.sessions(), repo.targets(), repo.ammoLots()]);
-  const years = [...new Set(all.map((s) => s.date_time.slice(0, 4)))].sort().reverse();
+  const yearOf = (s: SessionRow) => String(wall(new Date(s.date_time), tz).y);
+  const years = [...new Set(all.map(yearOf))].sort().reverse();
   const firearms = [...new Set(all.map((s) => s.firearm_label).filter(Boolean))] as string[];
   const ranges = [...new Set(all.map((s) => s.range_name).filter(Boolean))] as string[];
   const q = query.q?.trim().toLowerCase();
@@ -23,7 +26,7 @@ export async function SessionsPage({ repo, base, query, deleteAction }: {
     (s) =>
       (!query.firearm || s.firearm_label === query.firearm) &&
       (!query.range || s.range_name === query.range) &&
-      (!query.year || s.date_time.startsWith(query.year)) &&
+      (!query.year || yearOf(s) === query.year) &&
       (!q || [s.name, s.range_name, s.firearm_label, s.notes, s.match_name].some((v) => v?.toLowerCase().includes(q))),
   );
   const selected = list.find((s) => s.uuid === query.id) ?? list[0];
@@ -83,7 +86,7 @@ export async function SessionsPage({ repo, base, query, deleteAction }: {
                     const p = bySession.get(s.uuid)?.find((t) => t.cloud_image_path)?.cloud_image_path;
                     return (
                       <tr key={s.uuid} data-on={s.uuid === selected?.uuid}>
-                        <td><Link href={qs({ id: s.uuid })} style={{ textDecoration: "none" }}>{fmtDate(s.date_time)}</Link></td>
+                        <td><Link href={qs({ id: s.uuid })} style={{ textDecoration: "none" }}>{fmtDate(s.date_time, undefined, tz)}</Link></td>
                         <td className="name"><Link href={qs({ id: s.uuid })} style={{ textDecoration: "none" }}>{s.name || (s.is_match ? s.match_name : null) || "Session"}</Link>{s.is_match && <span className="quiet"> · match</span>}{s.range_name && <><br /><span className="quiet" style={{ fontWeight: 400 }}>{s.range_name}</span></>}</td>
                         <td>{s.firearm_label ?? "—"}</td>
                         <td className="num">{s.round_count ?? "—"}</td>
@@ -98,6 +101,7 @@ export async function SessionsPage({ repo, base, query, deleteAction }: {
           </section>
           {selected && (
             <SessionDetail
+              tz={tz}
               s={selected} targets={selTargets} images={selImages} others={others} video={video} base={base}
               lotLabel={(() => { const l = lots.find((x) => x.uuid === selected.ammo_lot_uuid); return l ? [l.caliber, l.brand, l.product_name].filter(Boolean).join(" ") : null; })()}
               deleteAction={deleteAction ? deleteAction.bind(null, selected.uuid) : undefined}
@@ -109,7 +113,11 @@ export async function SessionsPage({ repo, base, query, deleteAction }: {
   );
 }
 
-function SessionDetail({ s, targets, images, others, video, base, lotLabel, deleteAction }: {
+// Hit factors and times are stored unrounded; 4 places is how results sheets print them.
+const fmtScore = (v: number) => (Number.isInteger(v) ? String(v) : String(Number(v.toFixed(4))));
+
+function SessionDetail({ s, targets, images, others, video, base, lotLabel, deleteAction, tz }: {
+  tz?: string;
   s: SessionRow; targets: TargetRow[]; images: Record<string, string>; others: Record<string, string>; video: Record<string, string>;
   base: string; lotLabel: string | null; deleteAction?: () => Promise<{ error: string } | void>;
 }) {
@@ -121,16 +129,16 @@ function SessionDetail({ s, targets, images, others, video, base, lotLabel, dele
     ...(s.cloud_other_image_paths ?? []).filter((p) => others[p]).map((p) => ({ key: p, url: others[p] })),
   ];
   const facts: [string, string | null][] = [
-    ["Date", fmtDate(s.date_time, { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })],
+    ["Date", fmtDate(s.date_time, { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }, tz)],
     ["Range", s.range_name],
     ["Firearm", s.firearm_label],
     ["Ammo", [s.ammo_brand, s.ammo_product, s.ammo_grain ? `${s.ammo_grain}gr` : null].filter(Boolean).join(" ") || null],
     ["Distance", s.distance != null ? `${s.distance} ${s.distance_unit === "meters" ? "m" : "yd"}` : null],
     ["Rounds", s.round_count != null ? s.round_count.toLocaleString() : null],
-    ["Score", s.score != null ? `${s.score}${s.max_score ? ` / ${s.max_score}` : ""}${s.score_label ? ` ${s.score_label}` : ""}` : null],
+    ["Score", s.score != null ? `${fmtScore(s.score)}${s.max_score ? ` / ${fmtScore(s.max_score)}` : ""}${s.score_label ? ` ${s.score_label}` : ""}` : null],
     ["Cost", s.cost ? money(s.cost) : null],
     ["Weather", [s.temperature_f != null ? `${Math.round(s.temperature_f)}°F` : null, s.wind_mph != null ? `wind ${Math.round(s.wind_mph)} mph` : null, s.weather].filter(Boolean).join(" · ") || null],
-    ["Match", s.is_match ? [s.match_name, s.division, s.match_level].filter(Boolean).join(" · ") : null],
+    ["Match", s.is_match ? [s.match_name, divisionName(s.discipline, s.division), s.match_level].filter(Boolean).join(" · ") : null],
   ];
   const notes: [string, string | null][] = [["Went well", s.went_well], ["Needs work", s.needs_work], ["Focus next", s.focus_next], ["Notes", s.notes]];
   return (

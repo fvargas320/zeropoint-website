@@ -63,7 +63,7 @@ export function ImportRow({ row, state, base, savedNumber, onRemember, onPick, o
         {state.kind === "review" && <div className="quiet status-why">{state.why}</div>}
         {state.kind === "duplicate" && (
           <div className="quiet status-why">
-            {state.why === "file" ? "These files are already in" : "This match is already in"}
+            {state.why === "file" ? "These files are already in ZeroPoint" : "This match is already in ZeroPoint"}
             {state.sessionUuid && <> · <Link className="link" href={`${base}/sessions?id=${state.sessionUuid}`}>Open</Link></>}
           </div>
         )}

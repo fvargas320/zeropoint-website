@@ -5,6 +5,6 @@ export const metadata = { title: "Metrics · ZeroPoint" };
 export const dynamic = "force-dynamic";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
-  const { repo } = await getViewer();
-  return <MetricsPage repo={repo} base="" period={(await searchParams).period} />;
+  const { repo, tz } = await getViewer();
+  return <MetricsPage repo={repo} base="" period={(await searchParams).period} tz={tz} />;
 }

@@ -1,3 +1,5 @@
+import { divisionName } from "@/lib/divisions";
+
 export interface SeasonMatch {
   id: string;
   date: string; // ISO
@@ -33,7 +35,7 @@ export function fromSessionRow(row: SessionRow): SeasonMatch {
     date: row.date_time,
     name: row.match_name || row.name || "Match",
     level: row.match_level,
-    division: row.division,
+    division: divisionName(row.discipline, row.division),
     discipline: row.discipline,
     place: num(r.place),
     of: num(r.ofCompetitors),

@@ -8,6 +8,6 @@ export const env = {
   supabaseUrl: () => required("NEXT_PUBLIC_SUPABASE_URL", process.env.NEXT_PUBLIC_SUPABASE_URL),
   supabaseAnonKey: () => required("NEXT_PUBLIC_SUPABASE_ANON_KEY", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
   siteUrl: () => process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  appStoreUrl: () => process.env.NEXT_PUBLIC_APP_STORE_URL ?? "https://zeropointlog.com",
-  playStoreUrl: () => process.env.NEXT_PUBLIC_PLAY_STORE_URL ?? "https://zeropointlog.com",
+  appStoreUrl: () => process.env.NEXT_PUBLIC_APP_STORE_URL ?? "https://apps.apple.com/us/app/zeropoint-shooting-range-log/id6757300865",
+  playStoreUrl: () => process.env.NEXT_PUBLIC_PLAY_STORE_URL ?? "https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint",
 };

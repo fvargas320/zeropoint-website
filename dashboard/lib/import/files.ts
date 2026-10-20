@@ -59,11 +59,20 @@ export function planInWorker(request: Record<string, unknown>): Promise<PlanRepl
 }
 
 /// Which of [hashes] (per-file content hashes) the user already imported.
+/// Content hashes among [hashes] whose match is still in ZeroPoint. A source
+/// alone isn't enough: the server keeps a deleted match's field and sources
+/// for a few minutes (match_entries_drop_orphan_field's grace), and that
+/// match must be importable again, so its field needs an entry too.
 export async function knownSources(supabase: SupabaseClient, uid: string, hashes: string[]): Promise<Set<string>> {
   if (!hashes.length) return new Set();
-  const { data, error } = await supabase.from("match_sources").select("content_hash").eq("user_id", uid).in("content_hash", hashes);
+  const { data, error } = await supabase.from("match_sources").select("content_hash, field_uuid").eq("user_id", uid).in("content_hash", hashes);
   if (error) throw error;
-  return new Set((data ?? []).map((r) => r.content_hash as string));
+  const fields = [...new Set((data ?? []).map((r) => r.field_uuid as string).filter(Boolean))];
+  if (!fields.length) return new Set();
+  const { data: entries, error: e2 } = await supabase.from("match_entries").select("field_uuid").eq("user_id", uid).in("field_uuid", fields);
+  if (e2) throw e2;
+  const held = new Set((entries ?? []).map((r) => r.field_uuid as string));
+  return new Set((data ?? []).filter((r) => held.has(r.field_uuid as string)).map((r) => r.content_hash as string));
 }
 
 /// A session that already holds [m]'s match: its field by match id, else

@@ -1,4 +1,5 @@
 import type { GoalRow, SessionRow, TargetRow } from "@/lib/types";
+import { midnight, wall } from "@/lib/tz";
 
 // Metrics computed from the synced rows. The phone computes its own in Dart
 // (features/stats); these are the simple, unambiguous ones. Competition
@@ -6,44 +7,42 @@ import type { GoalRow, SessionRow, TargetRow } from "@/lib/types";
 
 export const rounds = (s: SessionRow) => s.round_count ?? 0;
 const d = (iso: string) => new Date(iso);
-export const fmtDate = (iso: string, o: Intl.DateTimeFormatOptions = { month: "short", day: "numeric", year: "numeric" }) =>
-  d(iso).toLocaleDateString("en-US", o);
+/// [tz] is the viewer's zone (lib/tz.ts); an explicit `o.timeZone` wins.
+export const fmtDate = (iso: string, o: Intl.DateTimeFormatOptions = { month: "short", day: "numeric", year: "numeric" }, tz?: string) =>
+  d(iso).toLocaleDateString("en-US", { timeZone: tz, ...o });
 export const money = (v: number) => v.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: v < 10 ? 2 : 0 });
 
-export function startOf(period: "week" | "month" | "quarter" | "year", now = new Date()) {
-  const s = new Date(now);
-  s.setHours(0, 0, 0, 0);
-  if (period === "week") s.setDate(s.getDate() - s.getDay());
-  if (period === "month") s.setDate(1);
-  if (period === "quarter") { s.setDate(1); s.setMonth(Math.floor(s.getMonth() / 3) * 3); }
-  if (period === "year") { s.setDate(1); s.setMonth(0); }
-  return s;
+export function startOf(period: "week" | "month" | "quarter" | "year", now = new Date(), tz?: string) {
+  const w = wall(now, tz);
+  if (period === "week") return midnight(w.y, w.mo, w.d - w.wd, tz);
+  if (period === "month") return midnight(w.y, w.mo, 1, tz);
+  if (period === "quarter") return midnight(w.y, Math.floor(w.mo / 3) * 3, 1, tz);
+  return midnight(w.y, 0, 1, tz);
 }
 
 export function inRange(sessions: SessionRow[], from: Date, to = new Date(8.64e15)) {
   return sessions.filter((s) => { const t = d(s.date_time); return t >= from && t < to; });
 }
 
-export function byWeek(sessions: SessionRow[], weeks = 26) {
-  const start = startOf("week");
-  start.setDate(start.getDate() - (weeks - 1) * 7);
-  const buckets = Array.from({ length: weeks }, (_, i) => {
-    const from = new Date(start); from.setDate(start.getDate() + i * 7);
-    return { from, label: from.toLocaleDateString("en-US", { month: "short", day: "numeric" }), value: 0 };
-  });
+export function byWeek(sessions: SessionRow[], weeks = 26, tz?: string) {
+  const w = wall(startOf("week", new Date(), tz), tz);
+  const edges = Array.from({ length: weeks + 1 }, (_, i) => midnight(w.y, w.mo, w.d - (weeks - 1 - i) * 7, tz));
+  const buckets = edges.slice(0, weeks).map((from) => ({ from, label: from.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: tz }), value: 0 }));
   for (const s of sessions) {
-    const i = Math.floor((d(s.date_time).getTime() - start.getTime()) / (7 * 864e5));
-    if (i >= 0 && i < weeks) buckets[i].value += rounds(s);
+    const t = d(s.date_time).getTime();
+    const i = edges.findIndex((e, k) => k < weeks && t >= e.getTime() && t < edges[k + 1].getTime());
+    if (i >= 0) buckets[i].value += rounds(s);
   }
   return buckets;
 }
 
-export function byMonth(sessions: SessionRow[], months: number, pick: (s: SessionRow[]) => number | null) {
-  const now = new Date();
+export function byMonth(sessions: SessionRow[], months: number, pick: (s: SessionRow[]) => number | null, tz?: string) {
+  const w = wall(new Date(), tz);
   return Array.from({ length: months }, (_, i) => {
-    const from = new Date(now.getFullYear(), now.getMonth() - (months - 1 - i), 1);
-    const to = new Date(from.getFullYear(), from.getMonth() + 1, 1);
-    return { label: from.toLocaleDateString("en-US", { month: "short" }), value: pick(inRange(sessions, from, to)) };
+    const mo = w.mo - (months - 1 - i);
+    const from = midnight(w.y, mo, 1, tz);
+    const to = midnight(w.y, mo + 1, 1, tz);
+    return { label: from.toLocaleDateString("en-US", { month: "short", timeZone: tz }), value: pick(inRange(sessions, from, to)) };
   });
 }
 

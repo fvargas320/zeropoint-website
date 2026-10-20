@@ -3,7 +3,7 @@ import { SeasonBoard } from "@/components/season-board";
 import type { Repo } from "@/lib/repo";
 import { fromSessionRow } from "@/lib/season";
 
-export async function MatchesPage({ repo, base = "" }: { repo: Repo; base?: string }) {
+export async function MatchesPage({ repo, base = "", tz }: { repo: Repo; base?: string; tz?: string }) {
   const matches = (await repo.sessions()).filter((s) => s.is_match).map((s) => fromSessionRow(s));
   return (
     <main className="page">
@@ -19,7 +19,7 @@ export async function MatchesPage({ repo, base = "" }: { repo: Repo; base?: stri
           <p className="muted">Matches you log or import in the ZeroPoint app show up here once they sync, or import results files here.</p>
         </div>
       ) : (
-        <SeasonBoard matches={matches} />
+        <SeasonBoard matches={matches} tz={tz} />
       )}
     </main>
   );

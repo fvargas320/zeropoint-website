@@ -5,6 +5,6 @@ export const metadata = { title: "Overview · ZeroPoint" };
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const { repo } = await getViewer();
-  return <OverviewPage repo={repo} base="" />;
+  const { repo, tz } = await getViewer();
+  return <OverviewPage repo={repo} base="" tz={tz} />;
 }

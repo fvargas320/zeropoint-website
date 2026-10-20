@@ -45,6 +45,10 @@ Rules for things the web writes (`lib/session-writes.ts`, `lib/edit-rules.ts`, `
   only after the save succeeds.
 - The edit form turns the stored time into local time in the browser, not
   on the server (Vercel runs in UTC).
+- Every page renders dates in the viewer's time zone, not the server's
+  (UTC on Vercel): `getViewer().tz` comes from the `zp_tz` cookie
+  (`components/time-zone-cookie.tsx`), else `x-vercel-ip-timezone`, else UTC.
+  Pass it to `fmtDate`, `startOf`, `byWeek`, `byMonth` (`lib/tz.ts`).
 - `ammo_deducted = 0` when an ammo lot is named; the web never changes
   inventory, and 0 (not null) stops the phone from "giving back" rounds it
   never took when the session is later edited or deleted.

@@ -37,6 +37,6 @@ async function saveProfile(form: FormData) {
 }
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
-  const { repo, user, pro } = await getViewer();
-  return <ProfilePage repo={repo} base="" account={accountLabel(user)} pro={pro} saveProfile={saveProfile} saved={!!(await searchParams).saved} />;
+  const { repo, user, pro, tz } = await getViewer();
+  return <ProfilePage repo={repo} base="" account={accountLabel(user)} pro={pro} saveProfile={saveProfile} saved={!!(await searchParams).saved} tz={tz} />;
 }

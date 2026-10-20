@@ -16,6 +16,6 @@ async function remove(uuid: string) {
 }
 
 export default async function Page({ searchParams }: { searchParams: Promise<SessionsQuery> }) {
-  const { repo } = await getViewer();
-  return <SessionsPage repo={repo} base="" query={await searchParams} deleteAction={remove} />;
+  const { repo, tz } = await getViewer();
+  return <SessionsPage repo={repo} base="" query={await searchParams} deleteAction={remove} tz={tz} />;
 }

@@ -10,10 +10,10 @@ const PERIODS = [
   { key: "all", label: "All time", months: 24 },
 ] as const;
 
-export async function MetricsPage({ repo, base, period = "year" }: { repo: Repo; base: string; period?: string }) {
+export async function MetricsPage({ repo, base, period = "year", tz }: { repo: Repo; base: string; period?: string; tz?: string }) {
   const p = PERIODS.find((x) => x.key === period) ?? PERIODS[2];
   const [all, targets] = await Promise.all([repo.sessions(), repo.targets()]);
-  const from = p.key === "all" ? new Date(0) : startOf(p.key);
+  const from = p.key === "all" ? new Date(0) : startOf(p.key, new Date(), tz);
   const list = inRange(all, from);
   const total = list.reduce((a, s) => a + rounds(s), 0);
   const cpr = costPerRound(list);
@@ -38,12 +38,12 @@ export async function MetricsPage({ repo, base, period = "year" }: { repo: Repo;
           <section className="card">
             <h2>Rounds fired</h2>
             <p className="sub">Rounds per month, last {months} months.</p>
-            <Bars data={byMonth(all, months, (l) => l.reduce((a, s) => a + rounds(s), 0)).map((d) => ({ label: d.label, value: d.value ?? 0 }))} />
+            <Bars data={byMonth(all, months, (l) => l.reduce((a, s) => a + rounds(s), 0), tz).map((d) => ({ label: d.label, value: d.value ?? 0 }))} />
           </section>
           <section className="card">
             <div className="headrow"><h2>Cost per round</h2>{cpr != null && <span className="right">{money(cpr)} avg</span>}</div>
             <p className="sub">Session cost divided by rounds, sessions with a cost only.</p>
-            <Line data={byMonth(all, months, costPerRound)} format={(v) => `$${v.toFixed(2)}`} />
+            <Line data={byMonth(all, months, costPerRound, tz)} format={(v) => `$${v.toFixed(2)}`} />
           </section>
         </div>
         <div className="grid-3">

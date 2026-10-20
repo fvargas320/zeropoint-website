@@ -5,6 +5,6 @@ export const metadata = { title: "Armory · ZeroPoint" };
 export const dynamic = "force-dynamic";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
-  const { repo } = await getViewer();
-  return <ArmoryPage repo={repo} base="" tab={(await searchParams).tab} />;
+  const { repo, tz } = await getViewer();
+  return <ArmoryPage repo={repo} base="" tab={(await searchParams).tab} tz={tz} />;
 }

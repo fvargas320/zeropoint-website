@@ -5,6 +5,6 @@ export const metadata = { title: "Matches · ZeroPoint" };
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const { repo } = await getViewer();
-  return <MatchesPage repo={repo} />;
+  const { repo, tz } = await getViewer();
+  return <MatchesPage repo={repo} tz={tz} />;
 }

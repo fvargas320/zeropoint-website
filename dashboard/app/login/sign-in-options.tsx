@@ -9,7 +9,12 @@ export function SignInOptions({ next }: { next: string }) {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const redirectTo = `${env.siteUrl()}/auth/callback?next=${encodeURIComponent(next)}`;
+  // Back to the host this page is on (app.zeropointlog.com, a Vercel preview,
+  // localhost on any port), so one build works everywhere. Supabase only
+  // honours hosts on its Redirect URLs list; anything else falls back to the
+  // Site URL, which is the phone app's scheme.
+  const origin = typeof window === "undefined" ? env.siteUrl() : window.location.origin;
+  const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(next)}`;
 
   async function oauth(provider: "apple" | "google") {
     setBusy(true);

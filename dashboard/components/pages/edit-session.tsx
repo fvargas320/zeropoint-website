@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { NewSessionForm } from "@/components/new-session-form";
 import { type ExistingMedia, valuesFromRow } from "@/lib/session-form-values";
+import { divisionName } from "@/lib/divisions";
 import { editLocks } from "@/lib/edit-rules";
 import type { SessionInput } from "@/lib/new-session";
 import type { Repo } from "@/lib/repo";
@@ -28,7 +29,7 @@ export async function EditSessionPage({ repo, base, id, uid, save }: {
     <main className="page" style={{ maxWidth: 1100 }}>
       {s.is_match && (
         <div className="notice" style={{ marginBottom: 16 }}>
-          This is a match. Its official results ({[s.match_name, s.division, s.match_level].filter(Boolean).join(" · ")}) stay as imported; you can change the details and notes here.
+          This is a match. Its official results ({[s.match_name, divisionName(s.discipline, s.division), s.match_level].filter(Boolean).join(" · ")}) stay as imported; you can change the details and notes here.
         </div>
       )}
       <NewSessionForm

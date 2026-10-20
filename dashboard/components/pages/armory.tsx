@@ -21,7 +21,7 @@ function service(f: FirearmRow, log: MaintenanceRow[]) {
 
 // MaintenanceType.displayName in the app.
 const MAINTENANCE_LABEL: Record<string, string> = { clean: "Clean", lube: "Lube", inspect: "Inspect", repair: "Repair", partReplace: "Part Replace" };
-export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo; base: string; tab?: string }) {
+export async function ArmoryPage({ repo, base, tab = "firearms", tz }: { repo: Repo; base: string; tab?: string; tz?: string }) {
   const t = TABS.find((x) => x.key === tab)?.key ?? "firearms";
   const [firearms, ammo, log] = await Promise.all([repo.firearms(), repo.ammoLots(), repo.maintenance()]);
   const photoPaths = firearms.map((f) => firearmPhotoPath(f.photo_url) ?? "").filter(Boolean);
@@ -79,7 +79,8 @@ export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo;
                       <td className="num" style={low ? { color: "var(--amber)" } : undefined}>{(a.remaining_quantity ?? 0).toLocaleString()}{low ? " · low" : ""}</td>
                       <td className="num">{(a.purchase_quantity ?? 0).toLocaleString()}</td>
                       <td className="num">{a.total_cost && a.purchase_quantity ? money(a.total_cost / a.purchase_quantity) : "—"}</td>
-                      <td>{a.purchase_date ? fmtDate(a.purchase_date) : "—"}</td>
+                      {/* A calendar date the phone stores as midnight UTC: read it in UTC, or US time zones show the day before. */}
+                      <td>{a.purchase_date ? fmtDate(a.purchase_date, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }) : "—"}</td>
                     </tr>
                   );
                 })}
@@ -98,7 +99,7 @@ export async function ArmoryPage({ repo, base, tab = "firearms" }: { repo: Repo;
               <tbody>
                 {log.map((m) => (
                   <tr key={m.uuid}>
-                    <td>{fmtDate(m.date)}</td>
+                    <td>{fmtDate(m.date, undefined, tz)}</td>
                     <td className="name">{names.get(m.firearm_uuid) ?? "—"}</td>
                     <td>{m.type ? MAINTENANCE_LABEL[m.type] ?? m.type.replace(/^\w/, (c) => c.toUpperCase()) : "—"}</td>
                     <td className="num">{m.rounds_at_service?.toLocaleString() ?? "—"}</td>

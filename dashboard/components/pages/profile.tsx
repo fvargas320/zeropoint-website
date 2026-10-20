@@ -10,14 +10,14 @@ const DISCIPLINE: Record<string, string> = {
 
 const initials = (n: string) => (n.includes("@") ? n[0] : n.split(/\s+/).map((w) => w[0]).slice(0, 2).join("")).toUpperCase();
 
-export async function ProfilePage({ repo, base, account, pro, saveProfile, saved }: {
-  repo: Repo; base: string; account: Account; pro: ProStatus;
+export async function ProfilePage({ repo, base, account, pro, saveProfile, saved, tz }: {
+  repo: Repo; base: string; account: Account; pro: ProStatus; tz?: string;
   saveProfile?: (form: FormData) => Promise<void>; saved?: boolean;
 }) {
   const profile = await repo.profile();
   const sp = profile?.shooter_profile ?? {};
   const name = profile?.display_name || account.email;
-  const plan = planLines(pro);
+  const plan = planLines(pro, tz);
   return (
     <main className="page narrow">
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 22 }}>
