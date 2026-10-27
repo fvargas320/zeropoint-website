@@ -13,7 +13,7 @@ import { getFaq } from "@/content/faq";
 import { getRail, getSteps } from "@/content/get";
 
 export const metadata: Metadata = {
-  title: "Get ZeroPoint — Ditch the notebook",
+  title: { absolute: "Get ZeroPoint — Ditch the notebook" },
   description:
     "ZeroPoint is the shooting range log for iPhone and Android: log a session in seconds, track every firearm and round, see what you spend, and plan range days with your crew. Free to start.",
   alternates: { canonical: "/get" },
