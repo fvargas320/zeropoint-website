@@ -1,0 +1,32 @@
+.bar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 30;
+  display: none;
+  translate: 0 160%;
+  transition: translate 0.25s var(--ease-out);
+}
+.bar[data-show] { translate: 0 0; }
+.store {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 58px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--paper);
+  line-height: 1.15;
+  text-decoration: none;
+  box-shadow: 0 12px 30px -8px #0007;
+}
+.store svg { width: 26px; height: 26px; }
+.store small { display: block; font-size: 12px; }
+.store strong { display: block; font-size: 19px; font-weight: 800; }
+/* One button: the store for this phone. */
+:global(html[data-platform="ios"]) .bar,
+:global(html[data-platform="android"]) .bar { display: block; }
+:global(html[data-platform="ios"]) .play,
+:global(html[data-platform="android"]) .apple { display: none; }

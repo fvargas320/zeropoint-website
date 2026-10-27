@@ -1,0 +1,29 @@
+.row { display: grid; gap: 28px; align-items: center; padding-bottom: clamp(48px, 7vw, 96px); scroll-margin-top: 88px; }
+.body { margin-top: 16px; max-width: 36ch; color: var(--muted); font-size: 18px; line-height: 1.55; }
+.points { display: grid; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
+.points li { display: flex; align-items: baseline; gap: 10px; }
+.points li::before { content: ""; flex: 0 0 8px; height: 8px; border-radius: 50%; background: var(--orange); translate: 0 -2px; }
+.pro {
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.visual { width: min(100%, 460px); margin-inline: auto; }
+.stage { position: relative; aspect-ratio: 1; }
+.stage .prop, .stage .phone, .stage .overlay { position: absolute; }
+.stage .prop { left: -2%; bottom: 4%; width: 58%; filter: var(--shadow-prop); }
+.stage .phone { left: 30%; top: 0; width: 46%; rotate: -3deg; }
+.stage .overlay { right: -4%; top: 12%; width: 64%; rotate: 2deg; filter: drop-shadow(0 12px 18px #0003); }
+.row[data-flip] .stage .prop { left: auto; right: -2%; }
+.row[data-flip] .stage .phone { left: auto; right: 30%; rotate: 3deg; }
+
+@media (min-width: 900px) {
+  .row { grid-template-columns: 1fr 1fr; gap: 56px; }
+  .row[data-flip] .copy { order: 2; }
+}

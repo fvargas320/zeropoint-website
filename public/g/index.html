@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A ZeroPoint Pro gift</title>
+<meta name="description" content="A friend gave you a year of ZeroPoint Pro. Redeem it in the app.">
+<meta name="robots" content="noindex">
+<!--
+  Gift page for https://zeropointlog.com/g/<code>[?from=<handle>]
+  (vercel.json rewrites /g/:code here). Design: direction A "gift ticket"
+  (rangeai docs/design/gift-page/index.html). Contract: rangeai
+  docs/growth/domain.md and creator-and-gift.md, Topic B.
+  * A 12-character code (referral alphabet) is our Gift Pro code. It is
+    redeemed in the app, signed in: the app opens with the code filled in
+    when installed and universal links are live; otherwise copy, install,
+    then Settings > Invite a shooter > Redeem a gift. This page never sells
+    anything (guideline 3.1.1: gifts are bought in the app only).
+  * ?from=<handle> is the buyer's username, added by the app when they
+    share; without it the page says "from a friend".
+  * Anything else is treated as an Apple offer code (the fallback
+    "give a friend 3 months" cards) and gets a Redeem on the App Store
+    button.
+-->
+<meta name="apple-itunes-app" id="smart-banner" content="app-id=6757300865, app-argument=https://zeropointlog.com/g/">
+<meta name="theme-color" content="#e8dfcc">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroPoint">
+<meta property="og:title" content="A year of ZeroPoint Pro, from a friend">
+<meta property="og:description" content="Pro for logging range days, gear and progress. Redeem it in the ZeroPoint app.">
+<meta property="og:image" content="https://zeropointlog.com/assets/social/zeropoint-range-days-v1.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ZeroPoint: Every range day, logged.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A year of ZeroPoint Pro, from a friend">
+<meta name="twitter:description" content="Redeem it in the ZeroPoint app.">
+<meta name="twitter:image" content="https://zeropointlog.com/assets/social/zeropoint-range-days-v1.jpg">
+<link rel="stylesheet" href="/gift.css">
+</head>
+<body>
+<main>
+  <div class="top"><a href="/" aria-label="ZeroPoint home"><img class="wordmark" src="/assets/zeropoint-wordmark-ink.png" alt="ZeroPoint" width="967" height="555"></a></div>
+
+  <p class="eyebrow" id="eyebrow">A gift for you</p>
+  <h1 id="headline">A year of Pro, <span class="from" id="from">from a friend.</span></h1>
+  <p class="lede" id="lede">ZeroPoint Pro for logging range days, gear and progress. Your year starts when you redeem it.</p>
+
+  <div class="card" aria-hidden="true">
+    <span class="for">A gift for you</span>
+    <img class="wordmark" src="/assets/zeropoint-wordmark-ink.png" alt="" width="967" height="555">
+    <span class="what">1 year of Pro</span>
+    <span class="bar"></span>
+  </div>
+
+  <div class="ticket">
+    <div class="main">
+      <div class="label">Your gift code</div>
+      <div class="code" id="code">————</div>
+    </div>
+    <button class="copy" id="copy" type="button" aria-label="Copy gift code">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+      <span id="copy-label">Copy</span>
+    </button>
+  </div>
+
+  <div class="stores">
+    <a class="store redeem play hidden" id="redeem" href="https://apps.apple.com/redeem?ctx=offercodes&amp;id=6757300865"><span><small>Offer code</small><strong>Redeem on the App Store</strong></span></a>
+    <a class="store apple" id="appstore" href="https://apps.apple.com/us/app/zeropoint-shooting-range-log/id6757300865">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.9-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.8zM14.1 5.8c.6-.8 1.1-1.8 1-2.8-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.3z"/></svg>
+      <span><small>Download for iOS</small><strong>App Store</strong></span>
+    </a>
+    <a class="store play" id="play" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l15 9-15 9z"/><path d="M5 3l9 9-9 9"/></svg>
+      <span><small>Download for Android</small><strong>Google Play</strong></span>
+    </a>
+  </div>
+  <a class="open" id="open" href="zeropoint://gift">I already have it: open ZeroPoint</a>
+
+  <ol class="steps" id="steps">
+    <li>Copy the code, then install ZeroPoint and create your account.</li>
+    <li>Go to Settings › Invite a shooter › Redeem a gift.</li>
+    <li>Paste the code. Already paying for Pro? Your gift year starts when your subscription ends.</li>
+  </ol>
+  <p class="fine">Gift codes don't expire and can't be exchanged for money.</p>
+</main>
+<script>
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var m = location.pathname.match(/^\/g\/([A-Za-z0-9-]{1,64})\/?$/);
+    var raw = (m ? m[1] : (params.get('code') || '')).toUpperCase();
+    var compact = raw.replace(/-/g, '');
+    var handle = (params.get('from') || '').replace(/^@/, '').toLowerCase();
+    if (/^[a-z0-9_]{1,20}$/.test(handle)) {
+      document.getElementById('from').textContent = 'from @' + handle + '.';
+      document.title = 'A ZeroPoint Pro gift from @' + handle;
+    }
+    var el = document.getElementById('code');
+    var shown = '';
+    if (/^[A-HJ-NP-Z2-9]{12}$/.test(compact)) {
+      // Our gift: redeemed in the app.
+      shown = compact.slice(0, 4) + '-' + compact.slice(4, 8) + '-' + compact.slice(8);
+      document.getElementById('open').href = 'zeropoint://gift?code=' + compact;
+      document.getElementById('smart-banner').setAttribute('content',
+        'app-id=6757300865, app-argument=https://zeropointlog.com/g/' + compact);
+    } else if (/^[A-Z0-9]{1,64}$/.test(compact)) {
+      // An Apple offer code: Apple redeems it, so it survives the install.
+      shown = compact;
+      var redeem = document.getElementById('redeem');
+      redeem.href += '&code=' + encodeURIComponent(compact);
+      redeem.classList.remove('hidden');
+      ['appstore', 'play', 'open', 'steps'].forEach(function (id) {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById('lede').textContent =
+        'A free ZeroPoint Pro offer. Redeem the code on the App Store, then open ZeroPoint.';
+    }
+    if (!shown) {
+      el.textContent = 'No code';
+      document.getElementById('copy').classList.add('hidden');
+      return;
+    }
+    el.textContent = shown;
+    document.getElementById('copy').addEventListener('click', function () {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(shown).then(function () {
+        document.getElementById('copy-label').textContent = 'Copied';
+      }).catch(function () {});
+    });
+  })();
+</script>
+</body>
+</html>

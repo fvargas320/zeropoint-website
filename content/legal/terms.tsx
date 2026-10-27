@@ -1,0 +1,124 @@
+// Ported verbatim from the static terms.html (October 2026).
+export function TermsBody() {
+  return (
+    <>
+      <div className="page-header">
+      <p className="eyebrow">Legal</p>
+      <h1>Terms of Service</h1>
+      <p className="updated">Last updated: January 2, 2026</p>
+      </div>
+      <article className="prose">
+      <h2>Agreement to Terms</h2>
+      <p>By downloading, installing, or using the ZeroPoint mobile application (the "App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the App.</p>
+      <h2>Description of Service</h2>
+      <p>ZeroPoint is a session-logging and inventory application for shooting ranges. It lets you:</p>
+      <ul>
+      <li>Log shooting range sessions</li>
+      <li>Tag ranges, friends, guns, and ammo</li>
+      <li>Track firearm and ammunition inventory</li>
+      <li>Receive low-ammo and maintenance alerts based on rounds logged</li>
+      <li>View sessions on a calendar and review weekly digests</li>
+      <li>Attach photos and notes to sessions</li>
+      <li>Manage shooting buddies, crews, and drills</li>
+      </ul>
+      <p>ZeroPoint does not detect shots automatically or measure paper targets with computer vision. Session data is entered by you.</p>
+      <h2>User Accounts</h2>
+      <h3>Account creation</h3>
+      <p>You may use limited features without an account. To access full features, create an account with a valid email and secure password (or sign in with Apple / Google where available).</p>
+      <h3>Account responsibility</h3>
+      <p>You are responsible for maintaining the confidentiality of your account, all activity under it, and notifying us of unauthorized use.</p>
+      <h3>Account termination</h3>
+      <p>We may suspend or terminate your account if you violate these Terms.</p>
+      <h2>Subscription and Payments</h2>
+      <h3>Free tier</h3>
+      <ul>
+      <li>Basic session logging</li>
+      <li>Local data storage only</li>
+      <li>Limited features</li>
+      </ul>
+      <h3>Pro subscription</h3>
+      <ul>
+      <li>Cloud backup and sync</li>
+      <li>Expanded storage</li>
+      <li>Advanced statistics</li>
+      <li>Custom profile features</li>
+      <li>Future Pro features</li>
+      </ul>
+      <h3>Billing</h3>
+      <ul>
+      <li>Subscriptions are billed through the Apple App Store or Google Play</li>
+      <li>Prices are shown before purchase and may vary by region</li>
+      <li>Subscriptions auto-renew unless cancelled</li>
+      </ul>
+      <h3>Cancellation and refunds</h3>
+      <ul>
+      <li>Cancel anytime through your App Store or Google Play account</li>
+      <li>Refunds are handled by Apple / Google under their policies</li>
+      <li>Pro features remain active until the end of the billing period</li>
+      <li>Cloud data is retained for 30 days after the subscription ends</li>
+      </ul>
+      <h2>User Content</h2>
+      <h3>Your content</h3>
+      <p>You retain ownership of content you upload, including session notes, photos, profile pictures, and custom drills.</p>
+      <h3>License grant</h3>
+      <p>By uploading content, you grant us a non-exclusive, worldwide license to store, display, and process that content solely to provide the App to you.</p>
+      <h3>Content restrictions</h3>
+      <p>You agree not to upload content that is illegal, infringes intellectual property, contains malware, or otherwise violates applicable law.</p>
+      <h2>Prohibited Uses</h2>
+      <p>You agree not to:</p>
+      <ul>
+      <li>Use the App for any illegal purpose</li>
+      <li>Attempt unauthorized access to our systems</li>
+      <li>Interfere with or disrupt the App or servers</li>
+      <li>Reverse engineer or decompile the App</li>
+      <li>Use automated systems to access the App</li>
+      <li>Share your account with others</li>
+      <li>Create multiple accounts to abuse services</li>
+      </ul>
+      <h2>Intellectual Property</h2>
+      <p>The App — including design, features, code, and content (excluding user content) — is owned by ZeroPoint and protected by intellectual property laws. ZeroPoint and associated logos are our trademarks. You may not use them without permission.</p>
+      <h2>Disclaimers</h2>
+      <h3>"As is" service</h3>
+      <p className="legal-caps">THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.</p>
+      <h3>No professional advice</h3>
+      <p>The App is for personal range logging and inventory only. It does not provide professional firearms training, safety instruction, or medical advice.</p>
+      <h3>Accuracy</h3>
+      <p>We do not guarantee that statistics, counts, or other data derived from your logs are error-free.</p>
+      <h3>Data loss</h3>
+      <p>We are not responsible for loss of locally stored data due to device failure, app deletion, or other causes. Pro cloud backups help but cannot guarantee against all loss scenarios.</p>
+      <h2>Limitation of Liability</h2>
+      <p className="legal-caps">TO THE MAXIMUM EXTENT PERMITTED BY LAW:</p>
+      <ul>
+      <li>WE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES</li>
+      <li>OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID US IN THE PAST 12 MONTHS</li>
+      <li>WE ARE NOT LIABLE FOR DAMAGES ARISING FROM YOUR USE OF FIREARMS OR ACTIVITIES AT SHOOTING RANGES</li>
+      </ul>
+      <h2>Indemnification</h2>
+      <p>You agree to indemnify and hold harmless ZeroPoint and its officers, directors, employees, and agents from claims arising from your use of the App, your violation of these Terms, or your violation of any rights of another.</p>
+      <h2>Changes to Terms</h2>
+      <p>We may modify these Terms at any time. Significant changes will be noted in the App or by email. Continued use after changes constitutes acceptance.</p>
+      <h2>Termination</h2>
+      <p>We may terminate or suspend access immediately, without notice, for any reason including breach of these Terms. Upon termination, your right to use the App ceases; surviving provisions (e.g. liability limits, indemnification) remain in effect.</p>
+      <h2>Governing Law</h2>
+      <p>These Terms are governed by the laws of the United States, without regard to conflict-of-law principles.</p>
+      <h2>Dispute Resolution</h2>
+      <p>Disputes shall first be addressed through informal negotiation (30 days), then binding arbitration if needed. Class actions and class arbitrations are not permitted.</p>
+      <h2>Severability &amp; Entire Agreement</h2>
+      <p>If any provision is unenforceable, the rest continue in effect. These Terms, together with our Privacy Policy, are the entire agreement between you and ZeroPoint regarding the App.</p>
+      <h2>Contact</h2>
+      <p><strong>Email</strong>: <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a><br />
+      <strong>Website</strong>: <a href="https://zeropointlog.com">zeropointlog.com</a></p>
+      <hr />
+      <h2>Additional Terms for Apple App Store</h2>
+      <p>If you downloaded the App from Apple's App Store:</p>
+      <ul>
+      <li>These Terms are between you and ZeroPoint, not Apple</li>
+      <li>Apple has no obligation to provide maintenance or support</li>
+      <li>Apple is not responsible for product warranties</li>
+      <li>Apple is not responsible for claims related to the App</li>
+      <li>Apple is a third-party beneficiary of these Terms</li>
+      </ul>
+      </article>
+    </>
+  );
+}

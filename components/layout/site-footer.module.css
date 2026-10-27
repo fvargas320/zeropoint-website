@@ -1,0 +1,7 @@
+.footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; }
+.inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+.nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.nav a { padding: 8px 0; text-decoration: none; }
+.nav a:hover { color: var(--ink); }
+.copy { margin-left: auto; }
+@media (max-width: 600px) { .copy { flex-basis: 100%; margin-left: 0; } }

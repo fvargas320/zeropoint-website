@@ -1,0 +1,10 @@
+/* Scoped under .bench so these win over the media frames' own
+   position: relative regardless of stylesheet order. */
+.bench { position: relative; aspect-ratio: 1 / 0.92; }
+.bench .back, .bench .front, .bench .phone { position: absolute; }
+.bench .back { left: -4%; top: 6%; width: 80%; rotate: -7deg; filter: var(--shadow-prop); animation: drift 9s ease-in-out infinite; }
+.bench .front { right: -6%; bottom: -6%; width: 42%; rotate: 12deg; filter: var(--shadow-prop); animation: drift 7s ease-in-out -2s infinite reverse; }
+.bench .phone { right: 8%; top: 0; width: 43%; rotate: 6deg; animation: float 6s ease-in-out infinite; }
+
+@keyframes drift { 50% { translate: 0 -6px; } }
+@keyframes float { 50% { translate: 0 -10px; } }

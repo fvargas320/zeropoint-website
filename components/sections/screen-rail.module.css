@@ -1,0 +1,20 @@
+.title { font-size: clamp(30px, 7vw, 56px); }
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(62%, 260px);
+  gap: 16px;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 20px var(--gutter) 28px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail li { scroll-snap-align: center; }
+.caption { margin-bottom: 12px; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.caption span { display: block; margin-top: 2px; color: var(--muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
+@media (min-width: 900px) {
+  .rail { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); margin-inline: 0; padding-inline: 0; overflow: visible; }
+}

@@ -1,0 +1,7 @@
+.band { background: #d9cbb4; }
+.wide { display: none; aspect-ratio: 1600 / 686; }
+.narrow { aspect-ratio: 3 / 2; }
+@media (min-width: 760px) {
+  .wide { display: block; }
+  .narrow { display: none; }
+}

@@ -1,0 +1,4 @@
+.stack { position: relative; }
+.layer { position: absolute; inset: 0; transition: opacity 0.7s var(--ease-out); }
+.layer:first-child { position: relative; height: 100%; }
+.layer:has(img:not([data-active])) { opacity: 0; }

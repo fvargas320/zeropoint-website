@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're invited to ZeroPoint</title>
+<meta name="description" content="Join ZeroPoint with a friend's code and get 30 days of Pro free.">
+<meta name="robots" content="noindex">
+<!--
+  Invite page for https://zeropointlog.com/r/<CODE> (vercel.json rewrites
+  /r/:code here; /i/:code is a 308 to it). Ported from rangeai/website/r,
+  which is retired. Contract: rangeai docs/growth/domain.md.
+  With the app installed and universal links live, iOS/Android open the app
+  instead of this page and the app applies the code. Otherwise: copy the
+  code, install (the store link carries the code as ct= / referrer=), and
+  paste it at sign-up.
+-->
+<meta name="apple-itunes-app" id="smart-banner" content="app-id=6757300865, app-argument=https://zeropointlog.com/r/">
+<meta name="theme-color" content="#e8dfcc">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroPoint">
+<meta property="og:title" content="You're invited to ZeroPoint">
+<meta property="og:description" content="Join with a friend's code for 30 days of Pro, free. Log range days, track your gear and see yourself improve.">
+<meta property="og:image" content="https://zeropointlog.com/assets/social/zeropoint-range-days-v1.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ZeroPoint: Every range day, logged.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You're invited to ZeroPoint">
+<meta name="twitter:description" content="Join with a friend's code for 30 days of Pro, free.">
+<meta name="twitter:image" content="https://zeropointlog.com/assets/social/zeropoint-range-days-v1.jpg">
+<link rel="stylesheet" href="/link.css">
+</head>
+<body>
+<main>
+  <a class="brand" href="/"><img src="/assets/zeropoint-wordmark-ink.png" alt="ZeroPoint" width="967" height="555"></a>
+  <h1>You're invited to ZeroPoint</h1>
+  <p>Log range days, track your gear and see yourself improve. Join with this code for 30 days of Pro, free.</p>
+  <div class="label">Invite code</div>
+  <div class="code" id="code">——————</div>
+  <button class="btn secondary" id="copy" type="button">Copy code</button>
+  <a class="btn primary" id="appstore" href="https://apps.apple.com/us/app/zeropoint-shooting-range-log/id6757300865">Get ZeroPoint on the App Store</a>
+  <a class="btn secondary" id="play" href="https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint">Get it on Google Play</a>
+  <a class="btn secondary" id="open" href="zeropoint://referral">I already have it: open ZeroPoint</a>
+  <ol class="steps">
+    <li>Copy the code, then install ZeroPoint.</li>
+    <li>When you create your account, tap <strong>Have an invite code?</strong> and paste it.</li>
+    <li>Already signed up? Go to Settings › Invite a shooter › Got a friend's code?</li>
+  </ol>
+</main>
+<script>
+  (function () {
+    var m = location.pathname.match(/^\/[ri]\/([A-Za-z0-9-]{6,9})\/?$/);
+    var raw = m ? m[1] : (new URLSearchParams(location.search).get('ref') || '');
+    var code = raw.toUpperCase().replace(/-/g, '');
+    if (!/^[A-HJ-NP-Z2-9]{6}$/.test(code)) code = '';
+    var el = document.getElementById('code');
+    if (!code) {
+      el.textContent = 'No code';
+      document.getElementById('copy').classList.add('hidden');
+      return;
+    }
+    el.textContent = code;
+    document.getElementById('open').href = 'zeropoint://referral?code=' + code;
+    document.getElementById('appstore').href += '?ct=' + code;
+    document.getElementById('play').href += '&referrer=' + code;
+    document.getElementById('smart-banner').setAttribute('content',
+      'app-id=6757300865, app-argument=https://zeropointlog.com/r/' + code);
+    document.getElementById('copy').addEventListener('click', function () {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(code).then(function () {
+        document.getElementById('copy').textContent = 'Copied';
+      }).catch(function () {});
+    });
+  })();
+</script>
+</body>
+</html>

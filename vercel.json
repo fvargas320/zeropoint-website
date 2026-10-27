@@ -1,6 +1,5 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "framework": "nextjs",
   "headers": [
     {
       "source": "/.well-known/apple-app-site-association",
@@ -14,25 +13,5 @@
       "source": "/(r|i|g)/(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
-  ],
-  "redirects": [
-    { "source": "/i/:code", "destination": "/r/:code", "statusCode": 308 },
-    {
-      "source": "/get",
-      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(iphone|ipad|ipod).*" }],
-      "destination": "https://apps.apple.com/us/app/zeropoint-shooting-range-log/id6757300865",
-      "statusCode": 302
-    },
-    {
-      "source": "/get",
-      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*android.*" }],
-      "destination": "https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint",
-      "statusCode": 302
-    },
-    { "source": "/get", "destination": "/", "statusCode": 302 }
-  ],
-  "rewrites": [
-    { "source": "/r/:code", "destination": "/r" },
-    { "source": "/g/:code", "destination": "/g" }
   ]
 }

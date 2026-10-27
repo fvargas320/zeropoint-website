@@ -1,0 +1,12 @@
+.hero { display: grid; gap: 28px; padding: clamp(20px, 5vw, 56px) 0 clamp(40px, 6vw, 80px); }
+.copy { max-width: 620px; }
+.art { width: min(100%, 560px); margin-inline: auto; }
+@media (min-width: 960px) {
+  .hero {
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 24px;
+    min-height: min(calc(100svh - 72px), 760px);
+  }
+  .art { width: 100%; }
+}

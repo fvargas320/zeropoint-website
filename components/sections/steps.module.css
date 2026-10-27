@@ -1,0 +1,8 @@
+.section { padding: clamp(40px, 7vw, 88px) 0; }
+.title { font-size: clamp(30px, 7vw, 56px); }
+.list { display: grid; gap: 14px; margin: 28px 0 0; padding: 0; list-style: none; }
+.list li { padding: 22px; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); }
+.list h3 { margin-top: 10px; font-size: 20px; }
+.list p { margin-top: 6px; color: var(--muted); }
+.num { color: var(--orange-text); font-size: 14px; font-weight: 800; letter-spacing: 0.12em; }
+@media (min-width: 820px) { .list { grid-template-columns: repeat(3, 1fr); } }

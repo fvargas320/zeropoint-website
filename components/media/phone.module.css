@@ -1,0 +1,15 @@
+.phone {
+  position: relative;
+  padding: clamp(4px, 0.9vw, 8px);
+  border-radius: clamp(26px, 5.4vw, 46px);
+  background: #121212;
+  box-shadow: 0 0 0 1.5px #6d6d68, 0 30px 50px -18px #0006, 0 12px 22px -12px #0005;
+}
+.screen {
+  --skeleton: #1d1d1c;
+  --skeleton-shine: #2a2a28;
+  aspect-ratio: 1320 / 2868;
+  overflow: hidden;
+  border-radius: clamp(21px, 4.5vw, 38px);
+}
+.img { width: 100%; height: 100%; object-fit: cover; }

@@ -1,0 +1,30 @@
+.stores { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.stacked { flex-direction: column; }
+.store {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 58px;
+  min-width: 190px;
+  padding: 8px 22px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  line-height: 1.15;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.store svg { width: 26px; height: 26px; flex-shrink: 0; }
+.store small { display: block; font-size: 12px; }
+.store strong { display: block; font-size: 19px; font-weight: 800; letter-spacing: -0.02em; }
+.store:hover { transform: translateY(-2px); box-shadow: 0 4px 0 var(--orange); }
+.stacked .store { width: 100%; }
+
+/* The leading (filled) store follows the visitor's platform. */
+.apple { background: var(--ink); color: var(--paper); }
+.play { background: transparent; color: var(--ink); }
+:global(html[data-platform="android"]) .play { order: -1; background: var(--ink); color: var(--paper); }
+:global(html[data-platform="android"]) .apple { background: transparent; color: var(--ink); }
+
+@media (max-width: 480px) { .store { flex: 1 1 100%; } }
+@media (prefers-reduced-motion: reduce) { .store:hover { transform: none; } }

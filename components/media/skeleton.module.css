@@ -1,0 +1,25 @@
+/* A frame shows a moving shimmer until its media loads (data-loaded), then
+   the media fades in and the shimmer stops so it costs nothing at rest. */
+.frame { position: relative; display: block; }
+.skeleton {
+  background: linear-gradient(100deg, var(--skeleton) 30%, var(--skeleton-shine) 50%, var(--skeleton) 70%) 0 0 / 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+.skeleton[data-loaded] { animation: none; background: transparent; }
+.bare { background: none; }
+.image { transition: opacity 0.45s var(--ease-out); }
+/* Hidden until loaded only when JS runs (layout.tsx adds .js), so a visitor
+   without JS still sees every image. */
+:global(.js) .frame:not([data-loaded]) .image { opacity: 0; }
+
+/* A stand-alone block, e.g. while a video or section is waiting to load. */
+.block {
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(100deg, var(--skeleton) 30%, var(--skeleton-shine) 50%, var(--skeleton) 70%) 0 0 / 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* Local to this module: CSS modules rename keyframes, so a global one
+   would not resolve here. */
+@keyframes shimmer { to { background-position: -200% 0; } }

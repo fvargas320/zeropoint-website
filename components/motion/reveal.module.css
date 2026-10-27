@@ -1,0 +1,6 @@
+.reveal { transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+/* Only hidden when JS runs, so content never stays invisible. */
+:global(.js) .reveal:not([data-shown]) { opacity: 0; transform: translateY(24px); }
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .reveal:not([data-shown]) { opacity: 1; transform: none; }
+}
