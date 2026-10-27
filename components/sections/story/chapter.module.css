@@ -1,0 +1,24 @@
+.chapter {
+  display: flex;
+  min-height: calc(var(--screen) * 0.8);
+  flex-direction: column;
+  justify-content: center;
+  max-width: 560px;
+  opacity: 0.28;
+  transition: opacity 0.5s var(--ease-out);
+}
+.chapter[data-active] { opacity: 1; }
+.body { margin-top: 20px; max-width: 34ch; color: var(--muted); font-size: var(--fs-lede); line-height: 1.5; }
+.points { display: grid; gap: 12px; margin: 26px 0 0; padding: 0; list-style: none; font-size: var(--fs-body); }
+.points li { display: flex; align-items: baseline; gap: 10px; }
+.points li::before { content: ""; flex: 0 0 8px; height: 8px; border-radius: 50%; background: var(--orange); translate: 0 -2px; }
+.pro {
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

@@ -7,8 +7,8 @@
   -webkit-backdrop-filter: saturate(1.4) blur(12px);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
 }
-.inner { display: flex; align-items: center; gap: 20px; height: 72px; }
-.nav { display: none; gap: 28px; margin-left: auto; font-size: 15px; font-weight: 700; }
+.inner { display: flex; align-items: center; gap: 20px; height: var(--header); }
+.nav { display: none; gap: clamp(24px, 2vw, 40px); margin-left: auto; font-size: clamp(15px, 0.25vw + 12px, 17px); font-weight: 700; }
 .nav a { padding: 12px 0; text-decoration: none; }
 .nav a:hover { color: var(--orange-text); }
 .cta {

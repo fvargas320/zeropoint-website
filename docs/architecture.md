@@ -5,7 +5,7 @@ Decided 2026-10-26.
 | Surface | Domain | Repo | Stack | Vercel project |
 |---|---|---|---|---|
 | Marketing site | zeropointlog.com (www) | `zeropoint-website` (this repo, root) | Next.js 15, static | `zeropoint-website` |
-| Web log view | app.zeropointlog.com | its own repo (to be split out of `dashboard/` on `web-app-scaffold`) | Next.js 15 + Supabase auth | `zeropoint-dashboard` |
+| Web log view | app.zeropointlog.com | `fvargas320/zeropoint-web-app` (split out of `dashboard/`, history kept) | Next.js 15 + Supabase auth | `zeropoint-dashboard` |
 | Phone app | App Store / Google Play | `rangeai` | Flutter | — |
 
 ## Why two sites

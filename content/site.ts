@@ -8,6 +8,9 @@ export const site = {
   // The web log view. Leave null until app.zeropointlog.com is live; the
   // header shows "Log in" only when this is set.
   appUrl: null as string | null,
+  // Match import and analysis ship in app 1.5.0. Flip to true once 1.5.0 is
+  // live in both stores; the Matches section then drops its "next update" tag.
+  matchesLive: false,
 };
 
 export const stores = {
@@ -20,7 +23,13 @@ export const stores = {
 export const rating = { value: "5.0", count: 5, source: "App Store" };
 
 export const pricing = {
-  monthly: "$6.99",
-  yearly: "$49.99",
-  trial: "Monthly includes a 1-week free trial. US prices; your store shows the price in your currency.",
+  monthly: 6.99,
+  yearly: 49.99,
+  trialDays: 7,
+  note: "US prices; your store shows the price in your currency.",
 };
+
+export const money = (n: number) => `$${n.toFixed(2)}`;
+/** What yearly saves against twelve months, rounded down so we never overstate it. */
+export const yearlySavingPct = Math.floor((1 - pricing.yearly / (pricing.monthly * 12)) * 100);
+export const yearlyPerMonth = money(Math.ceil((pricing.yearly / 12) * 100) / 100);

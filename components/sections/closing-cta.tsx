@@ -16,7 +16,7 @@ export function ClosingCta({ title = "Let the next one count.", lede = "Free to 
           <StoreButtons placement="closing" />
         </div>
         <div className={styles.art} aria-hidden="true">
-          <Prop name={prop} sizes="(min-width: 900px) 440px, 90vw" />
+          <Prop name={prop} sizes="(min-width: 900px) 40vw, 90vw" />
         </div>
       </div>
     </section>

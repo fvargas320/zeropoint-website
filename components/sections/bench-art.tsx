@@ -16,9 +16,9 @@ type Props = {
 export function BenchArt({ back, front, screens }: Props) {
   return (
     <div className={styles.bench} aria-hidden="true">
-      <Prop name={back} priority sizes="(min-width: 960px) 460px, 80vw" className={styles.back} />
-      {front && <Prop name={front} sizes="(min-width: 960px) 240px, 42vw" className={styles.front} />}
-      <ScreenCycle order={screens} sizes="(min-width: 960px) 240px, 43vw" className={styles.phone} />
+      <Prop name={back} priority sizes="(min-width: 960px) 40vw, 80vw" className={styles.back} />
+      {front && <Prop name={front} sizes="(min-width: 960px) 21vw, 42vw" className={styles.front} />}
+      <ScreenCycle order={screens} sizes="(min-width: 960px) 22vw, 43vw" className={styles.phone} />
     </div>
   );
 }

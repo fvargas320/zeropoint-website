@@ -1,0 +1,6 @@
+/* Desktop only (the stacked FeatureList covers phones and tablets). */
+.story { display: none; }
+@media (min-width: 1024px) {
+  .story { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 96px); }
+  .pin { position: sticky; top: var(--header); height: var(--screen); }
+}

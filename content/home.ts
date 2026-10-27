@@ -16,34 +16,6 @@ export const compareRows = [
   { task: "A rainy day at the range", notebook: "Smudged", zeropoint: "Backed up with Pro" },
 ];
 
-export const freePlan = [
-  "Unlimited sessions with target photos",
-  "Up to 3 firearms, plus your ammo inventory",
-  "Low-stock and cleaning reminders",
-  "Calendar, streaks and personal bests",
-  "Drills, friends, crews and range days",
-];
-
-export const proPlan = [
-  "Unlimited firearms",
-  "Cloud backup and sync across devices",
-  "Spending, cost per round, ammo and training stats",
-  "Ammo pace forecasts and a range-day gear check",
-  "Custom drills, session presets and personal goals",
-  "More photos per session, plus video",
-  "Ad-free, with premium themes",
-];
-
-// From App Store screenshot 10 ("Coming soon"); none of these are shipped.
-export const roadmap = [
-  "AI target scoring",
-  "Match log: USPSA, IDPA, Steel",
-  "Dry-fire drills with par times",
-  "Competition drills and PRs",
-  "Monthly AI summaries",
-  "Shot-timer sync",
-];
-
 export const privacyPoints = [
   { title: "We don’t sell it. Ever.", body: "Your firearms, ammo and sessions are never sold." },
   { title: "Your log lives on your phone.", body: "Sessions and target photos are saved on the device, so logging works with no signal. Cloud backup is a Pro option, encrypted in transit and at rest." },

@@ -1,4 +1,4 @@
-.proof { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 18px; color: var(--muted); font-size: 14px; }
+.proof { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 20px; color: var(--muted); font-size: var(--fs-small); }
 .proof b { color: var(--ink); }
 .stars { color: var(--orange-text); font-size: 15px; letter-spacing: 2px; }
 .dot { opacity: 0.5; }

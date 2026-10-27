@@ -29,6 +29,7 @@ export function Reveal({ children, className, delay = 0 }: Props) {
     <div
       ref={ref}
       className={[styles.reveal, className].filter(Boolean).join(" ")}
+      data-reveal=""
       data-shown={shown || undefined}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >

@@ -1,0 +1,12 @@
+/* Sits just outside its section (which must be position: relative). */
+.edge {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: clamp(22px, 2.6vw, 44px);
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(0 -6px 8px #3b2a1426);
+}
+.edge[data-edge="top"] { bottom: calc(100% - 1px); }
+.edge[data-edge="bottom"] { top: calc(100% - 1px); rotate: 180deg; filter: drop-shadow(0 -6px 8px #0000004d); }

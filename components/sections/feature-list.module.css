@@ -1,0 +1,2 @@
+.list { padding-top: clamp(48px, 8vw, 110px); }
+@media (min-width: 1024px) { .list[data-phones-only] { display: none; } }

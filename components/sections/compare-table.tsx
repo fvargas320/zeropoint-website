@@ -5,8 +5,8 @@ import styles from "./compare-table.module.css";
 export function CompareTable() {
   return (
     <section className={styles.section} aria-labelledby="compare-title">
-      <div className="wrap">
-        <p className={`eyebrow ${styles.eyebrow}`}>Why not a notebook?</p>
+      <div className={`wrap ${styles.card}`}>
+        <p className="eyebrow">Why not a notebook?</p>
         <h2 id="compare-title">The <Strike>notebook</Strike> did its best.</h2>
         <div className={styles.table} role="table" aria-label="Notebook compared with ZeroPoint">
           <div className={`${styles.row} ${styles.head}`} role="row">

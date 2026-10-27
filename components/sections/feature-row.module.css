@@ -1,5 +1,5 @@
 .row { display: grid; gap: 28px; align-items: center; padding-bottom: clamp(48px, 7vw, 96px); scroll-margin-top: 88px; }
-.body { margin-top: 16px; max-width: 36ch; color: var(--muted); font-size: 18px; line-height: 1.55; }
+.body { margin-top: 16px; max-width: 36ch; color: var(--muted); font-size: var(--fs-lede); line-height: 1.55; }
 .points { display: grid; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
 .points li { display: flex; align-items: baseline; gap: 10px; }
 .points li::before { content: ""; flex: 0 0 8px; height: 8px; border-radius: 50%; background: var(--orange); translate: 0 -2px; }

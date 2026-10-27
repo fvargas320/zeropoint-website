@@ -1,0 +1,32 @@
+.card {
+  margin: 0;
+  padding: clamp(20px, 2vw, 32px);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(170deg, #1d1d1b, #141413);
+  box-shadow: inset 0 0 0 1px #ffffff14, 0 40px 80px -30px #000;
+  color: var(--on-dark);
+}
+.head { display: grid; gap: 4px; margin-bottom: clamp(16px, 1.6vw, 24px); }
+.head b { font-size: var(--fs-h3); letter-spacing: -0.015em; }
+.kicker { color: var(--orange-on-dark); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.rows { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.row { display: grid; grid-template-columns: minmax(96px, 9.5em) 1fr 3.2em; align-items: center; gap: 12px; font-size: var(--fs-small); }
+.label { color: var(--on-dark-2); }
+.track { height: 12px; overflow: hidden; border-radius: var(--radius-pill); background: #ffffff0d; }
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #e9e3d6;
+  transform-origin: left;
+  transition: transform 0.9s var(--ease-out);
+}
+.row[data-kind="loss"] .bar { background: var(--orange); }
+.row[data-kind="result"] .bar { background: linear-gradient(90deg, #ff8a57, var(--orange)); }
+.row[data-kind="result"] { padding-top: 12px; border-top: 1px solid #ffffff1a; font-weight: 800; }
+.row[data-kind="result"] .label { color: var(--on-dark); }
+.value { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; }
+.row[data-kind="loss"] .value { color: var(--orange-on-dark); }
+
+/* Bars start empty and grow once the wrapping Reveal is shown. */
+:global(.js) :global([data-reveal]:not([data-shown])) .bar { transform: scaleX(0); }

@@ -1,4 +1,4 @@
-import { pricing, site, stores } from "./site";
+import { money, pricing, site, stores } from "./site";
 
 export type Faq = { q: string; a: React.ReactNode };
 
@@ -7,7 +7,7 @@ const email = <a href={`mailto:${site.email}`}>{site.email}</a>;
 export const homeFaq: Faq[] = [
   {
     q: "Is ZeroPoint free?",
-    a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${pricing.monthly} a month or ${pricing.yearly} a year in the US) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
+    a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
   },
   {
     q: "Is it on iPhone and Android?",

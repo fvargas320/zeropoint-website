@@ -7,14 +7,16 @@ import { ClosingCta } from "@/components/sections/closing-cta";
 import { CompareTable } from "@/components/sections/compare-table";
 import { FactsStrip } from "@/components/sections/facts-strip";
 import { FaqList } from "@/components/sections/faq-list";
-import { FeatureList } from "@/components/sections/feature-list";
 import { Hero } from "@/components/sections/hero";
-import { Plans } from "@/components/sections/plans";
+import { MatchInsights } from "@/components/sections/matches/match-insights";
 import { PrivacyCard } from "@/components/sections/privacy-card";
+import { ProSpotlight } from "@/components/sections/pro/pro-spotlight";
+import { Features } from "@/components/sections/story/features";
 import { Strike } from "@/components/ui/strike";
 import { homeFaq } from "@/content/faq";
-import { features } from "@/content/features";
 
+// Rhythm: cream hero and story → dark Matches → the brand film → cream
+// comparison → dark Pro → cream privacy and FAQ → orange download.
 export default function HomePage() {
   return (
     <>
@@ -28,10 +30,11 @@ export default function HomePage() {
           art={<BenchArt back="notebook" front="casings" screens={["home", "session", "inventory", "spending"]} />}
         />
         <FactsStrip />
-        <FeatureList items={features} id="features" />
+        <Features />
+        <MatchInsights />
         <BrandFilm />
         <CompareTable />
-        <Plans />
+        <ProSpotlight />
         <PrivacyCard />
         <FaqList items={homeFaq} />
         <ClosingCta />

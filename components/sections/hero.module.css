@@ -1,12 +1,14 @@
-.hero { display: grid; gap: 28px; padding: clamp(20px, 5vw, 56px) 0 clamp(40px, 6vw, 80px); }
-.copy { max-width: 620px; }
+.hero { display: grid; gap: 28px; padding: clamp(20px, 5vw, 56px) 0 clamp(40px, 6vw, 88px); }
+.copy { max-width: 760px; }
 .art { width: min(100%, 560px); margin-inline: auto; }
+.hero :global(.lede) { max-width: 30ch; }
 @media (min-width: 960px) {
   .hero {
-    grid-template-columns: 1.05fr 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 24px;
-    min-height: min(calc(100svh - 72px), 760px);
+    gap: clamp(24px, 4vw, 80px);
+    min-height: var(--screen);
+    padding-block: clamp(24px, 3vw, 48px);
   }
-  .art { width: 100%; }
+  .art { width: min(100%, 720px); }
 }

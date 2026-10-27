@@ -1,7 +1,7 @@
-.section { padding-bottom: clamp(56px, 9vw, 110px); scroll-margin-top: 72px; }
-.card { display: grid; gap: 24px; padding: clamp(24px, 4vw, 48px); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); }
+.section { padding: var(--section-y) 0 calc(var(--section-y) * 0.6); }
+.card { display: grid; gap: 24px; padding: clamp(28px, 4vw, 72px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-card); }
 .points { display: grid; gap: 18px; }
-.points p { margin-top: 4px; color: var(--muted); }
+.points p { margin-top: 6px; color: var(--muted); }
 .links { display: flex; flex-wrap: wrap; gap: 8px 20px; font-weight: 700; }
 .links a { color: var(--ink); }
 @media (min-width: 900px) { .card { grid-template-columns: 1fr 1.3fr; gap: 48px; } }

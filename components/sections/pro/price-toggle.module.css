@@ -1,0 +1,70 @@
+.block { margin-top: clamp(28px, 2.6vw, 44px); }
+
+/* Two equal segments with a sliding orange thumb under the chosen one. */
+.toggle {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  background: #ffffff12;
+  box-shadow: inset 0 0 0 1px #ffffff1f;
+}
+.option {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 clamp(16px, 1.6vw, 26px);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--on-dark-2);
+  font-size: clamp(15px, 0.3vw + 11px, 17px);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+.option[aria-checked="true"] { color: var(--on-orange); }
+.thumb {
+  position: absolute;
+  inset: 5px auto 5px 5px;
+  width: calc(50% - 5px);
+  border-radius: var(--radius-pill);
+  background: var(--orange);
+  box-shadow: 0 6px 20px -6px #ff5a1fa6;
+  transition: translate 0.35s var(--ease-out);
+}
+.thumb[data-plan="yearly"] { translate: 100% 0; }
+
+/* The saving sits inside the Yearly segment and flips colour with it. */
+.save {
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: #ff5a1f2e;
+  color: var(--orange-on-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.25s, color 0.25s;
+}
+.option[aria-checked="true"] .save { background: var(--ink); color: var(--orange-on-dark); }
+
+.price { display: flex; align-items: baseline; gap: 10px; margin-top: clamp(20px, 2vw, 32px); color: var(--on-dark); }
+.amount {
+  font-size: clamp(56px, 6vw, 104px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  animation: rise 0.45s var(--ease-out);
+}
+.per { color: var(--on-dark-2); font-size: var(--fs-lede); font-weight: 700; }
+.note { margin-top: 10px; color: var(--on-dark-2); font-size: var(--fs-small); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }

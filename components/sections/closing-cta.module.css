@@ -1,8 +1,8 @@
-.section { overflow: hidden; padding: clamp(56px, 9vw, 110px) 0; background: var(--orange); color: var(--on-orange); scroll-margin-top: 72px; }
+.section { overflow: hidden; padding: var(--section-y) 0; background: var(--orange); color: var(--on-orange); scroll-margin-top: 72px; }
 .grid { display: grid; gap: 24px; align-items: center; }
 .eyebrow { color: var(--ink); }
 .lede { color: #2b1a10; }
-.art { width: min(100%, 440px); margin-inline: auto; filter: var(--shadow-prop); }
+.art { width: min(100%, 600px); margin-inline: auto; filter: var(--shadow-prop); }
 /* The fill stays ink on orange whichever store leads. */
 .section a[data-store] { border-color: var(--ink); }
 @media (min-width: 900px) { .grid { grid-template-columns: 1.2fr 1fr; } }
