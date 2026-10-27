@@ -5,6 +5,8 @@ import { Icon } from "@/components/ui/icon";
 import { TornEdge } from "@/components/ui/torn-edge";
 import { exampleStats, matchesCopy } from "@/content/matches";
 import { site } from "@/content/site";
+import { ImportSteps } from "./import-steps";
+import { InsightList } from "./insight-list";
 import { StageBreakdown } from "./stage-breakdown";
 import styles from "./match-insights.module.css";
 
@@ -26,7 +28,6 @@ export function MatchInsights() {
               <li key={s}><Icon name="target" className={styles.sportIcon} />{s}</li>
             ))}
           </ul>
-          <p className={styles.how}>{matchesCopy.howTo}</p>
         </div>
         <Reveal className={styles.visual} delay={120}>
           <StageBreakdown />
@@ -39,6 +40,10 @@ export function MatchInsights() {
             ))}
           </div>
         </Reveal>
+      </div>
+      <div className="wrap">
+        <ImportSteps />
+        <InsightList />
       </div>
       <TornEdge edge="bottom" color="var(--night)" seed={8} />
     </section>

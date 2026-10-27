@@ -1,0 +1,24 @@
+.card {
+  margin-top: clamp(40px, 6vw, 88px);
+  padding: clamp(24px, 4vw, 64px);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(70% 80% at 85% 20%, #ff5a1f2e, transparent 70%), var(--grain), var(--night);
+  color: var(--on-dark);
+}
+.soon {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--orange);
+  color: var(--on-orange);
+  font-size: var(--fs-small);
+  font-weight: 800;
+}
+.title { max-width: 16ch; font-size: clamp(30px, 6vw, 56px); }
+.lede { margin-top: 16px; max-width: 44ch; color: var(--on-dark-2); font-size: var(--fs-lede); }
+.sports { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+.sports li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--radius-pill); box-shadow: inset 0 0 0 1px #ffffff26; font-size: var(--fs-small); font-weight: 700; }
+.icon { width: 16px; height: 16px; color: var(--orange-on-dark); }
+.more { margin-top: 24px; font-weight: 700; }
+.more a { color: var(--orange-on-dark); }

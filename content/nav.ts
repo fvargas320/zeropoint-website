@@ -2,6 +2,7 @@ export type Link = { href: string; label: string };
 
 export const headerNav: Link[] = [
   { href: "/#features", label: "Features" },
+  { href: "/#matches", label: "Matches" },
   { href: "/#pro", label: "Pro" },
   { href: "/#privacy", label: "Privacy" },
   { href: "/support", label: "Support" },

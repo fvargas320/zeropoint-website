@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { BenchArt } from "@/components/sections/bench-art";
 import { FaqList } from "@/components/sections/faq-list";
 import { Hero } from "@/components/sections/hero";
+import { MatchTeaser } from "@/components/sections/matches/match-teaser";
 import { ScreenRail } from "@/components/sections/screen-rail";
 import { Steps } from "@/components/sections/steps";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
@@ -37,6 +38,7 @@ export default function GetPage() {
           art={<BenchArt back="notebook" front="casings" screens={["home", "session", "inventory"]} />}
         />
         <ScreenRail title="Everything from the range, in your pocket." items={getRail} />
+        <MatchTeaser />
         <Steps title="Up and running in a minute." items={getSteps} />
         <FaqList items={getFaq} title="Good to know." />
         <p className="wrap" style={{ paddingBottom: 96, fontWeight: 700 }}>

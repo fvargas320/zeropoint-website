@@ -10,6 +10,10 @@ export const homeFaq: Faq[] = [
     a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
   },
   {
+    q: "Can I bring in my match results?",
+    a: `${site.matchesLive ? "Yes." : "Yes, in the next update."} Share your results from your scoring app to ZeroPoint, or add a .psc match file or a saved results page. USPSA, IDPA and Steel Challenge. Importing and head to head are free; the deeper analysis is part of Pro.`,
+  },
+  {
     q: "Is it on iPhone and Android?",
     a: <>Yes. Download ZeroPoint from the <a href={stores.appStore}>App Store</a> or <a href={stores.playStore}>Google Play</a>.</>,
   },
@@ -32,4 +36,6 @@ export const homeFaq: Faq[] = [
   { q: "Where can I get help?", a: <>Visit the <a href="/support">support page</a> or email {email}.</> },
 ];
 
-export const getFaq: Faq[] = [homeFaq[0], homeFaq[2], homeFaq[3]];
+// Picked by question so reordering homeFaq can't swap them.
+const getQuestions = ["Is ZeroPoint free?", "Can I bring in my match results?", "Who can see my firearms and ammo?", "Does it work without signal at the range?"];
+export const getFaq: Faq[] = getQuestions.map((q) => homeFaq.find((f) => f.q === q)!).filter(Boolean);

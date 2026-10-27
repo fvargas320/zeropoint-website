@@ -12,17 +12,21 @@ import { MatchInsights } from "@/components/sections/matches/match-insights";
 import { PrivacyCard } from "@/components/sections/privacy-card";
 import { ProSpotlight } from "@/components/sections/pro/pro-spotlight";
 import { Features } from "@/components/sections/story/features";
+import { Announcement } from "@/components/ui/announcement";
 import { Strike } from "@/components/ui/strike";
 import { homeFaq } from "@/content/faq";
+import { site } from "@/content/site";
 
-// Rhythm: cream hero and story → dark Matches → the brand film → cream
-// comparison → dark Pro → cream privacy and FAQ → orange download.
+// Rhythm: cream hero → dark Matches (the headline feature) → cream story →
+// the brand film → cream comparison → dark Pro → cream privacy and FAQ →
+// orange download.
 export default function HomePage() {
   return (
     <>
       <SiteHeader />
       <main id="main">
         <Hero
+          announcement={<Announcement tag={site.matchesLive ? "New" : "Next update"} text="Import your match results" href="#matches" />}
           eyebrow="The shooting log"
           title={<>Ditch the <Strike>notebook.</Strike></>}
           lede="Every range day, logged: sessions, ammo, gear and your crew, in one app."
@@ -30,8 +34,8 @@ export default function HomePage() {
           art={<BenchArt back="notebook" front="casings" screens={["home", "session", "inventory", "spending"]} />}
         />
         <FactsStrip />
-        <Features />
         <MatchInsights />
+        <Features />
         <BrandFilm />
         <CompareTable />
         <ProSpotlight />

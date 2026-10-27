@@ -3,6 +3,8 @@ import { StoreButtons } from "@/components/ui/store-buttons";
 import styles from "./hero.module.css";
 
 type Props = {
+  /** Optional news pill above the eyebrow. */
+  announcement?: React.ReactNode;
   eyebrow: string;
   title: React.ReactNode;
   lede: React.ReactNode;
@@ -14,10 +16,11 @@ type Props = {
   storesId?: string;
 };
 
-export function Hero({ eyebrow, title, lede, art, placement, stackedStores = false, storesId }: Props) {
+export function Hero({ announcement, eyebrow, title, lede, art, placement, stackedStores = false, storesId }: Props) {
   return (
     <section className={`wrap ${styles.hero}`} aria-labelledby="hero-title">
       <div className={styles.copy}>
+        {announcement}
         <p className="eyebrow">{eyebrow}</p>
         <h1 id="hero-title">{title}</h1>
         <p className="lede">{lede}</p>

@@ -36,7 +36,6 @@
   font-weight: 700;
 }
 .sportIcon { width: 18px; height: 18px; color: var(--orange-on-dark); }
-.how { margin-top: 18px; color: #8b887d; font-size: var(--fs-small); }
 
 .visual { position: relative; display: grid; gap: 14px; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -51,6 +50,5 @@
 .statValue { display: block; margin-top: 6px; color: var(--orange-on-dark); font-size: clamp(26px, 2.6vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
 
 @media (min-width: 960px) {
-  .section { min-height: var(--screen); display: grid; align-items: center; }
   .grid { grid-template-columns: 1fr 1fr; }
 }
