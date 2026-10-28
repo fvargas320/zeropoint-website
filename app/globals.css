@@ -55,6 +55,7 @@ body {
 }
 img, video { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
+button { font: inherit; }
 p { margin: 0; text-wrap: pretty; }
 h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
 h1 { font-size: var(--fs-display); }

@@ -9,7 +9,7 @@ import styles from "./pro-spotlight.module.css";
 
 /** ZeroPoint Pro on a dark, lit stage: one price, six short features, one
     call to action. The free plan is a single line, not a second card. */
-export function ProSpotlight() {
+export function ProSpotlight({ lifetime = false }: { lifetime?: boolean }) {
   return (
     <section className={styles.section} id="pro" aria-labelledby="pro-title">
       <TornEdge color="var(--night)" seed={11} />
@@ -17,7 +17,7 @@ export function ProSpotlight() {
         <div>
           <p className={`eyebrow ${styles.eyebrow}`}>ZeroPoint Pro</p>
           <h2 id="pro-title" className={styles.title}>More from every range day.</h2>
-          <PriceToggle />
+          <PriceToggle lifetime={lifetime} />
           <ProTiles />
           <div className={styles.actions}>
             <a className={styles.cta} href="#download">Start free <span aria-hidden="true">→</span></a>

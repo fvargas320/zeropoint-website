@@ -9,7 +9,7 @@ export function homeFaq(matchesLive: boolean): Faq[] {
   return [
     {
       q: "Is ZeroPoint free?",
-      a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
+      a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US${matchesLive && site.foundersLifetime ? `, or ${money(pricing.lifetime)} once for Founders Lifetime` : ""}) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
     },
     {
       q: "Can I bring in my match results?",

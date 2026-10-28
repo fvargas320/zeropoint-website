@@ -11,6 +11,9 @@ export const site = {
   // Matches turn on by themselves once the App Store shows 1.5.0 or later
   // (lib/release.ts). Set true only to force them on before that.
   matchesLive: false,
+  // Founders Lifetime ships in 1.5.0 and shows once that's live (same check).
+  // Set false if the app's "founders-lifetime" PostHog switch turns it off.
+  foundersLifetime: true,
 };
 
 export const stores = {
@@ -25,6 +28,11 @@ export const rating = { value: "5.0", count: 5, source: "App Store" };
 export const pricing = {
   monthly: 6.99,
   yearly: 49.99,
+  /** Founders Lifetime: one payment, no subscription (app 1.5.0). */
+  lifetime: 149.99,
+  /** Black Friday price for Lifetime. Must match the temporary price in App
+      Store Connect, as founders_lifetime.dart's sale window does. */
+  lifetimeSale: { price: 99.99, startsAt: "2026-11-26T00:00:00", endsAt: "2026-12-02T00:00:00" },
   trialDays: 7,
   note: "US prices; your store shows the price in your currency.",
 };

@@ -15,7 +15,7 @@ import { Features } from "@/components/sections/story/features";
 import { Announcement } from "@/components/ui/announcement";
 import { Strike } from "@/components/ui/strike";
 import { homeFaq } from "@/content/faq";
-import { matchesLive } from "@/lib/release";
+import { foundersLive, matchesLive } from "@/lib/release";
 
 // Rhythm: cream hero → dark Matches (the headline feature) → cream story →
 // the brand film → cream comparison → dark Pro → cream privacy and FAQ →
@@ -24,7 +24,7 @@ import { matchesLive } from "@/lib/release";
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const live = await matchesLive();
+  const [live, founders] = await Promise.all([matchesLive(), foundersLive()]);
   return (
     <>
       <SiteHeader />
@@ -42,7 +42,7 @@ export default async function HomePage() {
         <Features />
         <BrandFilm />
         <CompareTable />
-        <ProSpotlight />
+        <ProSpotlight lifetime={founders} />
         <PrivacyCard />
         <FaqList items={homeFaq(live)} />
         <ClosingCta />

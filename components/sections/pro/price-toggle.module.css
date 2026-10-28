@@ -1,10 +1,11 @@
 .block { margin-top: clamp(28px, 2.6vw, 44px); }
 
-/* Two equal segments with a sliding orange thumb under the chosen one. */
+/* Equal segments (two, or three with Lifetime) and an orange thumb that slides under the chosen one. */
 .toggle {
   position: relative;
   display: inline-grid;
-  grid-template-columns: 1fr 1fr;
+  max-width: 100%;
+  grid-template-columns: repeat(var(--n, 2), 1fr);
   padding: 5px;
   border-radius: var(--radius-pill);
   background: #ffffff12;
@@ -18,7 +19,7 @@
   justify-content: center;
   gap: 8px;
   min-height: 46px;
-  padding: 0 clamp(16px, 1.6vw, 26px);
+  padding: 0 clamp(10px, 1.6vw, 26px);
   border: 0;
   border-radius: var(--radius-pill);
   background: none;
@@ -33,13 +34,12 @@
 .thumb {
   position: absolute;
   inset: 5px auto 5px 5px;
-  width: calc(50% - 5px);
+  width: calc((100% - 10px) / var(--n, 2));
   border-radius: var(--radius-pill);
   background: var(--orange);
   box-shadow: 0 6px 20px -6px #ff5a1fa6;
   transition: translate 0.35s var(--ease-out);
 }
-.thumb[data-plan="yearly"] { translate: 100% 0; }
 
 /* The saving sits inside the Yearly segment and flips colour with it. */
 .save {
@@ -54,6 +54,14 @@
   transition: background 0.25s, color 0.25s;
 }
 .option[aria-checked="true"] .save { background: var(--ink); color: var(--orange-on-dark); }
+/* "Save 40%" on roomy screens, "−40%" on narrow phones so three segments fit. */
+.narrow { display: none; }
+@media (max-width: 420px) {
+  .option { gap: 6px; font-size: 14px; }
+  .save { padding: 3px 6px; }
+  .wide { display: none; }
+  .narrow { display: inline; }
+}
 
 .price { display: flex; align-items: baseline; gap: 10px; margin-top: clamp(20px, 2vw, 32px); color: var(--on-dark); }
 .amount {

@@ -36,3 +36,8 @@ export async function matchesLive(): Promise<boolean> {
   const version = await appStoreVersion();
   return version ? atLeast(version, MATCHES_VERSION) : false;
 }
+
+/** Founders Lifetime ships in the same release; site.foundersLifetime can hide it. */
+export async function foundersLive(): Promise<boolean> {
+  return site.foundersLifetime && (await matchesLive());
+}

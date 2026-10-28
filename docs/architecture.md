@@ -54,6 +54,17 @@ can't move:
 - `public/`: only files that need fixed URLs: link pages, `.well-known`, the
   brand film, and the assets the link pages use.
 
+## Release-gated content
+
+`lib/release.ts` reads the live App Store version (re-checked hourly) and
+switches on what ships in app 1.5.0:
+- Matches lose their "Coming in the next update" tags.
+- Founders Lifetime joins the Pro toggle, with the Black Friday price from
+  Nov 26 to Dec 1 to match App Store Connect.
+
+`site.matchesLive` forces both on early. `site.foundersLifetime` hides
+Lifetime if the app's PostHog switch turns it off.
+
 ## Performance rules
 
 - **Images:** every image goes through `next/image`, lazy unless it's in the
