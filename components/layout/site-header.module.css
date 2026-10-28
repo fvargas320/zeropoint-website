@@ -9,7 +9,7 @@
 }
 .inner { display: flex; align-items: center; gap: 20px; height: var(--header); }
 .nav { display: none; gap: clamp(24px, 2vw, 40px); margin-left: auto; font-size: clamp(15px, 0.25vw + 12px, 17px); font-weight: 700; }
-.nav a { padding: 12px 0; text-decoration: none; }
+.nav a { padding: 12px 0; text-decoration: none; white-space: nowrap; }
 .nav a:hover { color: var(--orange-text); }
 .cta {
   display: inline-flex;

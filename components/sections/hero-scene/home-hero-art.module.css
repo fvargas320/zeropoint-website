@@ -1,0 +1,5 @@
+.large { display: none; }
+@media (min-width: 960px) {
+  .small { display: none; }
+  .large { display: block; }
+}

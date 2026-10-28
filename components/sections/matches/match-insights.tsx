@@ -4,7 +4,7 @@ import { Prop } from "@/components/media/prop";
 import { Icon } from "@/components/ui/icon";
 import { TornEdge } from "@/components/ui/torn-edge";
 import { exampleStats, matchesCopy } from "@/content/matches";
-import { ImportSteps } from "./import-steps";
+import { ImportFlow } from "./flow/import-flow";
 import { InsightList } from "./insight-list";
 import { StageBreakdown } from "./stage-breakdown";
 import styles from "./match-insights.module.css";
@@ -41,7 +41,7 @@ export function MatchInsights({ live }: { live: boolean }) {
         </Reveal>
       </div>
       <div className="wrap">
-        <ImportSteps />
+        <ImportFlow />
         <InsightList />
       </div>
       <TornEdge edge="bottom" color="var(--night)" seed={8} />

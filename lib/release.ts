@@ -30,14 +30,19 @@ async function appStoreVersion(): Promise<string | null> {
   }
 }
 
-/** True once 1.5.0 or later is live on the App Store, or when forced on in site.ts. */
-export async function matchesLive(): Promise<boolean> {
-  if (site.matchesLive) return true;
+/** True once 1.5.0 or later is actually live on the App Store. */
+async function release150Live(): Promise<boolean> {
   const version = await appStoreVersion();
   return version ? atLeast(version, MATCHES_VERSION) : false;
 }
 
-/** Founders Lifetime ships in the same release; site.foundersLifetime can hide it. */
+/** Matches show as current once 1.5.0 is live, or earlier when site.ts forces it. */
+export async function matchesLive(): Promise<boolean> {
+  return site.matchesLive || (await release150Live());
+}
+
+/** Founders Lifetime waits for the real release (it's a price people must be
+    able to pay), whatever the Matches override says; site.foundersLifetime hides it. */
 export async function foundersLive(): Promise<boolean> {
-  return site.foundersLifetime && (await matchesLive());
+  return site.foundersLifetime && (await release150Live());
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { matchesCopy } from "@/content/matches";
-import { ImportSteps } from "./import-steps";
+import { ImportFlow } from "./flow/import-flow";
 import styles from "./match-teaser.module.css";
 
 /** The Matches pitch in one dark card, for pages that link to the full section. */
@@ -17,7 +17,7 @@ export function MatchTeaser({ live }: { live: boolean }) {
             <li key={s}><Icon name="target" className={styles.icon} />{s}</li>
           ))}
         </ul>
-        <ImportSteps compact />
+        <ImportFlow compact />
         <p className={styles.more}><Link href="/#matches">See what you get from every match →</Link></p>
       </div>
     </section>

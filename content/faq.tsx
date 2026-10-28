@@ -5,11 +5,11 @@ export type Faq = { q: string; a: React.ReactNode };
 const email = <a href={`mailto:${site.email}`}>{site.email}</a>;
 
 /** `matchesLive` comes from lib/release.ts (the live App Store version). */
-export function homeFaq(matchesLive: boolean): Faq[] {
+export function homeFaq(matchesLive: boolean, lifetime = false): Faq[] {
   return [
     {
       q: "Is ZeroPoint free?",
-      a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US${matchesLive && site.foundersLifetime ? `, or ${money(pricing.lifetime)} once for Founders Lifetime` : ""}) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
+      a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US${lifetime ? `, or ${money(pricing.lifetime)} once for Founders Lifetime` : ""}) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
     },
     {
       q: "Can I bring in my match results?",
@@ -36,7 +36,9 @@ export function homeFaq(matchesLive: boolean): Faq[] {
       q: "Can I get a copy of my data, or delete it?",
       a: (
         <>
-          Email {email} for a copy. You can delete your account and its cloud data from Settings in the app.
+          Pro members can download their sessions as a spreadsheet from the{" "}
+          <a href="https://app.zeropointlog.com">web app</a>, and anyone can email {email} for a copy. You can
+          delete your account and its cloud data from Settings in the app.
           See <a href="/your-data">your data</a> for saving photos first.
         </>
       ),
@@ -63,7 +65,7 @@ const getQuestions = [
   "Who can see my firearms and ammo?",
   "Does it work without signal at the range?",
 ];
-export function getFaq(matchesLive: boolean): Faq[] {
-  const all = homeFaq(matchesLive);
+export function getFaq(matchesLive: boolean, lifetime = false): Faq[] {
+  const all = homeFaq(matchesLive, lifetime);
   return getQuestions.map((q) => all.find((f) => f.q === q)!).filter(Boolean);
 }

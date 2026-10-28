@@ -5,12 +5,13 @@ export const site = {
   name: "ZeroPoint",
   url: "https://www.zeropointlog.com",
   email: "support@zeropointlog.com",
-  // The web log view. Leave null until app.zeropointlog.com is live; the
-  // header shows "Log in" only when this is set.
-  appUrl: null as string | null,
-  // Matches turn on by themselves once the App Store shows 1.5.0 or later
-  // (lib/release.ts). Set true only to force them on before that.
-  matchesLive: false,
+  // The web log view (live 2026-10-28). The header shows "Log in" only when
+  // this is set; null hides it.
+  appUrl: "https://app.zeropointlog.com" as string | null,
+  // Matches show as the current update. 1.5.0 ships 2026-10-29, so this is
+  // forced on a day early on Fernando's call; Lifetime still waits for the
+  // App Store itself (lib/release.ts).
+  matchesLive: true,
   // Founders Lifetime ships in 1.5.0 and shows once that's live (same check).
   // Set false if the app's "founders-lifetime" PostHog switch turns it off.
   foundersLifetime: true,
