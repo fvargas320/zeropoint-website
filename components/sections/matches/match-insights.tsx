@@ -4,22 +4,21 @@ import { Prop } from "@/components/media/prop";
 import { Icon } from "@/components/ui/icon";
 import { TornEdge } from "@/components/ui/torn-edge";
 import { exampleStats, matchesCopy } from "@/content/matches";
-import { site } from "@/content/site";
 import { ImportSteps } from "./import-steps";
 import { InsightList } from "./insight-list";
 import { StageBreakdown } from "./stage-breakdown";
 import styles from "./match-insights.module.css";
 
 /** Match results, decoded: a stage waterfall with stats that count up.
-    Tagged "Coming in the next update" until site.matchesLive is true. */
-export function MatchInsights() {
+    Tagged "Coming in the next update" until `live` (lib/release.ts). */
+export function MatchInsights({ live }: { live: boolean }) {
   return (
     <section className={styles.section} id="matches" aria-labelledby="matches-title">
       <TornEdge color="var(--night)" seed={23} />
       <Prop name="casings" sizes="220px" className={styles.casings} />
       <div className={`wrap ${styles.grid}`}>
         <div>
-          {!site.matchesLive && <p className={styles.soon}>Coming in the next update</p>}
+          {!live && <p className={styles.soon}>Coming in the next update</p>}
           <p className={`eyebrow ${styles.eyebrow}`}>{matchesCopy.eyebrow}</p>
           <h2 id="matches-title" className={styles.title}>{matchesCopy.title}</h2>
           <p className={`lede ${styles.lede}`}>{matchesCopy.lede}</p>

@@ -12,6 +12,7 @@ import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
 import { Strike } from "@/components/ui/strike";
 import { getFaq } from "@/content/faq";
 import { getRail, getSteps } from "@/content/get";
+import { matchesLive } from "@/lib/release";
 
 export const metadata: Metadata = {
   title: { absolute: "Get ZeroPoint — Ditch the notebook" },
@@ -21,9 +22,13 @@ export const metadata: Metadata = {
   openGraph: { title: "Ditch the notebook. Every range day, logged.", url: "/get" },
 };
 
+// Re-check the App Store hourly so Matches go live with app 1.5.0.
+export const revalidate = 3600;
+
 // Where ads and social posts send people: the pitch in one screen, then
 // proof, with the right store always one tap away.
-export default function GetPage() {
+export default async function GetPage() {
+  const live = await matchesLive();
   return (
     <>
       <SiteHeader minimal />
@@ -38,9 +43,9 @@ export default function GetPage() {
           art={<BenchArt back="notebook" front="casings" screens={["home", "session", "inventory"]} />}
         />
         <ScreenRail title="Everything from the range, in your pocket." items={getRail} />
-        <MatchTeaser />
+        <MatchTeaser live={live} />
         <Steps title="Up and running in a minute." items={getSteps} />
-        <FaqList items={getFaq} title="Good to know." />
+        <FaqList items={getFaq(live)} title="Good to know." />
         <p className="wrap" style={{ paddingBottom: 96, fontWeight: 700 }}>
           <Link href="/">See everything ZeroPoint does →</Link>
         </p>

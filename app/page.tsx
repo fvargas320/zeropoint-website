@@ -15,18 +15,22 @@ import { Features } from "@/components/sections/story/features";
 import { Announcement } from "@/components/ui/announcement";
 import { Strike } from "@/components/ui/strike";
 import { homeFaq } from "@/content/faq";
-import { site } from "@/content/site";
+import { matchesLive } from "@/lib/release";
 
 // Rhythm: cream hero → dark Matches (the headline feature) → cream story →
 // the brand film → cream comparison → dark Pro → cream privacy and FAQ →
 // orange download.
-export default function HomePage() {
+// Re-check the App Store hourly so Matches go live with app 1.5.0.
+export const revalidate = 3600;
+
+export default async function HomePage() {
+  const live = await matchesLive();
   return (
     <>
       <SiteHeader />
       <main id="main">
         <Hero
-          announcement={<Announcement tag={site.matchesLive ? "New" : "Next update"} text="Import your match results" href="#matches" />}
+          announcement={<Announcement tag={live ? "New" : "Next update"} text="Import your match results" href="#matches" />}
           eyebrow="The shooting log"
           title={<>Ditch the <Strike>notebook.</Strike></>}
           lede="Every range day, logged: sessions, ammo, gear and your crew, in one app."
@@ -34,13 +38,13 @@ export default function HomePage() {
           art={<BenchArt back="notebook" front="casings" screens={["home", "session", "inventory", "spending"]} />}
         />
         <FactsStrip />
-        <MatchInsights />
+        <MatchInsights live={live} />
         <Features />
         <BrandFilm />
         <CompareTable />
         <ProSpotlight />
         <PrivacyCard />
-        <FaqList items={homeFaq} />
+        <FaqList items={homeFaq(live)} />
         <ClosingCta />
       </main>
       <SiteFooter />

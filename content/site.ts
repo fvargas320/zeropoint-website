@@ -8,8 +8,8 @@ export const site = {
   // The web log view. Leave null until app.zeropointlog.com is live; the
   // header shows "Log in" only when this is set.
   appUrl: null as string | null,
-  // Match import and analysis ship in app 1.5.0. Flip to true once 1.5.0 is
-  // live in both stores; the Matches section then drops its "next update" tag.
+  // Matches turn on by themselves once the App Store shows 1.5.0 or later
+  // (lib/release.ts). Set true only to force them on before that.
   matchesLive: false,
 };
 
