@@ -1,8 +1,24 @@
-.section { overflow: hidden; padding: var(--section-y) 0; background: var(--orange); color: var(--on-orange); scroll-margin-top: 72px; }
-.grid { display: grid; gap: 24px; align-items: center; }
+/* Orange cardstock: grain, paper tone and the page grid printed in rust. The
+   torn edge sits above the section, so the section itself must not clip. */
+.section {
+  position: relative;
+  padding: var(--section-y) 0;
+  background: var(--grain), var(--mottle), var(--grid-on-orange), var(--orange);
+  color: var(--on-orange);
+  scroll-margin-top: 72px;
+}
+.grid { position: relative; display: grid; gap: 24px; align-items: center; }
+/* The target is clipped to the orange band, centred behind the art: under the
+   copy on phones, on the art column (about 73% across) on wide screens. */
+.ringsLayer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.rings { position: absolute; left: 50%; top: 72%; width: max(640px, 120vw); translate: -50% -50%; color: #5a1d00; opacity: 0.16; }
 .eyebrow { color: var(--ink); }
 .lede { color: #2b1a10; }
-.art { width: min(100%, 600px); margin-inline: auto; filter: var(--shadow-prop); }
+.art { position: relative; width: min(100%, 600px); margin-inline: auto; }
+.prop { position: relative; filter: var(--shadow-prop); }
 /* The fill stays ink on orange whichever store leads. */
 .section a[data-store] { border-color: var(--ink); }
-@media (min-width: 900px) { .grid { grid-template-columns: 1.2fr 1fr; } }
+@media (min-width: 900px) {
+  .grid { grid-template-columns: 1.2fr 1fr; }
+  .rings { left: 73%; top: 50%; width: min(1040px, 72vw); }
+}

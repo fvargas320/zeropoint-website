@@ -9,18 +9,19 @@ export function homeFaq(matchesLive: boolean, lifetime = false): Faq[] {
   return [
     {
       q: "Is ZeroPoint free?",
-      a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US${lifetime ? `, or ${money(pricing.lifetime)} once for Founders Lifetime` : ""}) adds unlimited firearms, cloud backup and sync, spending and cost-per-round stats, custom drills, goals and no ads.`,
+      a: `Yes. Sessions, up to 3 firearms, your ammo inventory, reminders, the calendar, drills and crews are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US${lifetime ? `, or ${money(pricing.lifetime)} once for Founders Lifetime` : ""}) adds unlimited firearms, cloud backup and sync to your computer, spending and cost-per-round stats, custom drills, goals and no ads.`,
     },
     {
       q: "Can I bring in my match results?",
       a: `${matchesLive ? "Yes." : "Yes, in the next update."} Share your results from your scoring app to ZeroPoint, or add a .psc match file or a saved results page. USPSA, IDPA and Steel Challenge. Importing and head to head are free; the deeper analysis is part of Pro.`,
     },
     {
-      q: "Is it on iPhone and Android?",
+      q: "Is it on iPhone, Android and computer?",
       a: (
         <>
           Yes. Download ZeroPoint from the <a href={stores.appStore}>App Store</a> or{" "}
-          <a href={stores.playStore}>Google Play</a>.
+          <a href={stores.playStore}>Google Play</a>. With Pro, the same log opens on any computer in the{" "}
+          <a href="https://app.zeropointlog.com">web app</a>, always in sync with your phone.
         </>
       ),
     },

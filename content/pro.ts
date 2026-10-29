@@ -2,9 +2,10 @@ import type { IconName } from "@/components/ui/icon";
 
 // Six short, shipped Pro features (checked against pro_benefits.dart and the
 // tier limits, 2026-10-26). Match insights joins this list when 1.5.0 is live.
+// The sync tile names the computer: the web app is a Pro feature.
 export const proTiles: { icon: IconName; label: string }[] = [
   { icon: "armory", label: "Unlimited armory" },
-  { icon: "cloud", label: "Cloud backup & sync" },
+  { icon: "devices", label: "Synced to phone & computer" },
   { icon: "cost", label: "Cost per round" },
   { icon: "forecast", label: "Ammo pace forecasts" },
   { icon: "timer", label: "Custom drills & presets" },

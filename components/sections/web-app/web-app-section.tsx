@@ -20,7 +20,7 @@ export function WebAppSection() {
           </ul>
           <div className={styles.actions}>
             <a className={styles.primary} href={webApp.sample}>See a sample season <span aria-hidden="true">→</span></a>
-            <a className={styles.secondary} href={`${webApp.url}/login`}>Log in to the web app</a>
+            <a className={styles.secondary} href={`${webApp.url}/login`}>Log in on your computer</a>
           </div>
           <p className={styles.note}>{webApp.note}</p>
         </div>

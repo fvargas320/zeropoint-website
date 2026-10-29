@@ -41,6 +41,13 @@
 
   /* Film grain for dark sections (an SVG noise tile). */
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Paper tone: faint, large soft blotches that lighten dark stock and darken
+     bright stock, so a flat fill reads as printed cardstock. The tile holds a
+     whole number of noise cycles (640 × .0125 = 8) so it repeats seamlessly. */
+  --mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0125' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .1 -.025'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  /* The page's range grid (public/assets/range-grid.svg) printed on dark and on orange stock. */
+  --grid-on-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.045' stroke-width='.6'%3E%3Cpath d='M48 0v192M96 0v192M144 0v192M0 48h192M0 96h192M0 144h192'/%3E%3C/g%3E%3Cg stroke='%23fff' stroke-opacity='.11' stroke-width='.8'%3E%3Cpath d='M91 96h10M96 91v10'/%3E%3C/g%3E%3C/svg%3E");
+  --grid-on-orange: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192'%3E%3Cg fill='none' stroke='%235a1d00' stroke-opacity='.11' stroke-width='.6'%3E%3Cpath d='M48 0v192M96 0v192M144 0v192M0 48h192M0 96h192M0 144h192'/%3E%3C/g%3E%3Cg stroke='%235a1d00' stroke-opacity='.22' stroke-width='.8'%3E%3Cpath d='M91 96h10M96 91v10'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 *, *::before, *::after { box-sizing: border-box; }

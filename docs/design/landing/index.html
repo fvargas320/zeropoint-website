@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landing page options</title>
+<style>
+  :root { --bg:#f3f3f5; --ink:#111; --muted:#666; --card:#fff; --accent:#e5602c; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#111; --ink:#eee; --muted:#999; --card:#1c1c1e; } }
+  body { margin:0; padding:24px 16px 80px; background:var(--bg); color:var(--ink); font:15px/1.45 -apple-system, "Plus Jakarta Sans", sans-serif; }
+  h1 { font-size:28px; margin:0 0 4px; }
+  h2 { font-size:20px; margin:40px 0 6px; }
+  p.lead { color:var(--muted); margin:0 0 8px; max-width:70ch; }
+  .row { display:flex; gap:14px; overflow-x:auto; padding:8px 0 16px; scroll-snap-type:x mandatory; }
+  /* Desktop sections are landscape, so cards are wider than the phone template's 300px. */
+  .shot { flex:0 0 min(520px, 86vw); scroll-snap-align:start; background:var(--card); border-radius:16px; padding:10px; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+  .shot a { display:block; }
+  .shot img { width:100%; border-radius:12px; display:block; }
+  .shot b { display:block; margin:10px 2px 2px; font-size:15px; }
+  .shot span { display:block; color:var(--muted); font-size:13px; margin:0 2px; }
+  .shot.pick { outline:3px solid var(--accent); }
+  .tag { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:var(--accent); color:#fff; margin-left:6px; vertical-align:middle; font-style:normal; }
+</style>
+</head>
+<body>
+<h1>Landing page options</h1>
+<p class="lead">Current sections first (desktop, 1440 wide), then each option. Read the mockups for background, texture and art only; the copy is today's. Click any image to open it full size.</p>
+
+<h2>Round 1 final — built</h2>
+<p class="lead">Picked 2026-10-28: Pro B (with A's dark paper and torn edges) and Download B. Captures of the real site, 1440 wide.</p>
+<div class="row">
+  <div class="shot pick"><a href="after-pro.png"><img src="after-pro.png" alt=""></a><b>Pro — dark range paper, target, laptop + phone <i class="tag">approved</i></b><span>Paper tone and the page grid in charcoal, numbered target rings, the web app on a laptop behind the phone.</span></div>
+  <div class="shot pick"><a href="after-closing.png"><img src="after-closing.png" alt=""></a><b>Download — torn edge, orange cardstock, rings <i class="tag">approved</i></b><span>Torn off the cream FAQ, grain and a rust grid on the orange, target rings clipped to the band.</span></div>
+</div>
+
+<h2>Round 1 — Pro: what should the background and art be?</h2>
+<p class="lead">The Pro section is flat near-black with a glow, and its art shows only the phone even though Pro now includes the log on a computer.</p>
+<div class="row">
+  <div class="shot"><a href="before-pro.png"><img src="before-pro.png" alt=""></a><b>Today</b><span>Flat dark with an orange glow; phone only. (Already has the new "Synced to phone &amp; computer" tile.)</span></div>
+  <div class="shot"><a href="mockups/round-1/pro-a-dark-range-paper.png"><img src="mockups/round-1/pro-a-dark-range-paper.png" alt=""></a><b>A — Dark range paper, torn edges</b><span>Black cardstock with the cream sections' grid printed in charcoal, torn top and bottom. Same art.</span></div>
+  <div class="shot pick"><a href="mockups/round-1/pro-b-target-and-laptop.png"><img src="mockups/round-1/pro-b-target-and-laptop.png" alt=""></a><b>B — Target backdrop, laptop + phone <i class="tag">recommended</i></b><span>Shows the log on a computer and a phone; faint target rings echo the hero. Build it with A's paper and torn edges, and keep the laptop clear of the tiles.</span></div>
+  <div class="shot"><a href="mockups/round-1/pro-c-cream-paper.png"><img src="mockups/round-1/pro-c-cream-paper.png" alt=""></a><b>C — Cream paper</b><span>Matches the paper sections exactly, but the page loses its one dark stage before the final CTA.</span></div>
+</div>
+
+<h2>Round 1 — Download: how should the FAQ hand off to the orange section?</h2>
+<p class="lead">Today the cream FAQ cuts straight into flat, untextured orange, while every other seam is torn paper.</p>
+<div class="row">
+  <div class="shot"><a href="before-closing.png"><img src="before-closing.png" alt=""></a><b>Today</b><span>Hard straight cut, flat bright orange, content sits low with empty space above.</span></div>
+  <div class="shot"><a href="mockups/round-1/closing-a-torn-orange-paper.png"><img src="mockups/round-1/closing-a-torn-orange-paper.png" alt=""></a><b>A — Torn edge, orange cardstock</b><span>Torn seam like the rest of the site, paper grain and a darker-orange range grid. Safe and consistent.</span></div>
+  <div class="shot pick"><a href="mockups/round-1/closing-b-target-rings.png"><img src="mockups/round-1/closing-b-target-rings.png" alt=""></a><b>B — Torn edge, target rings <i class="tag">recommended</i></b><span>A's torn seam and grain, plus faint target rings behind the ammo that bookend the hero's rings; text block lifted level with the art.</span></div>
+  <div class="shot"><a href="mockups/round-1/closing-c-orange-card.png"><img src="mockups/round-1/closing-c-orange-card.png" alt=""></a><b>C — Orange card on cream</b><span>Softest handoff: the page stays cream and the CTA becomes a card. Loses the big full-width finish.</span></div>
+  <div class="shot"><a href="mockups/round-1/closing-d-burnt-gradient.png"><img src="mockups/round-1/closing-d-burnt-gradient.png" alt=""></a><b>D — Burnt gradient</b><span>Torn seam, orange deepening to rust with a warm light on the ammo. Moodiest; darker bottom leads into the footer.</span></div>
+</div>
+</body>
+</html>

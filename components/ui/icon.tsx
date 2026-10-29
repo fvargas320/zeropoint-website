@@ -8,6 +8,7 @@ const paths = {
   noAds: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M5.6 5.6l12.8 12.8",
   target: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z",
   stage: "M4 20V10 M10 20V4 M16 20v-7 M22 20H2",
+  devices: "M4 5h10a1 1 0 0 1 1 1v8H3V6a1 1 0 0 1 1-1z M1.5 17h15 M18 9h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z",
 } as const;
 
 export type IconName = keyof typeof paths;

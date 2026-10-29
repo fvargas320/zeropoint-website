@@ -1,9 +1,12 @@
 .section {
   position: relative;
   padding: var(--section-y) 0;
+  /* Dark range paper: glow, grain, paper tone, the page grid in charcoal. */
   background:
     radial-gradient(60% 70% at 78% 45%, #ff5a1f33, transparent 70%),
     var(--grain),
+    var(--mottle),
+    var(--grid-on-dark),
     var(--night);
   color: var(--on-dark);
 }
@@ -32,6 +35,14 @@
 .fine { margin-top: 18px; color: #8b887d; font-size: 12px; }
 
 .stage { position: relative; display: grid; place-items: center; }
+/* The printed target sits behind the devices and bleeds past them. */
+.target {
+  position: absolute;
+  width: 100%;
+  max-width: 760px;
+  color: #f4ead8;
+  opacity: 0.09;
+}
 .glow {
   position: absolute;
   width: 90%;
@@ -40,11 +51,16 @@
   background: radial-gradient(circle, #ff5a1f59, transparent 65%);
   filter: blur(20px);
 }
-.stage .phone { position: relative; width: min(62vw, 340px); rotate: 5deg; box-shadow: 0 0 0 1.5px #ff8a5766, 0 40px 80px -20px #000c, 0 0 60px -10px #ff5a1f66; }
+/* The web app on a laptop with the phone leaning in front of it, bottom right. */
+.devices { position: relative; width: min(100%, 560px); aspect-ratio: 1 / 0.78; }
+.laptop { position: absolute; left: 0; top: 8%; width: 86%; }
+.devices .phone { position: absolute; right: 0; bottom: 0; width: 31%; rotate: 5deg; box-shadow: 0 0 0 1.5px #ff8a5766, 0 40px 80px -20px #000c, 0 0 60px -10px #ff5a1f66; }
 
 @media (min-width: 960px) {
   /* Fits one laptop screen: tighter padding, and the phone sized by height too. */
   .section { min-height: var(--screen); display: grid; align-items: center; padding: clamp(56px, 8vh, 112px) 0; }
   .grid { grid-template-columns: 1.15fr 0.85fr; }
-  .stage .phone { width: min(24vw, 360px, calc((var(--screen) - 200px) * 0.47)); }
+  .target { width: 125%; }
+  /* Capped by height too, so the section still fits one laptop screen. */
+  .devices { width: min(100%, 560px, calc((var(--screen) - 200px) * 1.28)); }
 }

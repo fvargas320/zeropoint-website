@@ -7,14 +7,14 @@ export const webApp = {
   url: site.appUrl ?? "https://app.zeropointlog.com",
   host: "app.zeropointlog.com",
   sample: `${site.appUrl ?? "https://app.zeropointlog.com"}/sample`,
-  eyebrow: "On the web",
+  eyebrow: "On every screen",
   title: "Your whole log on the big screen.",
-  lede: "Open app.zeropointlog.com on any computer. Same account, same data as your phone, with room to dig into every match and metric.",
+  lede: "Log at the range on your phone, then pick it up on your computer. One account, always in sync, with room to dig into every match and metric.",
   points: [
-    "Your match season on one board, plus bulk results import",
+    "Your whole match season on one board, with bulk results import",
     "Cost per round, spend by caliber and group-size trends",
     "Every session with its target photos and video",
-    "Download your sessions as a spreadsheet (CSV)",
+    "Export your sessions to a spreadsheet",
   ],
   note: "Included with ZeroPoint Pro.",
 };
