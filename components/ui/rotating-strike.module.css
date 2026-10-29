@@ -1,0 +1,12 @@
+/* Every word sits in the same grid cell; the invisible ghosts give the slot
+   the longest word's width so the headline never reflows mid-cycle. Below
+   ~340px "spreadsheet." is wider than the column, so the word (only) steps
+   down a touch; everywhere else it matches the headline. */
+.slot { display: inline-grid; vertical-align: baseline; font-size: min(1em, 14vw); }
+.slot > * { grid-area: 1 / 1; justify-self: start; }
+.ghost { visibility: hidden; white-space: nowrap; }
+
+/* Each new word drops into place just before the reticle reaches it. */
+.word { display: inline-block; }
+.word[data-enter] { animation: word-in 0.24s var(--ease-out) both; }
+@keyframes word-in { from { opacity: 0; transform: translateY(0.18em); filter: blur(4px); } }

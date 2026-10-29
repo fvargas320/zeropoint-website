@@ -5,12 +5,14 @@ type Props = {
   /** Hero intro: a reticle glides onto the word and "fires" before the strike
       draws through it. Plays once on load; static for reduced motion. */
   shot?: boolean;
+  /** A faster, shorter shot for words after the first (RotatingStrike). */
+  quick?: boolean;
 };
 
 /** The App Store set's orange hand-drawn strike through a word. */
-export function Strike({ children, shot = false }: Props) {
+export function Strike({ children, shot = false, quick = false }: Props) {
   return (
-    <span className={styles.strike} data-shot={shot || undefined}>
+    <span className={styles.strike} data-shot={shot || undefined} data-quick={(shot && quick) || undefined}>
       {children}
       {shot && (
         <span className={styles.reticle} aria-hidden="true">

@@ -1,5 +1,10 @@
 // Smaller Home blocks. Facts checked against the app code on 2026-10-26.
 
+/** What the hero's reticle shoots down, in order. The first is the one the
+    headline means and the one it comes back to (and what screen readers and
+    search see); the rest are the other ways shooters keep a log today. */
+export const heroStrikes = ["notebook.", "spreadsheet.", "Notes app.", "guesswork."];
+
 export const facts = [
   { title: "Free to start", detail: "No card needed" },
   { title: "iPhone & Android", detail: "Same log on both" },

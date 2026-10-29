@@ -14,8 +14,9 @@ import { ProSpotlight } from "@/components/sections/pro/pro-spotlight";
 import { Features } from "@/components/sections/story/features";
 import { WebAppSection } from "@/components/sections/web-app/web-app-section";
 import { Announcement } from "@/components/ui/announcement";
-import { Strike } from "@/components/ui/strike";
+import { RotatingStrike } from "@/components/ui/rotating-strike";
 import { homeFaq } from "@/content/faq";
+import { heroStrikes } from "@/content/home";
 import { foundersLive, matchesLive } from "@/lib/release";
 
 // Rhythm: cream hero → dark Matches (the headline feature) → cream story →
@@ -33,7 +34,7 @@ export default async function HomePage() {
         <Hero
           announcement={<Announcement tag={live ? "New update" : "Next update"} text="Import your match results" href="#matches" />}
           eyebrow="The shooting log"
-          title={<>Ditch the <Strike shot>notebook.</Strike></>}
+          title={<>Ditch the <RotatingStrike words={heroStrikes} /></>}
           lede="Every range day, logged: sessions, ammo, gear and your crew, in one app."
           placement="hero"
           art={<HomeHeroArt />}

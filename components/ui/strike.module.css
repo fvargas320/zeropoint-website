@@ -50,6 +50,20 @@
   0% { opacity: 0.9; transform: scale(0.4); }
   100% { opacity: 0; transform: scale(4); }
 }
+/* Follow-up shots (RotatingStrike): a short hop instead of the glide in from
+   the art, firing about 0.35s in, with the line tearing through right after. */
+.strike[data-quick]::after { animation: draw 0.22s 0.4s cubic-bezier(0.7, 0, 0.2, 1) both; }
+.strike[data-quick] .reticle { animation: aim-quick 0.55s var(--ease-out) both; }
+.strike[data-quick] .flash { animation-delay: 0.34s; }
+@keyframes aim-quick {
+  0% { opacity: 0; transform: translate(1.4em, -0.6em) scale(1.3) rotate(-20deg); }
+  20% { opacity: 1; }
+  55% { transform: translate(0, 0) scale(1) rotate(0); }
+  66% { transform: scale(0.82); }
+  74% { transform: scale(1.05); opacity: 1; }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reticle { display: none; }
 }
