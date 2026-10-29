@@ -13,7 +13,7 @@
   animation: draw 0.6s 0.35s var(--ease-out) both;
 }
 /* With the shot, the strike waits for the reticle to fire and tears through fast. */
-.strike[data-shot]::after { animation: draw 0.35s 1.45s cubic-bezier(0.7, 0, 0.2, 1) both; }
+.strike[data-shot]::after { animation: draw 0.3s 0.8s cubic-bezier(0.7, 0, 0.2, 1) both; }
 @keyframes draw { from { transform: rotate(-2.5deg) scaleX(0); } }
 
 /* The reticle: glides in from the art side, settles on the word, recoils as it
@@ -27,7 +27,7 @@
   margin: -0.31em 0 0 -0.31em;
   color: var(--orange);
   pointer-events: none;
-  animation: aim 1.9s var(--ease-out) both;
+  animation: aim 1.05s var(--ease-out) both;
 }
 .reticle svg { width: 100%; height: 100%; display: block; }
 @keyframes aim {
@@ -44,7 +44,7 @@
   border-radius: 50%;
   border: 2px solid var(--orange);
   opacity: 0;
-  animation: flash 0.6s 1.25s ease-out both;
+  animation: flash 0.5s 0.68s ease-out both;
 }
 @keyframes flash {
   0% { opacity: 0.9; transform: scale(0.4); }

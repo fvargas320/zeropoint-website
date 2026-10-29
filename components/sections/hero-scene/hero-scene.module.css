@@ -1,13 +1,14 @@
-/* Timeline (s): notebook in 0–0.7 · reticle fires 1.25 · strike 1.45 ·
-   notebook knocked out 1.55–2.2 · laptop up 1.85–2.75 · phone in 2.2–3.0 ·
-   casings 2.5–3.0. Reduced motion jumps to the end: laptop and phone. */
+/* Timeline (s): notebook in 0–0.4 · reticle fires 0.68 · strike 0.8 ·
+   notebook knocked out 0.88–1.25 · laptop up 0.75–1.35 · phone in 0.95–1.55 ·
+   casings 1.15–1.6. The laptop starts before the notebook leaves, so the art
+   is never empty. Reduced motion jumps to the end: laptop and phone. */
 .scene { position: relative; aspect-ratio: 1 / 0.86; perspective: 1600px; }
 .layer { position: absolute; }
 
-.notebook { left: 4%; top: 6%; width: 74%; animation: notebook 2.2s var(--ease-out) both; }
-.laptop { left: 2%; top: 10%; width: 84%; transform-origin: 50% 100%; animation: rise 0.9s 1.85s var(--ease-out) both; }
-.phone { right: 0; bottom: 0; width: 27%; animation: slide 0.8s 2.2s var(--ease-out) both; }
-.casings { left: -5%; bottom: -3%; width: 30%; animation: scatter 0.6s 2.5s var(--ease-out) both; }
+.notebook { left: 4%; top: 6%; width: 74%; animation: notebook 1.25s var(--ease-out) both; }
+.laptop { left: 2%; top: 10%; width: 84%; transform-origin: 50% 100%; animation: rise 0.6s 0.75s var(--ease-out) both; }
+.phone { right: 0; bottom: 0; width: 27%; animation: slide 0.6s 0.95s var(--ease-out) both; }
+.casings { left: -5%; bottom: -3%; width: 30%; animation: scatter 0.45s 1.15s var(--ease-out) both; }
 
 .tiltNotebook { rotate: -7deg; filter: var(--shadow-prop); }
 .tiltCasings { rotate: 10deg; filter: var(--shadow-prop); }

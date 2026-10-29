@@ -1,5 +1,22 @@
-.flow { display: grid; gap: 14px; margin: clamp(40px, 5vw, 88px) 0 0; padding: 0; list-style: none; }
-.item { position: relative; }
+/* Phones: a swipe rail that bleeds to the screen edges, with the next card
+   peeking, instead of three tall cards stacked. Wider screens: three columns. */
+.flow {
+  display: flex;
+  gap: 12px;
+  margin: clamp(32px, 3.4vw, 56px) calc(-1 * var(--gutter)) 0;
+  padding: 0 var(--gutter) 4px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.flow::-webkit-scrollbar { display: none; }
+.item { position: relative; flex: 0 0 max(min(84%, 340px), 264px); scroll-snap-align: start; }
+/* The compact flow (/get) sits inside a padded card and has no body text, so it
+   stays stacked: a rail there would squeeze the cards. */
+.flow[data-compact] { display: grid; gap: 14px; margin-inline: 0; padding: 0; overflow: visible; }
 .step {
   height: 100%;
   padding: 12px;
@@ -13,9 +30,10 @@
 .text p { margin-top: 8px; color: var(--on-dark-2); font-size: var(--fs-body); }
 .flow[data-compact] .text { padding-bottom: 4px; }
 
-/* Arrows between steps: down on phones, across on wider screens. Dashes march. */
+/* Arrows between steps: across on wider screens, down in the stacked compact
+   flow, none in the rail (its peek does that job). Dashes march. */
 .arrow {
-  display: block;
+  display: none;
   width: 2px;
   height: 26px;
   margin: 6px auto -6px;
@@ -23,11 +41,13 @@
   background-size: 2px 22px;
   animation: march 1s linear infinite;
 }
+.flow[data-compact] .arrow { display: block; }
 @keyframes march { to { background-position: 0 22px; } }
 
 @media (min-width: 900px) {
-  .flow { grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 3vw, 48px); }
+  .flow, .flow[data-compact] { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 3vw, 48px); margin-inline: 0; padding: 0; overflow: visible; }
   .arrow {
+    display: block;
     position: absolute;
     top: 98px;
     right: calc(-1 * clamp(28px, 3vw, 48px));

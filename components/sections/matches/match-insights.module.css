@@ -1,6 +1,8 @@
 .section {
   position: relative;
-  padding: var(--section-y) 0;
+  /* Less at the bottom: the feature list ends in a small note, so a full
+     section gap there read as an empty band. */
+  padding: var(--section-y) 0 calc(var(--section-y) * 0.6);
   background:
     radial-gradient(55% 60% at 75% 50%, #ff5a1f26, transparent 70%),
     var(--grain),

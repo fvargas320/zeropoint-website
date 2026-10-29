@@ -11,12 +11,13 @@ const inSale = (now: Date) => now >= new Date(sale.startsAt) && now < new Date(s
 
 /**
  * Monthly / Yearly (and Lifetime once app 1.5.0 is live) with the price under
- * it. Yearly leads; its saving is worked out from the prices. Lifetime shows
+ * it. Monthly leads so the first price is the plain one; Yearly carries its
+ * saving, worked out from the prices. Lifetime shows
  * the Black Friday price in the same window the app does (visitor's local time).
  */
 export function PriceToggle({ lifetime = false }: { lifetime?: boolean }) {
   const plans: Plan[] = lifetime ? ["monthly", "yearly", "lifetime"] : ["monthly", "yearly"];
-  const [plan, setPlan] = useState<Plan>("yearly");
+  const [plan, setPlan] = useState<Plan>("monthly");
   const [onSale, setOnSale] = useState(false);
   useEffect(() => setOnSale(inSale(new Date())), []);
 

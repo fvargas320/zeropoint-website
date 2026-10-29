@@ -2,16 +2,16 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin: clamp(28px, 2.6vw, 44px) 0 0;
+  margin: clamp(24px, 2vw, 36px) 0 0;
   padding: 0;
   list-style: none;
 }
 .tile {
   display: flex;
   height: 100%;
-  flex-direction: column;
+  align-items: center;
   gap: 12px;
-  padding: clamp(16px, 1.4vw, 22px);
+  padding: clamp(14px, 1.1vw, 18px) clamp(14px, 1.2vw, 20px);
   border-radius: var(--radius);
   background: linear-gradient(160deg, #ffffff12, #ffffff05);
   box-shadow: inset 0 0 0 1px #ffffff1a;
@@ -20,5 +20,5 @@
   font-weight: 700;
   line-height: 1.25;
 }
-.icon { width: 28px; height: 28px; color: var(--orange-on-dark); }
+.icon { flex: none; width: 24px; height: 24px; color: var(--orange-on-dark); }
 @media (min-width: 640px) { .tiles { grid-template-columns: repeat(3, 1fr); } }

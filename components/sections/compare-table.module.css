@@ -1,13 +1,16 @@
-.section { padding: var(--section-y) 0; }
+/* A narrower card with larger rows, so the whole table fits one laptop screen
+   and reads at a glance instead of floating in a full-width card. */
+.section { padding: calc(var(--section-y) * 0.75) 0; }
 .card {
-  padding: clamp(28px, 4vw, 72px);
+  max-width: 1080px;
+  padding: clamp(28px, 3.6vw, 60px);
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--shadow-card);
 }
-.table { margin-top: clamp(28px, 3vw, 48px); border-top: 1px solid var(--line); }
-.row { display: grid; gap: 4px 24px; padding: clamp(16px, 1.4vw, 22px) 0; border-bottom: 1px solid var(--line); font-size: var(--fs-body); }
-.row b { font-size: var(--fs-body); }
+.table { margin-top: clamp(24px, 2.4vw, 36px); border-top: 1px solid var(--line); }
+.row { display: grid; gap: 4px 24px; padding: clamp(14px, 1.2vw, 18px) 0; border-bottom: 1px solid var(--line); font-size: clamp(16px, 0.4vw + 12px, 19px); }
+.row b { font-size: inherit; }
 .old { color: #8d8676; text-decoration: line-through; text-decoration-color: #ff5a1f99; }
 .new::before { content: "✓ "; color: var(--orange-text); font-weight: 800; }
 .head { display: none; color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }

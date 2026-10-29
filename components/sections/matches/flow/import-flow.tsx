@@ -8,10 +8,11 @@ import styles from "./import-flow.module.css";
 const art = [ShareArt, ScanArt, PointsArt];
 
 /** How a match gets in: three steps, each with a small animated picture of
-    what happens, joined by arrows. `compact` drops the body text (/get). */
+    what happens, joined by arrows (a swipe rail on phones). `compact` drops
+    the body text (/get). */
 export function ImportFlow({ compact = false }: { compact?: boolean }) {
   return (
-    <ol className={styles.flow} data-compact={compact || undefined}>
+    <ol className={styles.flow} data-compact={compact || undefined} aria-label="How a match gets in" tabIndex={0}>
       {importSteps.map((s, i) => {
         const Art = art[i];
         return (

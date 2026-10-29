@@ -9,9 +9,9 @@
 }
 .grid { display: grid; gap: clamp(40px, 5vw, 96px); align-items: center; }
 .eyebrow { color: var(--orange-on-dark); }
-.title { max-width: 13ch; }
+.title { max-width: 13ch; font-size: clamp(34px, 3.8vw, 64px); }
 
-.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: clamp(28px, 2.6vw, 44px); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: clamp(24px, 2vw, 36px); }
 .cta {
   display: inline-flex;
   align-items: center;
@@ -43,7 +43,8 @@
 .stage .phone { position: relative; width: min(62vw, 340px); rotate: 5deg; box-shadow: 0 0 0 1.5px #ff8a5766, 0 40px 80px -20px #000c, 0 0 60px -10px #ff5a1f66; }
 
 @media (min-width: 960px) {
-  .section { min-height: var(--screen); display: grid; align-items: center; }
+  /* Fits one laptop screen: tighter padding, and the phone sized by height too. */
+  .section { min-height: var(--screen); display: grid; align-items: center; padding: clamp(56px, 8vh, 112px) 0; }
   .grid { grid-template-columns: 1.15fr 0.85fr; }
-  .stage .phone { width: min(24vw, 380px); }
+  .stage .phone { width: min(24vw, 360px, calc((var(--screen) - 200px) * 0.47)); }
 }

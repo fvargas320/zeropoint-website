@@ -1,5 +1,7 @@
 .band { background: #d9cbb4; }
-.wide { display: none; aspect-ratio: 1600 / 686; }
+/* A slimmer letterbox than the 1600×686 film (it covers, centred on the logo),
+   so the band reads as a pause rather than a whole screen. */
+.wide { display: none; aspect-ratio: 1600 / 480; }
 .narrow { aspect-ratio: 3 / 2; }
 @media (min-width: 760px) {
   .wide { display: block; }

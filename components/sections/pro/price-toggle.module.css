@@ -1,4 +1,4 @@
-.block { margin-top: clamp(28px, 2.6vw, 44px); }
+.block { margin-top: clamp(24px, 2vw, 36px); }
 
 /* Equal segments (two, or three with Lifetime) and an orange thumb that slides under the chosen one. */
 .toggle {
@@ -63,9 +63,9 @@
   .narrow { display: inline; }
 }
 
-.price { display: flex; align-items: baseline; gap: 10px; margin-top: clamp(20px, 2vw, 32px); color: var(--on-dark); }
+.price { display: flex; align-items: baseline; gap: 10px; margin-top: clamp(16px, 1.4vw, 24px); color: var(--on-dark); }
 .amount {
-  font-size: clamp(56px, 6vw, 104px);
+  font-size: clamp(48px, 4.4vw, 76px);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1;
@@ -73,6 +73,6 @@
   animation: rise 0.45s var(--ease-out);
 }
 .per { color: var(--on-dark-2); font-size: var(--fs-lede); font-weight: 700; }
-.note { margin-top: 10px; color: var(--on-dark-2); font-size: var(--fs-small); }
+.note { margin-top: 8px; color: var(--on-dark-2); font-size: var(--fs-small); }
 
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
