@@ -7,8 +7,8 @@ import styles from "./hero-scene.module.css";
 
 /**
  * Desktop hero: the old way arrives first (the notebook), the headline's
- * reticle fires, the notebook is knocked away and the same log rises in on a
- * laptop and a phone. Each layer: entrance (outer) → mouse depth (middle) →
+ * strike crosses it out, the notebook is knocked away and the same log rises
+ * in on a laptop and a phone. Each layer: entrance (outer) → mouse depth (middle) →
  * resting tilt (inner), so the animations never fight over one property.
  */
 export function HeroScene() {

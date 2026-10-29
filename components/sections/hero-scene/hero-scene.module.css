@@ -1,4 +1,4 @@
-/* Timeline (s): notebook in 0–0.4 · reticle fires 0.68 · strike 0.8 ·
+/* Timeline (s): notebook in 0–0.4 · headline strike 0.35–0.95 ·
    notebook knocked out 0.88–1.25 · laptop up 0.75–1.35 · phone in 0.95–1.55.
    The laptop starts before the notebook leaves, so the art is never empty. Reduced motion jumps to the end: laptop and phone. */
 .scene { position: relative; aspect-ratio: 1 / 0.86; perspective: 1600px; }

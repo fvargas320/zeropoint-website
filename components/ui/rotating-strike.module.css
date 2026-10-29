@@ -6,7 +6,7 @@
 .slot > * { grid-area: 1 / 1; justify-self: start; }
 .ghost { visibility: hidden; white-space: nowrap; }
 
-/* Each new word drops into place just before the reticle reaches it. */
+/* Each new word drops into place just before its line tears through. */
 .word { display: inline-block; }
 .word[data-enter] { animation: word-in 0.24s var(--ease-out) both; }
 @keyframes word-in { from { opacity: 0; transform: translateY(0.18em); filter: blur(4px); } }
