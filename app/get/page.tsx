@@ -40,7 +40,7 @@ export default async function GetPage() {
           placement="get-hero"
           stackedStores
           storesId="get-stores"
-          art={<BenchArt back="notebook" front="casings" screens={["home", "session", "inventory"]} />}
+          art={<BenchArt back="notebook" screens={["home", "session", "inventory"]} />}
         />
         <ScreenRail title="Everything from the range, in your pocket." items={getRail} />
         <MatchTeaser live={live} />

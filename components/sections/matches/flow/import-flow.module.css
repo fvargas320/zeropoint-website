@@ -30,42 +30,42 @@
 .text p { margin-top: 8px; color: var(--on-dark-2); font-size: var(--fs-body); }
 .flow[data-compact] .text { padding-bottom: 4px; }
 
-/* Arrows between steps: across on wider screens, down in the stacked compact
-   flow, none in the rail (its peek does that job). Dashes march. */
+/* Between steps: a small round chip with a chevron, centred in the gap and
+   level with the pictures; pointing down in the stacked compact flow, none in
+   the rail (its peek does that job). */
 .arrow {
   display: none;
-  width: 2px;
-  height: 26px;
-  margin: 6px auto -6px;
-  background: repeating-linear-gradient(180deg, var(--orange) 0 6px, transparent 6px 11px);
-  background-size: 2px 22px;
-  animation: march 1s linear infinite;
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  margin: 10px auto 0;
+  border-radius: 50%;
+  background: var(--night);
+  box-shadow: inset 0 0 0 1px #ff5a1f66, 0 4px 12px -4px #000a;
+}
+.arrow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 7px;
+  height: 7px;
+  margin: auto;
+  border: solid var(--orange-on-dark);
+  border-width: 2px 2px 0 0;
+  translate: 0 -1px;
+  rotate: 135deg;
 }
 .flow[data-compact] .arrow { display: block; }
-@keyframes march { to { background-position: 0 22px; } }
 
 @media (min-width: 900px) {
   .flow, .flow[data-compact] { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 3vw, 48px); margin-inline: 0; padding: 0; overflow: visible; }
   .arrow {
     display: block;
     position: absolute;
-    top: 98px;
-    right: calc(-1 * clamp(28px, 3vw, 48px));
-    width: clamp(28px, 3vw, 48px);
-    height: 2px;
+    top: 96px;
+    right: calc(clamp(28px, 3vw, 48px) / -2 - 14px);
     margin: 0;
-    background: repeating-linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 11px);
-    background-size: 22px 2px;
-    animation-name: march-x;
   }
-  .arrow::after {
-    content: "";
-    position: absolute;
-    right: -2px;
-    top: -4px;
-    border: 5px solid transparent;
-    border-left: 7px solid var(--orange);
-  }
-  @keyframes march-x { to { background-position: 22px 0; } }
+  .arrow::after { translate: -1px 0; rotate: 45deg; }
 }
-@media (prefers-reduced-motion: reduce) { .arrow { animation: none; } }

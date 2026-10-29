@@ -8,7 +8,7 @@ export function HomeHeroArt() {
   return (
     <>
       <div className={styles.small}>
-        <BenchArt back="notebook" front="casings" screens={["home", "session", "inventory", "spending"]} />
+        <BenchArt back="notebook" screens={["home", "session", "inventory", "spending"]} />
       </div>
       <div className={styles.large}>
         <HeroScene />

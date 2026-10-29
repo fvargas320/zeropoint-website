@@ -32,12 +32,6 @@ export function HeroScene() {
         </div>
       </div>
 
-      <div className={`${styles.layer} ${styles.casings}`}>
-        <div className={styles.depthFront}>
-          <Prop name="casings" sizes="(min-width: 960px) 16vw, 1px" className={styles.tiltCasings} />
-        </div>
-      </div>
-
       <div className={`${styles.layer} ${styles.phone}`}>
         <div className={styles.depthFront}>
           <ScreenCycle order={["home", "spending", "session", "inventory"]} sizes="(min-width: 960px) 14vw, 1px" className={styles.tiltPhone} />

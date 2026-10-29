@@ -1,17 +1,14 @@
 /* Timeline (s): notebook in 0–0.4 · reticle fires 0.68 · strike 0.8 ·
-   notebook knocked out 0.88–1.25 · laptop up 0.75–1.35 · phone in 0.95–1.55 ·
-   casings 1.15–1.6. The laptop starts before the notebook leaves, so the art
-   is never empty. Reduced motion jumps to the end: laptop and phone. */
+   notebook knocked out 0.88–1.25 · laptop up 0.75–1.35 · phone in 0.95–1.55.
+   The laptop starts before the notebook leaves, so the art is never empty. Reduced motion jumps to the end: laptop and phone. */
 .scene { position: relative; aspect-ratio: 1 / 0.86; perspective: 1600px; }
 .layer { position: absolute; }
 
 .notebook { left: 4%; top: 6%; width: 74%; animation: notebook 1.25s var(--ease-out) both; }
 .laptop { left: 2%; top: 10%; width: 84%; transform-origin: 50% 100%; animation: rise 0.6s 0.75s var(--ease-out) both; }
 .phone { right: 0; bottom: 0; width: 27%; animation: slide 0.6s 0.95s var(--ease-out) both; }
-.casings { left: -5%; bottom: -3%; width: 30%; animation: scatter 0.45s 1.15s var(--ease-out) both; }
 
 .tiltNotebook { rotate: -7deg; filter: var(--shadow-prop); }
-.tiltCasings { rotate: 10deg; filter: var(--shadow-prop); }
 .tiltPhone { rotate: 6deg; }
 
 /* Mouse depth: back moves least, front most (ParallaxBox sets --mx/--my). */
@@ -39,7 +36,6 @@
 }
 @keyframes rise { from { opacity: 0; transform: translateY(70px) rotateX(20deg) scale(0.94); } }
 @keyframes slide { from { opacity: 0; transform: translate(80px, 30px) rotate(12deg); } }
-@keyframes scatter { from { opacity: 0; transform: translate(-30px, 30px) rotate(-20deg) scale(0.9); } }
 @keyframes turn { to { rotate: 360deg; } }
 
 @media (prefers-reduced-motion: reduce) {
