@@ -23,6 +23,15 @@ export const stores = {
   playStore: "https://play.google.com/store/apps/details?id=com.zeropoint.zeropoint",
 };
 
+/** The App Store link with a campaign token (`ct`), keeping any params it
+    already has. Used by landing pages an ad points at, e.g. /idpa. */
+export function appStoreLink(campaign?: string): string {
+  if (!campaign) return stores.appStore;
+  const url = new URL(stores.appStore);
+  url.searchParams.set("ct", campaign);
+  return url.toString();
+}
+
 // Real App Store figures. Update when they change; never round up.
 export const rating = { value: "5.0", count: 5, source: "App Store" };
 

@@ -1,4 +1,4 @@
-import { stores } from "@/content/site";
+import { appStoreLink, stores } from "@/content/site";
 import { AppleIcon, PlayIcon } from "./store-icons";
 import styles from "./store-buttons.module.css";
 
@@ -9,20 +9,22 @@ type Props = {
   /** "free" swaps the small label to "Free on the App Store". */
   label?: "default" | "free";
   className?: string;
+  /** App Store campaign token (`ct`) for a landing page, e.g. "idpa". */
+  campaign?: string;
 };
 
 /**
  * App Store and Google Play buttons. The visitor's own store leads and gets
  * the fill (html[data-platform], set in layout.tsx before first paint).
  */
-export function StoreButtons({ placement, layout = "row", label = "default", className }: Props) {
+export function StoreButtons({ placement, layout = "row", label = "default", className, campaign }: Props) {
   const free = label === "free";
   return (
     <div
       className={[styles.stores, layout === "stacked" && styles.stacked, className].filter(Boolean).join(" ")}
       data-placement={placement}
     >
-      <a className={`${styles.store} ${styles.apple}`} href={stores.appStore} data-store="app_store" aria-label="Download ZeroPoint on the App Store">
+      <a className={`${styles.store} ${styles.apple}`} href={appStoreLink(campaign)} data-store="app_store" aria-label="Download ZeroPoint on the App Store">
         <AppleIcon />
         <span><small>{free ? "Free on the" : "Download on the"}</small><strong>App Store</strong></span>
       </a>

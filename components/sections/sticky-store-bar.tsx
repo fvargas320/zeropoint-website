@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { stores } from "@/content/site";
+import { appStoreLink, stores } from "@/content/site";
 import { AppleIcon, PlayIcon } from "@/components/ui/store-icons";
 import styles from "./sticky-store-bar.module.css";
 
@@ -10,7 +10,7 @@ import styles from "./sticky-store-bar.module.css";
  * scrolled away, pin the visitor's own store to the bottom of the screen.
  * Desktop never shows it.
  */
-export function StickyStoreBar({ watchId }: { watchId: string }) {
+export function StickyStoreBar({ watchId, campaign }: { watchId: string; campaign?: string }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function StickyStoreBar({ watchId }: { watchId: string }) {
 
   return (
     <div className={styles.bar} data-show={show || undefined} data-placement="sticky">
-      <a className={`${styles.store} ${styles.apple}`} href={stores.appStore} data-store="app_store">
+      <a className={`${styles.store} ${styles.apple}`} href={appStoreLink(campaign)} data-store="app_store">
         <AppleIcon />
         <span><small>Free on the</small><strong>App Store</strong></span>
       </a>

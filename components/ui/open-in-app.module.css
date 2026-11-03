@@ -1,0 +1,6 @@
+/* Hidden until the platform script says this is a phone; desktop and no-JS
+   visitors never see a link their browser can't open. */
+.open { display: none; margin-top: 16px; font-weight: 700; }
+.open a { display: inline-flex; min-height: 48px; align-items: center; color: var(--orange-text); text-underline-offset: 4px; }
+:global(html[data-platform="ios"]) .open,
+:global(html[data-platform="android"]) .open { display: block; }
