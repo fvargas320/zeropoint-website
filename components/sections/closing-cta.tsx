@@ -5,11 +5,11 @@ import { TornEdge } from "@/components/ui/torn-edge";
 import type { ArtName } from "@/content/images";
 import styles from "./closing-cta.module.css";
 
-type Props = { title?: string; lede?: React.ReactNode; prop?: ArtName };
+type Props = { title?: string; lede?: React.ReactNode; prop?: ArtName; campaign?: string };
 
 /** The orange download band: torn off the cream page above, printed like
     orange cardstock, with a faint target behind the ammo. */
-export function ClosingCta({ title = "Let the next one count.", lede = "Free to start on iPhone and Android.", prop = "ammoBoxes" }: Props) {
+export function ClosingCta({ title = "Let the next one count.", lede = "Free to start on iPhone and Android.", prop = "ammoBoxes", campaign }: Props) {
   return (
     <section className={styles.section} id="download" aria-labelledby="closing-title">
       <TornEdge color="var(--orange)" seed={19} />
@@ -21,7 +21,7 @@ export function ClosingCta({ title = "Let the next one count.", lede = "Free to 
           <p className={`eyebrow ${styles.eyebrow}`}>See you at the range</p>
           <h2 id="closing-title">{title}</h2>
           <p className={`lede ${styles.lede}`}>{lede}</p>
-          <StoreButtons placement="closing" />
+          <StoreButtons placement="closing" campaign={campaign} />
         </div>
         <div className={styles.art} aria-hidden="true">
           <Prop name={prop} sizes="(min-width: 900px) 40vw, 90vw" className={styles.prop} />

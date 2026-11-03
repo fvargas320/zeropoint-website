@@ -14,9 +14,13 @@ type Props = {
   stackedStores?: boolean;
   /** Lets a sticky bar know when the hero's store buttons leave the screen. */
   storesId?: string;
+  /** App Store campaign token (`ct`) for a landing page, e.g. "idpa". */
+  campaign?: string;
+  /** Shown under the store buttons, e.g. an "Open in the app" link. */
+  afterStores?: React.ReactNode;
 };
 
-export function Hero({ announcement, eyebrow, title, lede, art, placement, stackedStores = false, storesId }: Props) {
+export function Hero({ announcement, eyebrow, title, lede, art, placement, stackedStores = false, storesId, campaign, afterStores }: Props) {
   return (
     <section className={`wrap ${styles.hero}`} aria-labelledby="hero-title">
       <div className={styles.copy}>
@@ -25,8 +29,9 @@ export function Hero({ announcement, eyebrow, title, lede, art, placement, stack
         <h1 id="hero-title">{title}</h1>
         <p className="lede">{lede}</p>
         <div id={storesId}>
-          <StoreButtons placement={placement} layout={stackedStores ? "stacked" : "row"} />
+          <StoreButtons placement={placement} layout={stackedStores ? "stacked" : "row"} campaign={campaign} />
         </div>
+        {afterStores}
         <Rating />
       </div>
       <div className={styles.art}>{art}</div>

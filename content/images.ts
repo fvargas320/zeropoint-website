@@ -2,6 +2,11 @@ import type { StaticImageData } from "next/image";
 import calendar from "@/assets/images/app/calendar.webp";
 import crew from "@/assets/images/app/crew.webp";
 import home from "@/assets/images/app/home.webp";
+import idpaClass from "@/assets/images/app/idpa-class.webp";
+import idpaLive from "@/assets/images/app/idpa-live.webp";
+import idpaMatch from "@/assets/images/app/idpa-match.webp";
+import idpaResults from "@/assets/images/app/idpa-results.webp";
+import idpaTerms from "@/assets/images/app/idpa-terms.webp";
 import inventory from "@/assets/images/app/inventory.webp";
 import lowstock from "@/assets/images/app/lowstock-app.webp";
 import metrics from "@/assets/images/app/metrics.webp";
@@ -31,6 +36,13 @@ export const screens = {
   spending: { src: spending, alt: "Metrics showing sessions per month, total spent and shooting buddies" },
   train: { src: train, alt: "Train tab with a 5×5 drill and drills like Dot Torture" },
   crew: { src: crew, alt: "A crew chat planning a Saturday range day" },
+  // IDPA renders from the app's own screen tests (demo data, 375pt light,
+  // docs/design/competition in rangeai), cropped to the first screen.
+  idpaMatch: { src: idpaMatch, alt: "An IDPA match page: 106.91 s match time, split into shooting, points down and penalties, with a How to read this card" },
+  idpaClass: { src: idpaClass, alt: "IDPA Classification: Marksman projected from a best 5x5 of 31.26 s, classifier due by Nov 22, and the times needed for Sharpshooter" },
+  idpaLive: { src: idpaLive, alt: "A live IDPA match: 77.40 s so far after 3 of 6 stages, with a Score stage 4 button" },
+  idpaResults: { src: idpaResults, alt: "Enter results by hand: place in division, overall place, class, class place, categories and Promoted to" },
+  idpaTerms: { src: idpaTerms, alt: "IDPA terms: final time, raw time, points down, misses and penalties, each in plain words" },
 } satisfies Record<string, Shot>;
 
 // Cut-out props from the App Store set; decorative, so no alt text.

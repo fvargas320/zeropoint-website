@@ -37,6 +37,9 @@ can't move:
 - `app/`: routes only, and each page just composes sections:
   - `/`, `/get`
   - `/shooting-log-app`, `/ammo-inventory-app`
+  - `/idpa`: the idpa.com ad's landing page. Its App Store links carry
+    `ct=idpa` and phones get "Open in the app" (`zeropoint://sport/idpa`).
+    Copy in `content/idpa.ts`, screens are app renders in `assets/images/app/idpa-*`.
   - `/privacy`, `/terms`, `/support`, `/your-data`
   - The icon, share image, robots and sitemap are generated.
 - `components/`: reusable pieces, each with its CSS module next to it:
