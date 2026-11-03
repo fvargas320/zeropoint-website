@@ -33,7 +33,7 @@ export const screens = {
   uspsaMatch: { src: uspsaMatch, alt: "A USPSA match page for Area 6 Championship: 82.0% in Carry Optics, 17th of 30, with Biggest costs of 14.7 s lost to time and 75 points lost to penalties" },
   uspsaResults: { src: uspsaResults, alt: "Full match results, overall, with your row pinned at the top: 23rd, C class Carry Optics, 81.95% and 811.8 points, above the match leaders" },
   uspsaImport: { src: uspsaImport, alt: "Bring in your results from PractiScore in three steps: open the results, tap Share, choose ZeroPoint" },
-  uspsaClass: { src: uspsaClass, alt: "USPSA Classification for Carry Optics: A class, 79.8% projected and 5.2% to M, on a D to GM scale" },
+  uspsaClass: { src: uspsaClass, alt: "USPSA Classification in Carry Optics: A class, 79.8% projected and 5.2% to M, with the fastest path to M listing the classifier runs that would get you there" },
   uspsaLive: { src: uspsaLive, alt: "A live USPSA match after stage 3 of 8: 17th of 30 so far, down 2 places, with 6 of 8 stages in and an Update results button" },
   uspsaCompete: { src: uspsaCompete, alt: "The Compete tab: Area 6 Championship in 3 days, a packing checklist, and a Start a classifier button" },
   home: { src: home, alt: "ZeroPoint home: last session, this week's range days and a training card" },
