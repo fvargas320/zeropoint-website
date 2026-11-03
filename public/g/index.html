@@ -94,7 +94,7 @@
     var raw = (m ? m[1] : (params.get('code') || '')).toUpperCase();
     var compact = raw.replace(/-/g, '');
     var handle = (params.get('from') || '').replace(/^@/, '').toLowerCase();
-    if (/^[a-z0-9_]{1,20}$/.test(handle)) {
+    if (/^[a-z0-9._]{1,20}$/.test(handle)) {
       document.getElementById('from').textContent = 'from @' + handle + '.';
       document.title = 'A ZeroPoint Pro gift from @' + handle;
     }
