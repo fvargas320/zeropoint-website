@@ -4,8 +4,7 @@
 const KEY = "phc_vQ69py6Bu5g4xZ2S7tszh8TpXt7ZrhfyyFVZHwYRt8pH";
 const ENDPOINT = "https://us.i.posthog.com/i/v0/e/";
 // App Store Connect › App Analytics › Campaigns shows the provider token.
-// Until it is set, App Store links carry no campaign; Play links always do.
-const APPLE_PROVIDER_TOKEN = "";
+const APPLE_PROVIDER_TOKEN = "128412466";
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
 
 const isLocal = () => /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
