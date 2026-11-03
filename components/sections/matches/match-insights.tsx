@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { Prop } from "@/components/media/prop";
@@ -24,7 +25,10 @@ export function MatchInsights({ live }: { live: boolean }) {
           <p className={`lede ${styles.lede}`}>{matchesCopy.lede}</p>
           <ul className={styles.sports} aria-label="Supported match types">
             {matchesCopy.sports.map((s) => (
-              <li key={s}><Icon name="target" className={styles.sportIcon} />{s}</li>
+              <li key={s.label}>
+                <Icon name="target" className={styles.sportIcon} />
+                {s.href ? <Link href={s.href}>{s.label} →</Link> : s.label}
+              </li>
             ))}
           </ul>
         </div>

@@ -13,7 +13,7 @@ export function MatchTeaser({ live }: { live: boolean }) {
         <h2 id="match-teaser-title" className={styles.title}>{matchesCopy.title}</h2>
         <p className={styles.lede}>{matchesCopy.lede}</p>
         <ul className={styles.sports} aria-label="Supported match types">
-          {matchesCopy.sports.map((s) => (
+          {matchesCopy.sports.map(({ label: s }) => (
             <li key={s}><Icon name="target" className={styles.icon} />{s}</li>
           ))}
         </ul>

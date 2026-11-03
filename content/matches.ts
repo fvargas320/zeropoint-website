@@ -5,7 +5,11 @@ export const matchesCopy = {
   eyebrow: "Matches",
   title: "See exactly where the points went.",
   lede: "Add your match results and get a stage-by-stage breakdown: hit factor, points down, what cost you the most, and the drills to fix it.",
-  sports: ["USPSA", "IDPA", "Steel Challenge"],
+  sports: [
+    { label: "USPSA", href: "/uspsa" },
+    { label: "IDPA", href: "/idpa" },
+    { label: "Steel Challenge" },
+  ] as { label: string; href?: string }[],
 };
 
 // An illustrative stage (labelled "Example" on the page). The numbers agree:

@@ -9,8 +9,16 @@ export const headerNav: Link[] = [
   { href: "/support", label: "Support" },
 ];
 
+/** The sports with their own page: the header's Sports menu. */
+export const sportsNav: (Link & { note: string })[] = [
+  { href: "/uspsa", label: "USPSA", note: "See exactly where you lost points" },
+  { href: "/idpa", label: "IDPA", note: "See where your seconds went" },
+];
+
 export const footerNav: Link[] = [
   { href: "https://app.zeropointlog.com", label: "Web app" },
+  { href: "/uspsa", label: "USPSA" },
+  { href: "/idpa", label: "IDPA" },
   { href: "/support", label: "Support" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },

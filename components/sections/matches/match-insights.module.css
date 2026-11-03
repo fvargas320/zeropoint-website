@@ -37,6 +37,8 @@
   font-size: var(--fs-small);
   font-weight: 700;
 }
+.sports a { color: inherit; text-decoration: none; }
+.sports a:hover { color: var(--orange-on-dark); }
 .sportIcon { width: 18px; height: 18px; color: var(--orange-on-dark); }
 
 .visual { position: relative; display: grid; gap: 14px; }

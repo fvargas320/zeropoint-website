@@ -13,6 +13,8 @@ import { money, pricing } from "./site";
 
 export const uspsa = {
   placement: "uspsa",
+  campaign: "uspsa",
+  deepLink: "zeropoint://sport/uspsa",
   title: "USPSA match log and classification tracker",
   description:
     "ZeroPoint for USPSA shooters: share your results from PractiScore and see where you lost points, stage by stage. Track your projected class from your classifiers and your place between stages on match day. Free on iPhone and Android.",

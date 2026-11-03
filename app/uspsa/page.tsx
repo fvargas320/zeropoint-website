@@ -8,6 +8,7 @@ import { FeatureList } from "@/components/sections/feature-list";
 import { Hero } from "@/components/sections/hero";
 import { Steps } from "@/components/sections/steps";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
+import { OpenInApp } from "@/components/ui/open-in-app";
 import { ProofStrip } from "@/components/sections/uspsa/proof-strip";
 import { SheetCompare } from "@/components/sections/uspsa/sheet-compare";
 import { uspsa, uspsaFaq, uspsaFeatures, uspsaSteps } from "@/content/uspsa";
@@ -39,6 +40,8 @@ export default async function UspsaPage() {
           lede={uspsa.lede}
           placement="uspsa-hero"
           storesId="uspsa-stores"
+          campaign={uspsa.campaign}
+          afterStores={<OpenInApp href={uspsa.deepLink} />}
           art={<BenchArt back="target" front="casings" screens={["uspsaMatch", "uspsaLive", "uspsaCompete"]} />}
         />
         <ProofStrip />
@@ -50,10 +53,11 @@ export default async function UspsaPage() {
           title={uspsa.closing}
           lede={<>Free to start on iPhone and Android. <a href="/">See everything ZeroPoint does</a>.</>}
           prop="target"
+          campaign={uspsa.campaign}
         />
       </main>
       <SiteFooter />
-      <StickyStoreBar watchId="uspsa-stores" />
+      <StickyStoreBar watchId="uspsa-stores" campaign={uspsa.campaign} />
     </>
   );
 }
