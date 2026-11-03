@@ -8,6 +8,12 @@ import metrics from "@/assets/images/app/metrics.webp";
 import spending from "@/assets/images/app/metrics-spending.webp";
 import session from "@/assets/images/app/session.webp";
 import train from "@/assets/images/app/train.webp";
+import uspsaClass from "@/assets/images/app/uspsa-class.webp";
+import uspsaCompete from "@/assets/images/app/uspsa-compete.webp";
+import uspsaImport from "@/assets/images/app/uspsa-import.webp";
+import uspsaLive from "@/assets/images/app/uspsa-live.webp";
+import uspsaMatch from "@/assets/images/app/uspsa-match.webp";
+import uspsaResults from "@/assets/images/app/uspsa-results.webp";
 import ammoBoxes from "@/assets/images/art/ammo-boxes.webp";
 import casings from "@/assets/images/art/casings-tape.webp";
 import crewPrints from "@/assets/images/art/crew-prints.webp";
@@ -22,6 +28,14 @@ export type Shot = { src: StaticImageData; alt: string };
 
 // Real app captures (demo data, iPhone 6.9", Oct 9 2026).
 export const screens = {
+  // USPSA renders from the app's own screen tests (synthetic demo data, 375pt
+  // light, docs/design/competition in rangeai), cropped to the first screen.
+  uspsaMatch: { src: uspsaMatch, alt: "A USPSA match page for Area 6 Championship: 82.0% in Carry Optics, 17th of 30, with Biggest costs of 14.7 s lost to time and 75 points lost to penalties" },
+  uspsaResults: { src: uspsaResults, alt: "Full match results, overall, with your row pinned at the top: 23rd, C class Carry Optics, 81.95% and 811.8 points, above the match leaders" },
+  uspsaImport: { src: uspsaImport, alt: "Bring in your results from PractiScore in three steps: open the results, tap Share, choose ZeroPoint" },
+  uspsaClass: { src: uspsaClass, alt: "USPSA Classification for Carry Optics: A class, 79.8% projected and 5.2% to M, on a D to GM scale" },
+  uspsaLive: { src: uspsaLive, alt: "A live USPSA match after stage 3 of 8: 17th of 30 so far, down 2 places, with 6 of 8 stages in and an Update results button" },
+  uspsaCompete: { src: uspsaCompete, alt: "The Compete tab: Area 6 Championship in 3 days, a packing checklist, and a Start a classifier button" },
   home: { src: home, alt: "ZeroPoint home: last session, this week's range days and a training card" },
   session: { src: session, alt: "A logged session: 200 rounds, $25 spent, Glock 19 at Burbank, with target photos" },
   inventory: { src: inventory, alt: "Inventory listing firearms with their calibers and last session" },
