@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GetPage } from "@/components/pages/get-page";
 import { getVariants } from "@/content/get";
-import { matchesLive } from "@/lib/release";
+import { foundersLive, matchesLive } from "@/lib/release";
 
 // /get opened with the promise of the ad that sent the visitor. Ads link to
 // /get?utm_campaign=… and middleware.ts rewrites here; the URL stays /get.
@@ -28,5 +28,6 @@ export default async function GetVariantPage({ params }: { params: Promise<{ var
   const { variant: slug } = await params;
   const variant = getVariants.find((v) => v.slug === slug);
   if (!variant) notFound();
-  return <GetPage variant={variant} live={await matchesLive()} />;
+  const [live, founders] = await Promise.all([matchesLive(), foundersLive()]);
+  return <GetPage variant={variant} live={live} founders={founders} />;
 }

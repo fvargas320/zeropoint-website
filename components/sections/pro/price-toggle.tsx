@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSalePhase } from "@/lib/use-sale-phase";
 import { money, pricing, yearlyPerMonth, yearlySavingPct } from "@/content/site";
 import styles from "./price-toggle.module.css";
 
 type Plan = "monthly" | "yearly" | "lifetime";
 
 const sale = pricing.lifetimeSale;
-const inSale = (now: Date) => now >= new Date(sale.startsAt) && now < new Date(sale.endsAt);
 
 /**
  * Monthly / Yearly (and Lifetime once app 1.5.0 is live) with the price under
@@ -18,8 +18,7 @@ const inSale = (now: Date) => now >= new Date(sale.startsAt) && now < new Date(s
 export function PriceToggle({ lifetime = false }: { lifetime?: boolean }) {
   const plans: Plan[] = lifetime ? ["monthly", "yearly", "lifetime"] : ["monthly", "yearly"];
   const [plan, setPlan] = useState<Plan>("monthly");
-  const [onSale, setOnSale] = useState(false);
-  useEffect(() => setOnSale(inSale(new Date())), []);
+  const onSale = useSalePhase("before") === "on";
 
   const price = { monthly: pricing.monthly, yearly: pricing.yearly, lifetime: onSale ? sale.price : pricing.lifetime }[plan];
   const per = { monthly: "/ month", yearly: "/ year", lifetime: "once" }[plan];

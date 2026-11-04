@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getVariants } from "@/content/get";
 
 // An ad links to /get?utm_campaign=<name>; a name that mentions a sport or
-// feature (uspsa, idpa, ammo, log) gets that version of the page, served
+// feature (uspsa, idpa, ammo, log) or partner (gunscom) gets that version of the page, served
 // from /get/<slug> while the address bar keeps /get and its query.
 export function middleware(request: NextRequest) {
   const campaign = request.nextUrl.searchParams.get("utm_campaign");

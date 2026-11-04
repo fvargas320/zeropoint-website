@@ -2,8 +2,8 @@
 .rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: min(62%, 260px);
-  gap: 16px;
+  grid-auto-columns: min(74%, 300px);
+  gap: 14px;
   margin: 0 calc(-1 * var(--gutter));
   padding: 20px var(--gutter) 28px;
   overflow-x: auto;
@@ -13,8 +13,24 @@
 }
 .rail::-webkit-scrollbar { display: none; }
 .rail li { scroll-snap-align: center; }
-.caption { margin-bottom: 12px; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
-.caption span { display: block; margin-top: 2px; color: var(--muted); font-size: 14px; font-weight: 400; letter-spacing: 0; }
+/* A card crops its phone at the bottom edge; the prop sits on top of the crop. */
+.card {
+  position: relative;
+  overflow: hidden;
+  height: clamp(460px, 40vw, 600px);
+  padding: 22px 20px 0;
+  border-radius: var(--radius-lg);
+  background: var(--grain), var(--mottle), var(--grid-on-dark), var(--night);
+  color: var(--on-dark);
+  box-shadow: 0 24px 40px -28px #3b2a1499;
+}
+.rail li:nth-child(even) .card { background: var(--grain), var(--mottle), var(--grid-on-orange), var(--orange); color: var(--on-orange); }
+.caption { min-height: 84px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.caption span { display: block; margin-top: 6px; color: var(--on-dark-2); font-size: 14px; font-weight: 500; letter-spacing: 0; line-height: 1.35; }
+.rail li:nth-child(even) .caption span { color: #3a1a08; }
+.phone { width: 88%; margin: 12px auto 0; }
+.prop { position: absolute; right: -5%; bottom: 3%; width: 56%; rotate: 6deg; filter: drop-shadow(0 12px 14px #0007); }
+.rail li:nth-child(even) .prop { rotate: -5deg; }
 @media (min-width: 900px) {
   .rail { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); margin-inline: 0; padding-inline: 0; overflow: visible; }
 }

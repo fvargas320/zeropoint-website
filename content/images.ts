@@ -24,6 +24,7 @@ import casings from "@/assets/images/art/casings-tape.webp";
 import crewPrints from "@/assets/images/art/crew-prints.webp";
 import dollars from "@/assets/images/art/dollars.webp";
 import notebook from "@/assets/images/art/notebook-x.webp";
+import notepadPro from "@/assets/images/art/notepad-pro.webp";
 import notification from "@/assets/images/art/notification.webp";
 import receipts from "@/assets/images/art/receipts.webp";
 import target from "@/assets/images/art/target.webp";
@@ -61,7 +62,7 @@ export const screens = {
 
 // Cut-out props from the App Store set; decorative, so no alt text.
 export const art = {
-  ammoBoxes, casings, crewPrints, dollars, notebook, notification, receipts, target, targetPrints,
+  ammoBoxes, casings, crewPrints, dollars, notebook, notepadPro, notification, receipts, target, targetPrints,
 } satisfies Record<string, StaticImageData>;
 
 export type ScreenName = keyof typeof screens;

@@ -1,3 +1,4 @@
+import type { IconName } from "@/components/ui/icon";
 // Smaller Home blocks. Facts checked against the app code on 2026-10-26.
 
 /** What the hero's reticle shoots down, in order. The first is the one the
@@ -26,3 +27,16 @@ export const privacyPoints = [
   { title: "Your log lives on your phone.", body: "Sessions and target photos are saved on the device, so logging works with no signal. Cloud backup is a Pro option, encrypted in transit and at rest." },
   { title: "Delete it whenever you like.", body: "Delete your account in Settings and its cloud data and files go with it." },
 ];
+
+// Plans, not promises: nothing here has shipped, so no dates and no "now".
+export const whatsNext: { title: string; lede: string; ask: string; items: { icon: IconName; title: string; body: string }[] } = {
+  title: "Where ZeroPoint goes from here.",
+  lede: "What we plan to build next. No dates yet, and what you ask for moves up the list.",
+  ask: "Got an idea? Tell us",
+  items: [
+    { icon: "chat", title: "A forum for shooters", body: "A place on this site to swap drills, gear notes and match stories." },
+    { icon: "stage", title: "Better analytics", body: "Deeper metrics on your shooting, your gear and your spending." },
+    { icon: "sliders", title: "Make it yours", body: "Much more say over how the app looks and what it shows you first." },
+    { icon: "devices", title: "App and web as one", body: "A smoother handoff, so you pick up on any screen where you left off." },
+  ],
+};
