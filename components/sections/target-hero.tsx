@@ -17,9 +17,12 @@ const HOLES = [[27, 15], [85, 24], [90, 62], [13, 58], [66, 7]];
 // From under each card to its hole.
 const LEADERS = ["M12 10 27 15", "M90 12 85 24", "M90 82 90 62"];
 
+const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
+
 /** The paid-page hero: a printed target whose holes read as data points, each
     tied by a leader line to a figure from the real screens in front of it.
-    Holes, lines and cards are separate elements so they can animate in. */
+    On load the shots land one by one and each pulls its figure out (CSS only;
+    `--i` sets the order, and with reduced motion it all simply shows). */
 export function TargetHero({ screens, stats }: Props) {
   const [front, rear] = screens;
   return (
@@ -39,18 +42,21 @@ export function TargetHero({ screens, stats }: Props) {
         <circle cx="52" cy="50" r="46" fill="var(--orange)" />
         <circle cx="52" cy="50" r="46" fill="url(#target-sheen)" />
         {RINGS.map((r) => <circle key={r} cx="52" cy="50" r={r} fill="none" stroke="var(--paper)" strokeWidth="0.55" opacity="0.85" />)}
-        {HOLES.map(([x, y]) => (
-          <g key={x} className={styles.hole}>
-            <circle cx={x} cy={y} r="2.1" fill="#5a1d00" opacity="0.35" filter="url(#target-tear)" />
-            <circle cx={x} cy={y} r="1.25" fill="#14100c" filter="url(#target-tear)" />
+        {HOLES.map(([x, y], i) => (
+          <g key={x} style={order(i)}>
+            <circle className={styles.shock} cx={x} cy={y} r="1.6" />
+            <g className={styles.hole}>
+              <circle cx={x} cy={y} r="2.1" fill="#5a1d00" opacity="0.35" filter="url(#target-tear)" />
+              <circle cx={x} cy={y} r="1.25" fill="#14100c" filter="url(#target-tear)" />
+            </g>
           </g>
         ))}
-        {LEADERS.map((d) => <path key={d} className={styles.leader} d={d} />)}
+        {LEADERS.map((d, i) => <path key={d} className={styles.leader} d={d} pathLength={1} style={order(i)} />)}
       </svg>
       <Phone screen={rear} sizes="(min-width: 960px) 16vw, 32vw" decorative className={`${styles.phone} ${styles.rear}`} />
       <Phone screen={front} sizes="(min-width: 960px) 20vw, 40vw" decorative priority className={`${styles.phone} ${styles.front}`} />
       {stats.map((s, i) => (
-        <p key={s.label} className={styles.stat} data-at={i}><b>{s.value}</b>{s.label}</p>
+        <p key={s.label} className={styles.stat} data-at={i} style={order(i)}><b>{s.value}</b>{s.label}</p>
       ))}
     </div>
   );
