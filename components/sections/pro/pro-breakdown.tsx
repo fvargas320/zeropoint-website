@@ -1,9 +1,11 @@
+import { Laptop } from "@/components/media/laptop";
 import { Phone } from "@/components/media/phone";
 import { Prop } from "@/components/media/prop";
 import { Reveal } from "@/components/motion/reveal";
 import { Icon } from "@/components/ui/icon";
 import { StoreButtons } from "@/components/ui/store-buttons";
 import { TornEdge } from "@/components/ui/torn-edge";
+import webSample from "@/assets/images/web-sample.webp";
 import type { ScreenName } from "@/content/images";
 import { freeLine, proBenefits, proPerks } from "@/content/pro";
 import { pricing, type SalePhase } from "@/content/site";
@@ -17,10 +19,11 @@ type Props = {
   phase: SalePhase;
 };
 
-/** What Pro adds and what it costs, for a paid page: the two biggest features
-    on real screens, the rest as tiles, then the plans and any sale. */
+/** What Pro adds and what it costs, for a paid page: the biggest features on
+    real screens, the same log on laptop and phone, the rest as tiles, then the
+    plans and any sale. */
 export function ProBreakdown({ matchScreen, lifetime, phase }: Props) {
-  const { matches, analytics, more } = proBenefits;
+  const { matches, analytics, sync, more } = proBenefits;
   return (
     <section className={styles.section} id="pro" aria-labelledby="pro-title" data-track-view="pro">
       <TornEdge color="var(--night)" seed={11} />
@@ -45,6 +48,17 @@ export function ProBreakdown({ matchScreen, lifetime, phase }: Props) {
               <Phone screen={b.screen} sizes="(min-width: 800px) 240px, 46vw" decorative className={styles.phone} />
             </Reveal>
           ))}
+          <Reveal delay={160} className={`${styles.tile} ${styles.wide}`}>
+            <div className={styles.tileCopy}>
+              <Icon name={sync.icon} className={styles.icon} />
+              <h3>{sync.title}</h3>
+              <ul>{sync.points.map((p) => <li key={p}>{p}</li>)}</ul>
+            </div>
+            <div className={styles.devices}>
+              <Laptop src={webSample} sizes="(min-width: 800px) 44vw, 80vw" className={styles.laptop} />
+              <Phone screen="session" sizes="(min-width: 800px) 13vw, 26vw" decorative className={styles.devicePhone} />
+            </div>
+          </Reveal>
         </div>
 
         <ul className={styles.more}>

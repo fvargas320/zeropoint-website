@@ -33,6 +33,11 @@
 .tileCopy ul { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--on-dark-2); font-size: var(--fs-small); line-height: 1.4; }
 .tileCopy li { position: relative; padding-left: 16px; }
 .tileCopy li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+/* Full width: the same log on a laptop with the phone leaning in front. */
+.tile.wide { grid-template-columns: 1fr; height: auto; padding-bottom: clamp(20px, 2.4vw, 36px); }
+.devices { position: relative; width: min(100%, 560px); margin-inline: auto; aspect-ratio: 1 / 0.7; }
+.devices .laptop { position: absolute; left: 0; top: 0; width: 88%; }
+.devices .devicePhone { position: absolute; right: 0; bottom: 0; width: 28%; rotate: 5deg; }
 .phone { align-self: start; rotate: 3deg; margin-top: 6px; }
 .icon { display: block; width: 26px; height: 26px; color: var(--orange-on-dark); }
 
@@ -59,5 +64,6 @@
 @media (min-width: 800px) {
   .notepad { display: block; }
   .big { grid-template-columns: 1fr 1fr; }
-  .more { grid-template-columns: repeat(3, 1fr); }
+  .tile.wide { grid-column: 1 / -1; grid-template-columns: 0.8fr 1.2fr; align-items: center; gap: clamp(24px, 4vw, 64px); }
+  .more { grid-template-columns: repeat(2, 1fr); }
 }
