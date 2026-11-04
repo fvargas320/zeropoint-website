@@ -1,3 +1,5 @@
+import { stores } from "@/content/site";
+
 // Ported verbatim from the static support.html (October 2026).
 export function SupportBody() {
   return (
@@ -22,7 +24,7 @@ export function SupportBody() {
       </div>
       <h3>In-app feedback</h3>
       <p>Open Settings in ZeroPoint and use the feedback option to send context from your device.</p>
-      <a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">Open on the App Store</a>
+      <a href={stores.appStore} target="_blank" rel="noopener noreferrer">Open on the App Store</a>
       </div>
       </div>
       <div className="faq-section">

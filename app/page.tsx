@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { AppJsonLd } from "@/components/seo/app-json-ld";
@@ -24,6 +25,8 @@ import { foundersLive, matchesLive } from "@/lib/release";
 // orange download.
 // Re-check the App Store hourly so Matches go live with app 1.5.0.
 export const revalidate = 3600;
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function HomePage() {
   const [live, founders] = await Promise.all([matchesLive(), foundersLive()]);

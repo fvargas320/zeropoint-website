@@ -1,15 +1,60 @@
+/* A titanium-band phone drawn around a real capture. The phone is the metal
+   band; the screen sits inset from it and draws the black bezel as a ring.
+   Inside, sizes are in container units (cqi = 1% of the phone's width), so
+   every phone on the site has the same proportions whatever its width. */
 .phone {
   position: relative;
-  padding: clamp(4px, 0.9vw, 8px);
-  border-radius: clamp(26px, 5.4vw, 46px);
-  background: #121212;
-  box-shadow: 0 0 0 1.5px #6d6d68, 0 30px 50px -18px #0006, 0 12px 22px -12px #0005;
+  container-type: inline-size;
+  /* 15.5% of the width; the phone is about 2.08 widths tall. */
+  border-radius: 15.5% / 7.45%;
+  background: linear-gradient(135deg, #d9d3c8 0%, #8f897e 18%, #c9c2b6 34%, #6f6a62 52%, #b8b1a5 70%, #7b766d 86%, #e3ddd2 100%);
+  box-shadow:
+    inset 0 0 0 0.5px #ffffff26,
+    0 30px 50px -18px #0006,
+    0 12px 22px -12px #0005;
 }
+/* Side buttons: action and volume on the left, power on the right. */
+.phone::before,
+.phone::after {
+  content: "";
+  position: absolute;
+  width: 1.1cqi;
+  border-radius: 1cqi;
+  background: linear-gradient(90deg, #6f6a62, #cfc8bc 55%, #8f897e);
+}
+.phone::before {
+  left: -2.1cqi;
+  top: 19%;
+  height: 6%;
+  box-shadow: 0 9.5cqi 0 #9d978b, 0 23cqi 0 #9d978b;
+}
+.phone::after { right: -2.1cqi; top: 27%; height: 11%; }
 .screen {
   --skeleton: #1d1d1c;
   --skeleton-shine: #2a2a28;
+  position: relative;
+  margin: 3.85cqi;
   aspect-ratio: 1320 / 2868;
   overflow: hidden;
-  border-radius: clamp(21px, 4.5vw, 38px);
+  border-radius: 12.5cqi;
+  box-shadow: 0 0 0 2.6cqi #070707;
+  background-color: #070707;
+}
+/* Camera island and a faint glass sheen, laid over whichever capture shows.
+   The island sits where iOS draws it, between the clock and the icons. */
+.screen::before,
+.screen::after { content: ""; position: absolute; z-index: 1; pointer-events: none; }
+.screen::before {
+  top: 1.2%;
+  left: 50%;
+  width: 30%;
+  aspect-ratio: 126 / 37;
+  border-radius: 99px;
+  translate: -50% 0;
+  background: radial-gradient(circle at 78% 50%, #1b2233 0 6%, #0b0d12 7% 11%, transparent 12%), #000;
+}
+.screen::after {
+  inset: 0;
+  background: linear-gradient(118deg, #ffffff14 0%, #ffffff05 34%, transparent 34.5%);
 }
 .img { width: 100%; height: 100%; object-fit: cover; }

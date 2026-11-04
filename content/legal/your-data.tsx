@@ -1,3 +1,5 @@
+import { stores } from "@/content/site";
+
 // Ported verbatim from the static your-data.html (October 2026).
 export function YourDataBody() {
   return (
@@ -17,7 +19,7 @@ export function YourDataBody() {
       <p>Prefer to keep them in the cloud? Resubscribe to ZeroPoint Pro in the app and nothing is removed.</p>
       <h2>Don't have the app on this phone?</h2>
       <p>Install ZeroPoint and sign in with the same account, then follow the steps above.</p>
-      <p><a href="https://apps.apple.com/us/app/zeropoint-range-log/id6757300865" target="_blank" rel="noopener noreferrer">Get ZeroPoint on the App Store</a></p>
+      <p><a href={stores.appStore} target="_blank" rel="noopener noreferrer">Get ZeroPoint on the App Store</a> or <a href={stores.playStore} target="_blank" rel="noopener noreferrer">on Google Play</a></p>
       <p>Need a hand? Email <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a>.</p>
       </div>
     </>

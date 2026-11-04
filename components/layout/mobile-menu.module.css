@@ -1,0 +1,39 @@
+.toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.toggle svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+/* The bar's backdrop-filter makes it the containing block, so the drawer
+   hangs off its bottom edge and is sized to the rest of the screen. */
+.drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: calc(100dvh - var(--header));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+.drawer[hidden] { display: none; }
+.inner { display: grid; gap: 28px; padding: 24px 0 calc(40px + env(safe-area-inset-bottom)); }
+.group .eyebrow { margin-bottom: 8px; }
+.group ul, .links { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.group a { display: grid; gap: 2px; margin-inline: -12px; padding: 10px 12px; border-radius: calc(var(--radius) - 6px); text-decoration: none; }
+.group a:active, .group a:hover { background: color-mix(in srgb, var(--line) 35%, transparent); }
+.group b { font-size: 17px; }
+.group span { font-size: 14px; opacity: 0.72; }
+.links { padding-top: 20px; border-top: 1px solid var(--line); }
+.links a { display: block; padding: 10px 0; font-size: 17px; font-weight: 700; text-decoration: none; }
+@media (min-width: 1024px) {
+  .toggle, .drawer { display: none; }
+}
