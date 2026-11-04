@@ -28,6 +28,18 @@ export function FeatureStory({ items }: { items: Feature[] }) {
     return () => io.disconnect();
   }, []);
 
+  // Links like /#armory name the stacked row, hidden on desktop; scroll to
+  // the matching chapter instead.
+  useEffect(() => {
+    const follow = () => {
+      const chapter = document.getElementById(`story-${location.hash.slice(1)}`);
+      if (chapter?.offsetParent) chapter.scrollIntoView({ block: "center" });
+    };
+    follow();
+    window.addEventListener("hashchange", follow);
+    return () => window.removeEventListener("hashchange", follow);
+  }, []);
+
   return (
     <div className={`wrap ${styles.story}`}>
       <div className={styles.chapters}>

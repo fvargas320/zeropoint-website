@@ -17,4 +17,6 @@ export const webApp = {
     "Export your sessions to a spreadsheet",
   ],
   note: "Included with ZeroPoint Pro.",
+  /** Under every download band's store buttons. */
+  signIn: "Already on Pro? Open your log on the web",
 };

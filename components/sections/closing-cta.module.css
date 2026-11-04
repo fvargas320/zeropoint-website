@@ -18,6 +18,7 @@
 .prop { position: relative; filter: var(--shadow-prop); }
 /* The fill stays ink on orange whichever store leads. */
 .section a[data-store] { border-color: var(--ink); }
+.web { display: inline-block; margin-top: 18px; padding: 10px 0; font-size: var(--fs-small); font-weight: 700; text-underline-offset: 3px; }
 @media (min-width: 900px) {
   .grid { grid-template-columns: 1.2fr 1fr; }
   .rings { left: 73%; top: 50%; width: min(1040px, 72vw); }

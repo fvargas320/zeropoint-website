@@ -34,7 +34,7 @@ export function HeroScene() {
 
       <div className={`${styles.layer} ${styles.phone}`}>
         <div className={styles.depthFront}>
-          <ScreenCycle order={["home", "spending", "session", "inventory"]} sizes="(min-width: 960px) 14vw, 1px" className={styles.tiltPhone} />
+          <ScreenCycle order={["home", "spending", "session", "inventory"]} sizes="(min-width: 960px) 16vw, 1px" className={styles.tiltPhone} />
         </div>
       </div>
     </ParallaxBox>

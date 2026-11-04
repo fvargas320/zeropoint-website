@@ -3,6 +3,7 @@ import { StoreButtons } from "@/components/ui/store-buttons";
 import { TargetRings } from "@/components/ui/target-rings";
 import { TornEdge } from "@/components/ui/torn-edge";
 import type { ArtName } from "@/content/images";
+import { webApp } from "@/content/web-app";
 import styles from "./closing-cta.module.css";
 
 type Props = { title?: string; lede?: React.ReactNode; prop?: ArtName; campaign?: string };
@@ -22,6 +23,7 @@ export function ClosingCta({ title = "Let the next one count.", lede = "Free to 
           <h2 id="closing-title">{title}</h2>
           <p className={`lede ${styles.lede}`}>{lede}</p>
           <StoreButtons placement="closing" campaign={campaign} />
+          <a className={styles.web} href={`${webApp.url}/login`}>{webApp.signIn} <span aria-hidden="true">→</span></a>
         </div>
         <div className={styles.art} aria-hidden="true">
           <Prop name={prop} sizes="(min-width: 900px) 40vw, 90vw" className={styles.prop} />

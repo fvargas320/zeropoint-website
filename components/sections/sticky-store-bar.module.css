@@ -30,3 +30,5 @@
 :global(html[data-platform="android"]) .bar { display: block; }
 :global(html[data-platform="ios"]) .play,
 :global(html[data-platform="android"]) .apple { display: none; }
+/* The header's menu drawer covers the page; the bar steps aside for it. */
+:global(html[data-menu]) .bar { display: none; }

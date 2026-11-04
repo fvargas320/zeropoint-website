@@ -1,5 +1,7 @@
 .large { display: none; }
 @media (min-width: 960px) {
   .small { display: none; }
-  .large { display: block; }
+  /* The devices are the pitch: the scene grows a tenth past its column,
+     into the column gap and a little of the right gutter. */
+  .large { display: block; width: 110%; margin-left: -6%; }
 }

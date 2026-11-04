@@ -1,16 +1,30 @@
 export type Link = { href: string; label: string };
 
+/** Plain header links, after the Features and Sports menus. Privacy and
+    Support live in the footer (and the mobile drawer) to keep the bar short. */
 export const headerNav: Link[] = [
-  { href: "/#features", label: "Features" },
-  { href: "/#matches", label: "Matches" },
-  { href: "/#web-app", label: "Web app" },
-  { href: "/#pro", label: "Pro" },
+  { href: "/#pro", label: "Pricing" },
+];
+
+/** Extra links only the mobile drawer shows. */
+export const drawerNav: Link[] = [
   { href: "/#privacy", label: "Privacy" },
   { href: "/support", label: "Support" },
 ];
 
+export type MenuLink = Link & { note: string };
+
+/** The header's Features menu: a page where one exists, else Home's section. */
+export const featuresNav: MenuLink[] = [
+  { href: "/shooting-log-app", label: "Shooting log", note: "Every session in seconds" },
+  { href: "/ammo-inventory-app", label: "Ammo inventory", note: "Know before a caliber runs dry" },
+  { href: "/#matches", label: "Match analysis", note: "Import results, see where points went" },
+  { href: "/#armory", label: "Firearms & maintenance", note: "Your armory, with maintenance alerts" },
+  { href: "/#web-app", label: "Web dashboard", note: "Your whole log on the big screen" },
+];
+
 /** The sports with their own page: the header's Sports menu. */
-export const sportsNav: (Link & { note: string })[] = [
+export const sportsNav: MenuLink[] = [
   { href: "/uspsa", label: "USPSA", note: "See exactly where you lost points" },
   { href: "/idpa", label: "IDPA", note: "See where your seconds went" },
 ];

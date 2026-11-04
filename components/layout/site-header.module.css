@@ -7,7 +7,7 @@
   -webkit-backdrop-filter: saturate(1.4) blur(12px);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
 }
-.inner { display: flex; align-items: center; gap: 20px; height: var(--header); }
+.inner { display: flex; align-items: center; gap: 12px; height: var(--header); }
 .nav { display: none; gap: clamp(24px, 2vw, 40px); margin-left: auto; font-size: clamp(15px, 0.25vw + 12px, 17px); font-weight: 700; }
 .nav a { padding: 12px 0; text-decoration: none; white-space: nowrap; }
 .nav a:hover { color: var(--orange-text); }
@@ -25,12 +25,14 @@
   text-decoration: none;
   white-space: nowrap;
 }
+/* Sign in sits apart from the page links: it leaves the site. */
+.nav .signIn { padding-left: clamp(16px, 1.6vw, 28px); border-left: 1px solid var(--line); }
 @media (min-width: 1024px) {
   .nav { display: flex; }
   .cta { margin-left: 8px; }
 }
-.sports { position: relative; display: flex; }
-.sportsButton {
+.menu { position: relative; display: flex; }
+.menuButton {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -42,22 +44,22 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.sportsButton:hover, .sportsButton[aria-expanded="true"] { color: var(--orange-text); }
-.sportsButton svg { transition: transform 160ms ease; }
-.sportsButton[aria-expanded="true"] svg { transform: rotate(180deg); }
-.sportsPanel {
+.menuButton:hover, .menuButton[aria-expanded="true"] { color: var(--orange-text); }
+.menuButton svg { transition: transform 160ms ease; }
+.menuButton[aria-expanded="true"] svg { transform: rotate(180deg); }
+.menuPanel {
   position: absolute;
   top: 100%;
   left: -14px;
   display: grid;
   gap: 2px;
-  width: 280px;
+  width: 310px;
   padding: 8px;
   border-radius: var(--radius);
   background: var(--paper);
   box-shadow: 0 0 0 1px var(--line), 0 16px 40px #00000024;
 }
-.sportsPanel[hidden] { display: none; }
-.nav .sportsPanel a { display: grid; gap: 2px; padding: 10px 12px; border-radius: calc(var(--radius) - 6px); white-space: normal; }
-.nav .sportsPanel a:hover { background: color-mix(in srgb, var(--line) 35%, transparent); color: inherit; }
-.sportsPanel span { font-size: 14px; font-weight: 500; opacity: 0.72; }
+.menuPanel[hidden] { display: none; }
+.nav .menuPanel a { display: grid; gap: 2px; padding: 10px 12px; border-radius: calc(var(--radius) - 6px); white-space: normal; }
+.nav .menuPanel a:hover { background: color-mix(in srgb, var(--line) 35%, transparent); color: inherit; }
+.menuPanel span { font-size: 14px; font-weight: 500; opacity: 0.72; }
