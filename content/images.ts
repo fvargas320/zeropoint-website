@@ -34,7 +34,8 @@ export type Shot = { src: StaticImageData; alt: string };
 // Real app captures (demo data, iPhone 6.9", Oct 9 2026).
 export const screens = {
   // USPSA renders from the app's own screen tests (synthetic demo data, 375pt
-  // light, docs/design/competition in rangeai), cropped to the first screen.
+  // dark to match the device captures, docs/design/competition in rangeai),
+  // cropped to the first screen with the device status bar added on top.
   uspsaMatch: { src: uspsaMatch, alt: "A USPSA match page for Area 6 Championship: 82.0% in Carry Optics, 17th of 30, with Biggest costs of 14.7 s lost to time and 75 points lost to penalties" },
   uspsaResults: { src: uspsaResults, alt: "Full match results, overall, with your row pinned at the top: 23rd, C class Carry Optics, 81.95% and 811.8 points, above the match leaders" },
   uspsaImport: { src: uspsaImport, alt: "Bring in your results from PractiScore in three steps: open the results, tap Share, choose ZeroPoint" },
@@ -50,8 +51,7 @@ export const screens = {
   spending: { src: spending, alt: "Metrics showing sessions per month, total spent and shooting buddies" },
   train: { src: train, alt: "Train tab with a 5×5 drill and drills like Dot Torture" },
   crew: { src: crew, alt: "A crew chat planning a Saturday range day" },
-  // IDPA renders from the app's own screen tests (demo data, 375pt light,
-  // docs/design/competition in rangeai), cropped to the first screen.
+  // IDPA renders, the same way (375pt dark, docs/design/competition).
   idpaMatch: { src: idpaMatch, alt: "An IDPA match page: 106.91 s match time, split into shooting, points down and penalties, with a How to read this card" },
   idpaClass: { src: idpaClass, alt: "IDPA Classification: Marksman projected from a best 5x5 of 31.26 s, classifier due by Nov 22, and the times needed for Sharpshooter" },
   idpaLive: { src: idpaLive, alt: "A live IDPA match: 77.40 s so far after 3 of 6 stages, with a Score stage 4 button" },

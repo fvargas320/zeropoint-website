@@ -1,8 +1,13 @@
 export type Link = { href: string; label: string };
 
-/** Plain header links, after the Features and Sports menus. */
+/** Plain header links, after the Features and Sports menus. Privacy and
+    Support live in the footer (and the mobile drawer) to keep the bar short. */
 export const headerNav: Link[] = [
-  { href: "/#pro", label: "Pro" },
+  { href: "/#pro", label: "Pricing" },
+];
+
+/** Extra links only the mobile drawer shows. */
+export const drawerNav: Link[] = [
   { href: "/#privacy", label: "Privacy" },
   { href: "/support", label: "Support" },
 ];

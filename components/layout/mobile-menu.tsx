@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { featuresNav, headerNav, sportsNav } from "@/content/nav";
+import { drawerNav, featuresNav, headerNav, sportsNav } from "@/content/nav";
 import { site } from "@/content/site";
 import styles from "./mobile-menu.module.css";
 
@@ -47,7 +47,7 @@ export function MobileMenu() {
           <Group title="Features" items={featuresNav} onPick={close} />
           <Group title="Sports" items={sportsNav} onPick={close} />
           <ul className={styles.links}>
-            {headerNav.map((l) => <li key={l.href}><Link href={l.href} onClick={close}>{l.label}</Link></li>)}
+            {[...headerNav, ...drawerNav].map((l) => <li key={l.href}><Link href={l.href} onClick={close}>{l.label}</Link></li>)}
             {site.appUrl && <li><a href={`${site.appUrl}/login`}>Sign in</a></li>}
           </ul>
         </div>
