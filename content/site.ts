@@ -48,6 +48,19 @@ export const pricing = {
 };
 
 export const money = (n: number) => `$${n.toFixed(2)}`;
+/** How the sale is shown. Dates read in the visitor's local time, as the app does. */
+export type SalePhase = "before" | "on" | "over";
+export function salePhase(now: Date): SalePhase {
+  if (now < new Date(pricing.lifetimeSale.startsAt)) return "before";
+  return now < new Date(pricing.lifetimeSale.endsAt) ? "on" : "over";
+}
+/** Whether to show the sale. It can be announced ahead of release, but once
+    it's on it needs a Lifetime people can actually buy (`lifetimeLive`). */
+export const saleShown = (phase: SalePhase, lifetimeLive: boolean) =>
+  site.foundersLifetime && (phase === "before" || (phase === "on" && lifetimeLive));
+/** The last day of the sale; endsAt is the midnight after it. */
+export const saleDates = { start: "Nov 26", end: "Dec 1" };
+export const lifetimeSaleSaving = `$${Math.floor(pricing.lifetime - pricing.lifetimeSale.price)}`;
 /** What yearly saves against twelve months, rounded down so we never overstate it. */
 export const yearlySavingPct = Math.floor((1 - pricing.yearly / (pricing.monthly * 12)) * 100);
 export const yearlyPerMonth = money(Math.ceil((pricing.yearly / 12) * 100) / 100);

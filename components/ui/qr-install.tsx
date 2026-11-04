@@ -11,7 +11,7 @@ export async function QrInstall({ campaign = "get" }: { campaign?: string }) {
   return (
     <div className={styles.qr} data-track-view="qr">
       <span className={styles.code} role="img" aria-label="QR code that opens ZeroPoint in your phone's app store" dangerouslySetInnerHTML={{ __html: svg }} />
-      <p><b>On your computer?</b> Scan with your phone's camera to get the app.</p>
+      <p><b>On your computer?</b>Scan to get the app.</p>
     </div>
   );
 }

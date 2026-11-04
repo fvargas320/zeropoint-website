@@ -14,6 +14,7 @@ import { PrivacyCard } from "@/components/sections/privacy-card";
 import { ProSpotlight } from "@/components/sections/pro/pro-spotlight";
 import { Features } from "@/components/sections/story/features";
 import { WebAppSection } from "@/components/sections/web-app/web-app-section";
+import { WhatsNext } from "@/components/sections/whats-next";
 import { Announcement } from "@/components/ui/announcement";
 import { RotatingStrike } from "@/components/ui/rotating-strike";
 import { homeFaq } from "@/content/faq";
@@ -21,7 +22,7 @@ import { heroStrikes } from "@/content/home";
 import { foundersLive, matchesLive } from "@/lib/release";
 
 // Rhythm: cream hero → dark Matches (the headline feature) → cream story →
-// the web app → the brand film → cream comparison → dark Pro → cream privacy and FAQ →
+// the web app → the brand film → cream comparison → dark Pro → cream privacy → dark what's next → cream FAQ →
 // orange download.
 // Re-check the App Store hourly so Matches go live with app 1.5.0.
 export const revalidate = 3600;
@@ -50,6 +51,7 @@ export default async function HomePage() {
         <CompareTable />
         <ProSpotlight lifetime={founders} />
         <PrivacyCard />
+        <WhatsNext />
         <FaqList items={homeFaq(live, founders)} />
         <ClosingCta />
       </main>

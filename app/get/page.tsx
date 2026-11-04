@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { GetPage } from "@/components/pages/get-page";
 import { getDefault } from "@/content/get";
-import { matchesLive } from "@/lib/release";
+import { foundersLive, matchesLive } from "@/lib/release";
 
 export const metadata: Metadata = {
   title: { absolute: "Get ZeroPoint — Ditch the notebook" },
@@ -17,5 +17,6 @@ export const revalidate = 3600;
 // Where ads and social posts send people. An ad whose campaign names a sport
 // or feature gets the matching version (middleware.ts → /get/[variant]).
 export default async function Get() {
-  return <GetPage variant={getDefault} live={await matchesLive()} />;
+  const [live, founders] = await Promise.all([matchesLive(), foundersLive()]);
+  return <GetPage variant={getDefault} live={live} founders={founders} />;
 }

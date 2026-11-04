@@ -1,0 +1,56 @@
+/* Everything is placed in % of the drawing and sized in cqi, so the piece
+   keeps its proportions from a phone to a wide screen. */
+.art { position: relative; container-type: inline-size; aspect-ratio: 100 / 98; }
+.target { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 22px 28px #3b2a1433); }
+.leader { fill: none; stroke: var(--ink); stroke-width: 0.32; stroke-dasharray: 1; }
+.shock { fill: none; stroke: var(--paper); stroke-width: 0.5; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.hole { transform-box: fill-box; transform-origin: center; }
+/* Scoped under .art so these win over the phone's own position: relative. */
+.art .phone { position: absolute; }
+.art .rear { left: 11%; top: 19%; width: 33%; rotate: -4deg; }
+.art .front { left: 39%; top: 12%; width: 40%; rotate: 2deg; box-shadow: 0 34px 50px -18px #0008, 0 14px 24px -12px #0006; }
+
+.stat {
+  position: absolute;
+  z-index: 1;
+  padding: 1.8cqi 3cqi;
+  border-radius: 2.8cqi;
+  background: var(--surface);
+  box-shadow: 0 1px 0 var(--line), 0 12px 24px -12px #3b2a1466;
+  color: var(--muted);
+  font-size: clamp(11px, 2.3cqi, 14px);
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.stat b { display: block; color: var(--ink); font-size: clamp(17px, 4.6cqi, 30px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat[data-at="0"] { left: 0; top: 3%; }
+.stat[data-at="1"] { right: 0; top: 4%; }
+.stat[data-at="2"] { right: 0; top: 76%; }
+
+@media (min-width: 960px) { .art { width: 112%; margin-left: -6%; } }
+
+/* The entrance. Nothing is hidden outside this block, so reduced motion (or a
+   browser that skips it) gets the finished picture. --hit is the first shot,
+   --gap the time between shots; the target's jolt runs on the same beat. */
+@media (prefers-reduced-motion: no-preference) {
+  .art { --hit: 0.75s; --gap: 0.42s; }
+  .hole, .shock, .leader, .stat { --at: calc(var(--hit) + var(--i) * var(--gap)); }
+  .target { animation: target-in 0.6s var(--ease-out) backwards, jolt var(--gap) ease-out var(--hit) 5; }
+  .art .rear { animation: rise 0.8s var(--ease-out) 0.1s backwards, float 8s ease-in-out 1.4s infinite; }
+  .art .front { animation: rise-front 0.8s var(--ease-out) backwards, float 7s ease-in-out 1.2s infinite; }
+  .hole { animation: punch 0.3s var(--ease-out) var(--at) backwards; }
+  .shock { animation: shock 0.6s ease-out var(--at); }
+  .leader { animation: draw 0.3s ease-out calc(var(--at) + 0.1s) backwards; }
+  .stat { animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--at) + 0.28s) backwards; }
+}
+@keyframes target-in { from { opacity: 0; scale: 0.9; } }
+@keyframes jolt { 20% { translate: 0 0.5cqi; } }
+@keyframes rise { from { opacity: 0; translate: 0 6cqi; } }
+/* Transform only: this phone is the page's largest paint. */
+@keyframes rise-front { from { translate: 0 6cqi; } }
+@keyframes float { 50% { translate: 0 -1.2cqi; } }
+@keyframes punch { from { opacity: 0; transform: scale(2.4); } }
+@keyframes shock { from { opacity: 0.9; transform: scale(1); } to { opacity: 0; transform: scale(5); } }
+@keyframes draw { from { stroke-dashoffset: 1; } }
+@keyframes pop { from { opacity: 0; scale: 0.7; } }

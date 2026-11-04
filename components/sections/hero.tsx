@@ -10,7 +10,7 @@ type Props = {
   lede: React.ReactNode;
   art: React.ReactNode;
   placement: string;
-  /** Full-width stacked store buttons (the /get page on phones). */
+  /** Store buttons stacked full width below desktop (the /get page). */
   stackedStores?: boolean;
   /** Lets a sticky bar know when the hero's store buttons leave the screen. */
   storesId?: string;
