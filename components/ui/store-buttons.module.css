@@ -1,5 +1,5 @@
 .stores { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 2.4vw, 40px); }
-.stacked { flex-direction: column; }
+@media (max-width: 959px) { .stacked { flex-direction: column; } }
 .store {
   display: inline-flex;
   align-items: center;
@@ -18,7 +18,7 @@
 .store small { display: block; font-size: clamp(12px, 0.2vw + 9px, 13px); }
 .store strong { display: block; font-size: clamp(19px, 0.5vw + 12px, 22px); font-weight: 800; letter-spacing: -0.02em; }
 .store:hover { transform: translateY(-2px); box-shadow: 0 4px 0 var(--orange); }
-.stacked .store { width: 100%; }
+@media (max-width: 959px) { .stacked .store { width: 100%; } }
 
 /* The leading (filled) store follows the visitor's platform. */
 .apple { background: var(--ink); color: var(--paper); }

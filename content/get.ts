@@ -1,5 +1,6 @@
 import type { RailItem } from "@/components/sections/screen-rail";
 import type { Step } from "@/components/sections/steps";
+import type { HeroStat } from "@/components/sections/target-hero";
 import type { ArtName, ScreenName } from "./images";
 import { idpa } from "./idpa";
 import { ammoInventory, shootingLog } from "./keyword-pages";
@@ -29,7 +30,10 @@ export type GetVariant = {
   /** null keeps the default "Ditch the notebook." with the strike. */
   h1: string | null;
   lede: string;
-  screens: ScreenName[];
+  /** The hero phones, front first. */
+  screens: [ScreenName, ScreenName];
+  /** Figures that appear on those screens, so the art and the phones agree. */
+  stats: [HeroStat, HeroStat, HeroStat];
   closing: string;
   closingProp: ArtName;
 };
@@ -38,17 +42,17 @@ const defaultLede = "Every range day, logged: sessions, ammo, gear and your crew
 
 export const getDefault: GetVariant = {
   slug: "get", matches: /$^/, eyebrow: "The shooting log", h1: null, lede: defaultLede,
-  screens: ["home", "session", "inventory"], closing: "Let the next one count.", closingProp: "ammoBoxes",
+  screens: ["home", "session"], stats: [{ value: "200", label: "rounds" }, { value: "$25.00", label: "spent" }, { value: "3", label: "target photos" }], closing: "Let the next one count.", closingProp: "ammoBoxes",
 };
 
 // /get, and the same page opened with the promise of the ad that sent the
 // visitor (served at /get/<slug>, never indexed). Copy comes from the page
 // that already makes that promise, so every claim is one the site makes.
 export const getVariants: GetVariant[] = [
-  { slug: "uspsa", matches: /uspsa/i, eyebrow: uspsa.eyebrow, h1: uspsa.h1, lede: uspsa.lede, screens: ["uspsaMatch", "uspsaLive", "uspsaCompete"], closing: uspsa.closing, closingProp: "target" },
-  { slug: "idpa", matches: /idpa/i, eyebrow: idpa.eyebrow, h1: idpa.h1, lede: idpa.lede, screens: ["idpaMatch", "idpaLive", "idpaClass"], closing: idpa.closing, closingProp: "target" },
-  { slug: "ammo", matches: /ammo|inventory/i, eyebrow: ammoInventory.eyebrow, h1: ammoInventory.h1, lede: ammoInventory.lede, screens: ["inventory", "lowstock", "spending"], closing: ammoInventory.closing, closingProp: "ammoBoxes" },
-  { slug: "log", matches: /(^|[^a-z])(log|journal|logbook)/i, eyebrow: shootingLog.eyebrow, h1: shootingLog.h1, lede: shootingLog.lede, screens: ["session", "calendar", "train"], closing: shootingLog.closing, closingProp: "targetPrints" },
+  { slug: "uspsa", matches: /uspsa/i, eyebrow: uspsa.eyebrow, h1: uspsa.h1, lede: uspsa.lede, screens: ["uspsaMatch", "uspsaLive"], stats: [{ value: "82.0%", label: "in Carry Optics" }, { value: "14.7 s", label: "lost to time" }, { value: "75 pts", label: "lost to penalties" }], closing: uspsa.closing, closingProp: "target" },
+  { slug: "idpa", matches: /idpa/i, eyebrow: idpa.eyebrow, h1: idpa.h1, lede: idpa.lede, screens: ["idpaMatch", "idpaClass"], stats: [{ value: "106.91 s", label: "match time" }, { value: "19 s", label: "points down" }, { value: "23.2 s", label: "behind the winner" }], closing: idpa.closing, closingProp: "target" },
+  { slug: "ammo", matches: /ammo|inventory/i, eyebrow: ammoInventory.eyebrow, h1: ammoInventory.h1, lede: ammoInventory.lede, screens: ["inventory", "spending"], stats: [{ value: "1,900", label: "rounds on hand" }, { value: "10", label: "firearms" }, { value: "$75.00", label: "total spent" }], closing: ammoInventory.closing, closingProp: "ammoBoxes" },
+  { slug: "log", matches: /(^|[^a-z])(log|journal|logbook)/i, eyebrow: shootingLog.eyebrow, h1: shootingLog.h1, lede: shootingLog.lede, screens: ["session", "calendar"], stats: [{ value: "200", label: "rounds" }, { value: "$25.00", label: "spent" }, { value: "6", label: "sessions in January" }], closing: shootingLog.closing, closingProp: "targetPrints" },
   // The guns.com promo tile: the default page, kept separate so the QR code
   // carries the campaign too.
   { ...getDefault, slug: "gunscom", matches: /guns\.?com/i },

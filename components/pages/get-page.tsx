@@ -4,12 +4,12 @@ import { ClosingCta } from "@/components/sections/closing-cta";
 import { FaqList } from "@/components/sections/faq-list";
 import { Hero } from "@/components/sections/hero";
 import { MatchTeaser } from "@/components/sections/matches/match-teaser";
-import { PhoneFan } from "@/components/sections/phone-fan";
 import { ProBreakdown } from "@/components/sections/pro/pro-breakdown";
 import { SalePill } from "@/components/sections/pro/sale-pill";
 import { ScreenRail } from "@/components/sections/screen-rail";
 import { Steps } from "@/components/sections/steps";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
+import { TargetHero } from "@/components/sections/target-hero";
 import { FactChips } from "@/components/ui/fact-chips";
 import { QrInstall } from "@/components/ui/qr-install";
 import { Strike } from "@/components/ui/strike";
@@ -40,7 +40,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
           stackedStores
           storesId="get-stores"
           afterStores={<><FactChips /><QrInstall campaign={variant.slug} /></>}
-          art={<PhoneFan screens={variant.screens} prop={variant.closingProp} />}
+          art={<TargetHero screens={variant.screens} stats={variant.stats} />}
         />
         <div data-track-view="rail"><ScreenRail title="Everything from the range, in your pocket." items={getRail} /></div>
         <MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} />
