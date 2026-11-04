@@ -52,20 +52,31 @@ export function capture(event: string, props: Record<string, unknown> = {}) {
 
 /** The store URL with this visit's campaign attached. */
 export function withCampaign(href: string, store: string): string {
-  const url = new URL(href);
   const tags = utm();
-  const campaign = tags.utm_campaign || page();
+  return tagStoreUrl(href, store, {
+    source: tags.utm_source || "zeropointlog.com",
+    medium: tags.utm_medium || "website",
+    campaign: tags.utm_campaign || page(),
+  });
+}
+
+/** Adds a campaign to a store URL: the install referrer on Google Play, the
+    provider and campaign tokens on the App Store. Safe on the server too. */
+export function tagStoreUrl(href: string, store: string, tags: { source: string; medium: string; campaign: string }): string {
+  const url = new URL(href);
   if (store === "google_play") {
-    const referrer = new URLSearchParams({
-      utm_source: tags.utm_source || "zeropointlog.com",
-      utm_medium: tags.utm_medium || "website",
-      utm_campaign: campaign,
-    });
+    const referrer = new URLSearchParams({ utm_source: tags.source, utm_medium: tags.medium, utm_campaign: tags.campaign });
     url.searchParams.set("referrer", referrer.toString());
   } else if (APPLE_PROVIDER_TOKEN) {
     url.searchParams.set("pt", APPLE_PROVIDER_TOKEN);
-    url.searchParams.set("ct", campaign.slice(0, 40));
+    url.searchParams.set("ct", tags.campaign.slice(0, 40));
     url.searchParams.set("mt", "8");
   }
   return url.toString();
+}
+
+/** PostHog's capture call from the server (the /dl redirect), same key. */
+export async function captureServer(event: string, properties: Record<string, unknown>) {
+  const body = JSON.stringify({ api_key: KEY, event, distinct_id: crypto.randomUUID(), properties: { $process_person_profile: false, ...properties } });
+  await fetch(ENDPOINT, { method: "POST", body, signal: AbortSignal.timeout(800) }).catch(() => {});
 }
