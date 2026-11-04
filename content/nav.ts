@@ -29,6 +29,11 @@ export const sportsNav: MenuLink[] = [
   { href: "/idpa", label: "IDPA", note: "See where your seconds went" },
 ];
 
+export const legalNav: Link[] = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
+
 export const footerNav: Link[] = [
   { href: "https://app.zeropointlog.com", label: "Web app" },
   { href: "/uspsa", label: "USPSA" },

@@ -22,3 +22,12 @@
 .icon { width: 16px; height: 16px; color: var(--orange-on-dark); }
 .more { margin-top: 24px; font-weight: 700; }
 .more a { color: var(--orange-on-dark); }
+/* Real screens: two phones, the second a step lower, beside the copy on wide
+   screens and under it on phones. */
+.phones { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 3vw, 28px); max-width: 520px; margin: 32px auto 0; }
+.phone { rotate: -2deg; }
+.phone + .phone { margin-top: 12%; rotate: 2deg; }
+@media (min-width: 960px) {
+  .card[data-screens] { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .card[data-screens] .phones { margin: 0; }
+}

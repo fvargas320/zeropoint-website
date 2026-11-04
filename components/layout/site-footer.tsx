@@ -1,14 +1,16 @@
-import { footerNav } from "@/content/nav";
+import { footerNav, legalNav } from "@/content/nav";
 import { Logo } from "./logo";
 import styles from "./site-footer.module.css";
 
-export function SiteFooter() {
+/** `minimal` (paid landing pages) keeps only the legal links, so a visitor
+    from an ad has nowhere to go but the stores. */
+export function SiteFooter({ minimal = false }: { minimal?: boolean }) {
   return (
     <footer className={styles.footer}>
       <div className={`wrap ${styles.inner}`}>
         <Logo width={72} />
         <nav className={styles.nav} aria-label="Footer">
-          {footerNav.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
+          {(minimal ? legalNav : footerNav).map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
         </nav>
         <small className={styles.copy}>© {new Date().getFullYear()} ZeroPoint</small>
       </div>
