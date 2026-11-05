@@ -6,6 +6,8 @@ type Props = {
   /** Optional news pill above the eyebrow. */
   announcement?: React.ReactNode;
   eyebrow: string;
+  /** The eyebrow reads as part of the h1, for a headline without the page's keywords. */
+  eyebrowInTitle?: boolean;
   title: React.ReactNode;
   lede: React.ReactNode;
   art: React.ReactNode;
@@ -20,13 +22,13 @@ type Props = {
   afterStores?: React.ReactNode;
 };
 
-export function Hero({ announcement, eyebrow, title, lede, art, placement, stackedStores = false, storesId, campaign, afterStores }: Props) {
+export function Hero({ announcement, eyebrow, eyebrowInTitle = false, title, lede, art, placement, stackedStores = false, storesId, campaign, afterStores }: Props) {
   return (
     <section className={`wrap ${styles.hero}`} aria-labelledby="hero-title">
       <div className={styles.copy}>
         {announcement}
-        <p className="eyebrow">{eyebrow}</p>
-        <h1 id="hero-title">{title}</h1>
+        {!eyebrowInTitle && <p className="eyebrow">{eyebrow}</p>}
+        <h1 id="hero-title">{eyebrowInTitle && <span className={`eyebrow ${styles.titleEyebrow}`}>{eyebrow} </span>}{title}</h1>
         <p className="lede">{lede}</p>
         <div id={storesId}>
           <StoreButtons placement={placement} layout={stackedStores ? "stacked" : "row"} campaign={campaign} />

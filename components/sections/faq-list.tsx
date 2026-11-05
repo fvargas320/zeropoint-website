@@ -5,7 +5,7 @@ type Props = { items: Faq[]; title?: string; eyebrow?: string };
 
 export function FaqList({ items, title = "Before you download.", eyebrow = "Questions" }: Props) {
   return (
-    <section className={styles.section} aria-labelledby="faq-title">
+    <section className={styles.section} id="faq" aria-labelledby="faq-title">
       <div className={`wrap ${styles.grid}`}>
         <div>
           <p className="eyebrow">{eyebrow}</p>

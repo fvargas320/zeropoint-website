@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { featuresNav, headerNav, sportsNav, type Link as NavLink } from "@/content/nav";
+import { featuresNav, headerNav, matchesNav, type Link as NavLink } from "@/content/nav";
 import { site } from "@/content/site";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
@@ -31,7 +31,7 @@ export function SiteHeader({ minimal = false, pageNav, ctaHref = "#download" }: 
           <>
             <nav className={styles.nav} aria-label="Main">
               <NavMenu label="Features" items={featuresNav} />
-              <NavMenu label="Sports" items={sportsNav} />
+              <NavMenu label="Matches" items={matchesNav} />
               {headerNav.map((l) => <Link key={l.href} href={l.href}>{l.label}</Link>)}
               {site.appUrl && <a className={styles.signIn} href={`${site.appUrl}/login`} aria-label="Pro member login">Login <span className={styles.pro}>Pro</span></a>}
             </nav>

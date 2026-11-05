@@ -1,0 +1,20 @@
+.form { display: grid; gap: 20px; padding: clamp(20px, 3vw, 32px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-card); }
+.form fieldset { margin: 0; padding: 0; border: 0; }
+.form legend, .field span { margin-bottom: 8px; padding: 0; font-weight: 700; }
+.topics { display: flex; flex-wrap: wrap; gap: 8px; }
+.topics label { position: relative; cursor: pointer; }
+.topics input { position: absolute; opacity: 0; }
+.topics span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill); box-shadow: inset 0 0 0 1.5px var(--line); font-weight: 700; }
+.topics input:checked + span { background: var(--ink); color: var(--paper); box-shadow: none; }
+.topics input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
+.field { display: grid; }
+.field input, .field textarea { width: 100%; padding: 13px 14px; border: 0; border-radius: 12px; background: var(--paper); box-shadow: inset 0 0 0 1.5px var(--line); color: inherit; font: inherit; }
+.field textarea { resize: vertical; }
+.field input:focus, .field textarea:focus { outline: 2px solid var(--orange); outline-offset: 0; }
+.trap { position: absolute; left: -9999px; }
+.error { margin: 0; color: var(--orange-text); font-weight: 700; }
+.form button { min-height: 52px; border: 0; border-radius: var(--radius-pill); background: var(--ink); color: var(--paper); font: inherit; font-weight: 800; cursor: pointer; }
+.form button:disabled { opacity: 0.6; cursor: default; }
+.sent { padding: clamp(24px, 4vw, 40px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-card); }
+.sent h2 { margin: 0 0 8px; }
+.sent p { margin: 0; }

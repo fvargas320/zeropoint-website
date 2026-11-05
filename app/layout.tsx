@@ -16,9 +16,9 @@ const jakarta = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: "ZeroPoint — The shooting range log for iPhone and Android", template: "%s — ZeroPoint" },
+  title: { default: "ZeroPoint: Shooting Log App for Range Days, Ammo & Matches", template: "%s — ZeroPoint" },
   description:
-    "Ditch the notebook. ZeroPoint logs your range sessions, firearms, ammo and costs, alerts you before you run low, and plans range days with your crew. Free to start on iOS and Android.",
+    "Log range sessions, track ammo, firearms and round counts, and import USPSA and IDPA results. The shooting log app for iPhone and Android. Free to start.",
   applicationName: site.name,
   itunes: { appId: "6757300865" },
   openGraph: { type: "website", siteName: site.name },
