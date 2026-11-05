@@ -15,7 +15,7 @@ export function AppJsonLd() {
         url: `${site.url}/`,
         logo: `${site.url}/icon.png`,
         sameAs: [stores.appStore, stores.playStore],
-        contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: site.email, url: `${site.url}/contact` },
+        contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: site.email, url: `${site.url}/support` },
       },
       { "@type": "WebSite", name: site.name, url: `${site.url}/`, publisher: { "@id": org } },
       {

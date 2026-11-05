@@ -1,32 +1,7 @@
-import { stores } from "@/content/site";
-
-// Ported verbatim from the static support.html (October 2026).
-export function SupportBody() {
+// The questions, ported from the static support.html (October 2026).
+export function SupportFaq() {
   return (
     <>
-      <div className="page-header">
-      <p className="eyebrow">Help</p>
-      <h1>Support</h1>
-      <p className="lede">Questions about logging sessions, inventory, alerts, or your account — we're here to help.</p>
-      </div>
-      <div className="contact-grid">
-      <div className="contact-card">
-      <div className="contact-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-      </div>
-      <h3>Email support</h3>
-      <p>Send a message with what you were doing and which device you use. We read every note.</p>
-      <a href="/contact?topic=support">Send us a message</a>
-      </div>
-      <div className="contact-card">
-      <div className="contact-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/></svg>
-      </div>
-      <h3>In-app feedback</h3>
-      <p>Open Settings in ZeroPoint and use the feedback option to send context from your device.</p>
-      <a href={stores.appStore} target="_blank" rel="noopener noreferrer">Open on the App Store</a>
-      </div>
-      </div>
       <div className="faq-section">
       <h2>Frequently asked questions</h2>
       <details className="help-faq"><summary>What does ZeroPoint do?<span aria-hidden="true">+</span></summary><div>

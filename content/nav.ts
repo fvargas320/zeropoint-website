@@ -14,7 +14,6 @@ export const headerNav: Link[] = [
 export const drawerNav: Link[] = [
   { href: "/#privacy", label: "Privacy" },
   { href: "/support", label: "Support" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export type MenuLink = Link & { note: string };
@@ -49,5 +48,4 @@ export const footerNav: Link[] = [
   { href: "/your-data", label: "Your data" },
   { href: "/shooting-log-app", label: "Shooting log app" },
   { href: "/ammo-inventory-app", label: "Ammo inventory app" },
-  { href: "/contact", label: "Contact" },
 ];

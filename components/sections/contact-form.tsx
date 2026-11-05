@@ -5,7 +5,7 @@ import { contactTopics, type ContactTopic } from "@/content/contact";
 import { site } from "@/content/site";
 import styles from "./contact-form.module.css";
 
-/** Sends to /api/contact. /contact?topic=idea opens on that topic. */
+/** Sends to /api/contact. /support?topic=idea opens on that topic. */
 export function ContactForm() {
   const [topic, setTopic] = useState<ContactTopic>("support");
   const [status, setStatus] = useState<"ready" | "sending" | "sent" | "failed">("ready");
