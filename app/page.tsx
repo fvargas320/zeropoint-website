@@ -8,17 +8,22 @@ import { CompareTable } from "@/components/sections/compare-table";
 import { FactsStrip } from "@/components/sections/facts-strip";
 import { FaqList } from "@/components/sections/faq-list";
 import { Hero } from "@/components/sections/hero";
-import { HomeHeroArt } from "@/components/sections/hero-scene/home-hero-art";
 import { MatchInsights } from "@/components/sections/matches/match-insights";
 import { PrivacyCard } from "@/components/sections/privacy-card";
-import { ProSpotlight } from "@/components/sections/pro/pro-spotlight";
+import { ProBreakdown } from "@/components/sections/pro/pro-breakdown";
+import { SalePill } from "@/components/sections/pro/sale-pill";
 import { Features } from "@/components/sections/story/features";
+import { TargetHero } from "@/components/sections/target-hero";
 import { WebAppSection } from "@/components/sections/web-app/web-app-section";
 import { WhatsNext } from "@/components/sections/whats-next";
 import { Announcement } from "@/components/ui/announcement";
+import { FactChips } from "@/components/ui/fact-chips";
+import { QrInstall } from "@/components/ui/qr-install";
 import { RotatingStrike } from "@/components/ui/rotating-strike";
+import webSample from "@/assets/images/web-sample.webp";
 import { homeFaq } from "@/content/faq";
-import { heroStrikes } from "@/content/home";
+import { heroStats, heroStrikes } from "@/content/home";
+import { salePhase } from "@/content/site";
 import { foundersLive, matchesLive } from "@/lib/release";
 
 // Rhythm: cream hero → dark Matches (the headline feature) → cream story →
@@ -31,17 +36,20 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function HomePage() {
   const [live, founders] = await Promise.all([matchesLive(), foundersLive()]);
+  const phase = salePhase(new Date());
   return (
     <>
       <SiteHeader />
       <main id="main">
         <Hero
-          announcement={<Announcement tag={live ? "New update" : "Next update"} text="Import your match results" href="#matches" />}
+          announcement={<SalePill phase={phase} lifetime={founders} fallback={<Announcement tag={live ? "New update" : "Next update"} text="Import your match results" href="#matches" />} />}
           eyebrow="The shooting log"
           title={<>Ditch the <RotatingStrike words={heroStrikes} /></>}
           lede="Every range day, logged: sessions, ammo, gear and your crew, in one app."
           placement="hero"
-          art={<HomeHeroArt />}
+          stackedStores
+          afterStores={<><FactChips /><QrInstall campaign="home" /></>}
+          art={<TargetHero screens={["session"]} laptop={webSample} stats={heroStats} />}
         />
         <FactsStrip />
         <MatchInsights live={live} />
@@ -49,11 +57,11 @@ export default async function HomePage() {
         <WebAppSection />
         <BrandFilm />
         <CompareTable />
-        <ProSpotlight lifetime={founders} />
+        <ProBreakdown matchScreen="uspsaMatch" lifetime={founders} phase={phase} placement="home-pro" />
         <PrivacyCard />
         <WhatsNext />
         <FaqList items={homeFaq(live, founders)} />
-        <ClosingCta />
+        <ClosingCta after={<QrInstall campaign="home" />} />
       </main>
       <SiteFooter />
       <AppJsonLd />

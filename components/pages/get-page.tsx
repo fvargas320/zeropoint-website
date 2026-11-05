@@ -14,7 +14,7 @@ import { FactChips } from "@/components/ui/fact-chips";
 import { QrInstall } from "@/components/ui/qr-install";
 import { Strike } from "@/components/ui/strike";
 import { getFaq } from "@/content/faq";
-import { getRail, getSteps, type GetVariant } from "@/content/get";
+import { getNav, getRail, getSteps, type GetVariant } from "@/content/get";
 import { salePhase } from "@/content/site";
 
 /**
@@ -29,7 +29,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
   const phase = salePhase(new Date());
   return (
     <>
-      <SiteHeader minimal />
+      <SiteHeader minimal pageNav={getNav} />
       <main id="main">
         <Hero
           announcement={<SalePill phase={phase} lifetime={founders} />}
@@ -42,11 +42,11 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
           afterStores={<><FactChips /><QrInstall campaign={variant.slug} /></>}
           art={<TargetHero screens={variant.screens} stats={variant.stats} />}
         />
-        <div data-track-view="rail"><ScreenRail title="Everything from the range, in your pocket." items={getRail} /></div>
-        <MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} />
+        <div id="features" data-track-view="rail"><ScreenRail title="Everything from the range, in your pocket." items={getRail} /></div>
+        <div id="matches"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div>
         <div data-track-view="steps"><Steps title="Up and running in a minute." items={getSteps} /></div>
-        <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} />
-        <div data-track-view="faq"><FaqList items={getFaq(live, founders)} title="Good to know." /></div>
+        <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} placement="get-pro" />
+        <div id="questions" data-track-view="faq"><FaqList items={getFaq(live, founders)} title="Good to know." /></div>
         <div data-track-view="closing">
           <ClosingCta title={variant.closing} prop={variant.closingProp} web={false} after={<QrInstall campaign={variant.slug} />} />
         </div>

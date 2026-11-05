@@ -1,6 +1,5 @@
 import { Laptop } from "@/components/media/laptop";
 import { Phone } from "@/components/media/phone";
-import { Prop } from "@/components/media/prop";
 import { Reveal } from "@/components/motion/reveal";
 import { Icon } from "@/components/ui/icon";
 import { StoreButtons } from "@/components/ui/store-buttons";
@@ -17,25 +16,22 @@ type Props = {
   matchScreen: ScreenName;
   lifetime: boolean;
   phase: SalePhase;
+  /** Sent with store_click. */
+  placement: string;
 };
 
-/** What Pro adds and what it costs, for a paid page: the biggest features on
+/** What Pro adds and what it costs: the biggest features on
     real screens, the same log on laptop and phone, the rest as tiles, then the
     plans and any sale. */
-export function ProBreakdown({ matchScreen, lifetime, phase }: Props) {
+export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props) {
   const { matches, analytics, sync, more } = proBenefits;
   return (
     <section className={styles.section} id="pro" aria-labelledby="pro-title" data-track-view="pro">
       <TornEdge color="var(--night)" seed={11} />
       <div className="wrap">
-        <div className={styles.head}>
-          <div>
-            <p className={`eyebrow ${styles.eyebrow}`}>ZeroPoint Pro</p>
-            <h2 id="pro-title" className={styles.title}>What Pro gets you.</h2>
-            <p className={styles.lede}>{freeLine} Pro adds the numbers behind every range day, and keeps them safe.</p>
-          </div>
-          <Prop name="notepadPro" sizes="(min-width: 800px) 240px, 0px" className={styles.notepad} />
-        </div>
+        <p className={`eyebrow ${styles.eyebrow}`}>ZeroPoint Pro</p>
+        <h2 id="pro-title" className={styles.title}>What Pro gets you.</h2>
+        <p className={styles.lede}>{freeLine} Pro adds the numbers behind every range day, and keeps them safe.</p>
 
         <div className={styles.big}>
           {[{ ...matches, screen: matchScreen }, { ...analytics, screen: "spending" as const }].map((b, i) => (
@@ -83,7 +79,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase }: Props) {
             <p className={styles.ctaTitle}>Download free, then pick a plan in the app.</p>
             <p className={styles.fine}>{pricing.note}</p>
           </div>
-          <StoreButtons placement="get-pro" />
+          <StoreButtons placement={placement} />
         </div>
       </div>
       <TornEdge edge="bottom" color="var(--night)" seed={4} />

@@ -1,3 +1,4 @@
+import type { HeroStat } from "@/components/sections/target-hero";
 import type { IconName } from "@/components/ui/icon";
 // Smaller Home blocks. Facts checked against the app code on 2026-10-26.
 
@@ -26,6 +27,13 @@ export const privacyPoints = [
   { title: "We don’t sell it. Ever.", body: "Your firearms, ammo and sessions are never sold." },
   { title: "Your log lives on your phone.", body: "Sessions and target photos are saved on the device, so logging works with no signal. Cloud backup is a Pro option, encrypted in transit and at rest." },
   { title: "Delete it whenever you like.", body: "Delete your account in Settings and its cloud data and files go with it." },
+];
+
+// Home's hero cards: figures on the session screen and the web sample behind it.
+export const heroStats: [HeroStat, HeroStat, HeroStat] = [
+  { value: "200", label: "rounds" },
+  { value: "$25.00", label: "spent" },
+  { value: "12", label: "matches" },
 ];
 
 // Plans, not promises: nothing here has shipped, so no dates and no "now".

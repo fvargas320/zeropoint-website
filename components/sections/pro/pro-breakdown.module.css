@@ -10,11 +10,9 @@
     var(--night);
   color: var(--on-dark);
 }
-.head { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
 .eyebrow { color: var(--orange-on-dark); }
 .title { font-size: clamp(38px, 5vw, 84px); }
 .lede { margin-top: 16px; max-width: 46ch; color: var(--on-dark-2); font-size: var(--fs-lede); }
-.notepad { display: none; flex: none; width: clamp(180px, 17vw, 250px); rotate: 5deg; filter: drop-shadow(0 24px 30px #000a); }
 
 /* The two big tiles: copy, then a real screen rising out of the bottom edge. */
 .big { display: grid; gap: 12px; margin-top: clamp(28px, 3.4vw, 52px); }
@@ -62,8 +60,7 @@
 .fine { margin-top: 4px; color: #8b887d; font-size: 12px; }
 
 @media (min-width: 800px) {
-  .notepad { display: block; }
-  .big { grid-template-columns: 1fr 1fr; }
+    .big { grid-template-columns: 1fr 1fr; }
   .tile.wide { grid-column: 1 / -1; grid-template-columns: 0.8fr 1.2fr; align-items: center; gap: clamp(24px, 4vw, 64px); }
   .more { grid-template-columns: repeat(2, 1fr); }
 }
