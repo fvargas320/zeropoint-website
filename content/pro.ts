@@ -1,11 +1,11 @@
-import type { IconName } from "@/components/ui/icon";
+import type { ProIconName } from "@/components/sections/pro/pro-icon";
 
 export const freeLine = "Free forever: unlimited sessions, 3 firearms, crews and drills.";
 
 // The Pro breakdown, in the words of pro_benefits.dart, where each line is
 // pinned to the feature behind it. Only what free users don't get.
-type BigBenefit = { icon: IconName; title: string; points: string[] };
-export const proBenefits: { matches: BigBenefit; analytics: BigBenefit; sync: BigBenefit; more: { icon: IconName; title: string; body: string }[] } = {
+type BigBenefit = { icon: ProIconName; title: string; points: string[] };
+export const proBenefits: { matches: BigBenefit; analytics: BigBenefit; sync: BigBenefit; more: { icon: ProIconName; title: string; body: string }[] } = {
   matches: {
     icon: "target",
     title: "Match analysis",
@@ -22,7 +22,7 @@ export const proBenefits: { matches: BigBenefit; analytics: BigBenefit; sync: Bi
     points: ["The same log in the app and on the web", "Auto backup of sessions and photos", "Unlimited target photos and 25 GB of video"],
   },
   more: [
-    { icon: "armory", title: "Unlimited armory", body: "Every gun, past the 3-firearm cap, with usage and service stats." },
+    { icon: "vault", title: "Unlimited armory", body: "Every gun, past the 3-firearm cap, with usage and service stats." },
     { icon: "timer", title: "Custom drills and presets", body: "Build your own drills and log a session in one tap." },
   ],
 };

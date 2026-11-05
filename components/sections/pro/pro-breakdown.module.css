@@ -33,11 +33,11 @@
 .tileCopy li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
 /* Full width: the same log on a laptop with the phone leaning in front. */
 .tile.wide { grid-template-columns: 1fr; height: auto; padding-bottom: clamp(20px, 2.4vw, 36px); }
-.devices { position: relative; width: min(100%, 560px); margin-inline: auto; aspect-ratio: 1 / 0.7; }
+.devices { position: relative; width: min(100%, 440px); margin-inline: auto; aspect-ratio: 1 / 0.7; }
 .devices .laptop { position: absolute; left: 0; top: 0; width: 88%; }
 .devices .devicePhone { position: absolute; right: 0; bottom: 0; width: 28%; rotate: 5deg; }
 .phone { align-self: start; rotate: 3deg; margin-top: 6px; }
-.icon { display: block; width: 26px; height: 26px; color: var(--orange-on-dark); }
+.icon { display: block; width: 44px; height: 44px; }
 
 .more { display: grid; gap: 12px; margin: 12px 0 0; padding: 0; list-style: none; }
 .small {

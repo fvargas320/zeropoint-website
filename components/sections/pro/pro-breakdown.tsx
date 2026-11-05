@@ -1,13 +1,13 @@
 import { Laptop } from "@/components/media/laptop";
 import { Phone } from "@/components/media/phone";
 import { Reveal } from "@/components/motion/reveal";
-import { Icon } from "@/components/ui/icon";
 import { StoreButtons } from "@/components/ui/store-buttons";
 import { TornEdge } from "@/components/ui/torn-edge";
 import webSample from "@/assets/images/web-sample.webp";
 import type { ScreenName } from "@/content/images";
 import { freeLine, proBenefits, proPerks } from "@/content/pro";
 import { pricing, type SalePhase } from "@/content/site";
+import { ProIcon } from "./pro-icon";
 import { ProPlans } from "./pro-plans";
 import styles from "./pro-breakdown.module.css";
 
@@ -37,7 +37,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
           {[{ ...matches, screen: matchScreen }, { ...analytics, screen: "spending" as const }].map((b, i) => (
             <Reveal key={b.title} delay={i * 80} className={styles.tile}>
               <div className={styles.tileCopy}>
-                <Icon name={b.icon} className={styles.icon} />
+                <ProIcon name={b.icon} className={styles.icon} />
                 <h3>{b.title}</h3>
                 <ul>{b.points.map((p) => <li key={p}>{p}</li>)}</ul>
               </div>
@@ -46,7 +46,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
           ))}
           <Reveal delay={160} className={`${styles.tile} ${styles.wide}`}>
             <div className={styles.tileCopy}>
-              <Icon name={sync.icon} className={styles.icon} />
+              <ProIcon name={sync.icon} className={styles.icon} />
               <h3>{sync.title}</h3>
               <ul>{sync.points.map((p) => <li key={p}>{p}</li>)}</ul>
             </div>
@@ -61,7 +61,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
           {more.map((m, i) => (
             <li key={m.title}>
               <Reveal delay={i * 70} className={styles.small}>
-                <Icon name={m.icon} className={styles.icon} />
+                <ProIcon name={m.icon} className={styles.icon} />
                 <h3>{m.title}</h3>
                 <p>{m.body}</p>
               </Reveal>
