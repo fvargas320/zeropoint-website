@@ -33,7 +33,7 @@ export function SiteHeader({ minimal = false, pageNav, ctaHref = "#download" }: 
               <NavMenu label="Features" items={featuresNav} />
               <NavMenu label="Sports" items={sportsNav} />
               {headerNav.map((l) => <Link key={l.href} href={l.href}>{l.label}</Link>)}
-              {site.appUrl && <a className={styles.signIn} href={`${site.appUrl}/login`}>Pro web app</a>}
+              {site.appUrl && <a className={styles.signIn} href={`${site.appUrl}/login`} aria-label="Pro member login">Login <span className={styles.pro}>Pro</span></a>}
             </nav>
             <a className={styles.cta} href={ctaHref}>Get the app</a>
             <MobileMenu />
