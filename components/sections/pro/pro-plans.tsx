@@ -3,11 +3,17 @@
 import Image from "next/image";
 import coin from "@/assets/images/pro/founders-coin.webp";
 import blackFriday from "@/assets/images/pro/black-friday.webp";
-import { lifetimeSaleSaving, money, pricing, saleDates, saleShown, yearlyPerMonth, yearlySavingPct, type SalePhase } from "@/content/site";
+import { lifetimeSaleSaving, money, pricing, saleDates, saleShown, site, yearlyPerMonth, yearlySavingPct, type SalePhase } from "@/content/site";
 import { useSalePhase } from "@/lib/use-sale-phase";
 import styles from "./pro-plans.module.css";
 
 const salePrice = money(pricing.lifetimeSale.price);
+
+/** The whole card opens the web app's plans page with this plan picked. */
+function PlanLink({ plan, children }: { plan: string; children: React.ReactNode }) {
+  if (!site.appUrl) return null;
+  return <a className={styles.pick} href={`${site.appUrl}/plans?plan=${plan}`}>{children} <span aria-hidden="true">→</span></a>;
+}
 
 /** The Black Friday banner (while saleShown) over the plans. Lifetime appears
     with the sale or once it can be bought. The sale dates follow the visitor's clock, as the app's paywall label does. */
@@ -36,11 +42,13 @@ export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phas
           <h3 className={styles.name}>Monthly</h3>
           <p className={styles.price}><b>{money(pricing.monthly)}</b> / month</p>
           <p className={styles.note}>Starts with a {pricing.trialDays}-day free trial.</p>
+          <PlanLink plan="monthly">Get Monthly</PlanLink>
         </li>
         <li className={styles.plan}>
           <h3 className={styles.name}>Yearly <span className={styles.save}>Save {yearlySavingPct}%</span></h3>
           <p className={styles.price}><b>{money(pricing.yearly)}</b> / year</p>
           <p className={styles.note}>That's {yearlyPerMonth} a month, billed yearly.</p>
+          <PlanLink plan="yearly">Get Yearly</PlanLink>
         </li>
         {(lifetime || shown) && (
           <li className={`${styles.plan} ${styles.founders}`}>
@@ -53,6 +61,7 @@ export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phas
               {onSale ? "Black Friday price. " : ""}{lifetime ? "Pay once, no subscription." : "Coming in the next update."}
               {phase === "before" && ` ${salePrice} ${saleDates.start} – ${saleDates.end}.`}
             </p>
+            {lifetime && <PlanLink plan="lifetime">Get Lifetime</PlanLink>}
           </li>
         )}
       </ul>

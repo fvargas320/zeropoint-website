@@ -75,7 +75,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
 
         <div className={styles.cta}>
           <div>
-            <p className={styles.ctaTitle}>Download free, then pick a plan in the app.</p>
+            <p className={styles.ctaTitle}>Or download free and pick a plan in the app.</p>
             <p className={styles.fine}>{pricing.note}</p>
           </div>
           <StoreButtons placement={placement} />

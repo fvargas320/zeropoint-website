@@ -15,7 +15,7 @@ import { FactChips } from "@/components/ui/fact-chips";
 import { QrInstall } from "@/components/ui/qr-install";
 import { Strike } from "@/components/ui/strike";
 import { getFaq } from "@/content/faq";
-import { getFeatureMenu, getNav, getRail, getSteps, type GetVariant } from "@/content/get";
+import { getMenus, getNav, getRail, getSteps, type GetVariant } from "@/content/get";
 import { salePhase } from "@/content/site";
 
 /**
@@ -30,7 +30,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
   const phase = salePhase(new Date());
   return (
     <>
-      <SiteHeader minimal pageMenu={getFeatureMenu} pageNav={getNav} />
+      <SiteHeader minimal pageMenus={getMenus} pageNav={getNav} />
       <main id="main">
         <Hero
           announcement={<SalePill phase={phase} lifetime={founders} />}

@@ -11,12 +11,12 @@ type Props = {
   minimal?: boolean;
   /** With `minimal`: jumps within the page, so nobody leaves it. */
   pageNav?: NavLink[];
-  /** With `pageNav`: a Features menu ahead of the jumps. */
-  pageMenu?: MenuLink[];
+  /** With `pageNav`: menus ahead of the jumps. */
+  pageMenus?: { label: string; items: MenuLink[] }[];
   ctaHref?: string;
 };
 
-export function SiteHeader({ minimal = false, pageNav, pageMenu, ctaHref = "#download" }: Props) {
+export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download" }: Props) {
   return (
     <header className={styles.bar}>
       <div className={`wrap ${styles.inner}`}>
@@ -24,7 +24,7 @@ export function SiteHeader({ minimal = false, pageNav, pageMenu, ctaHref = "#dow
         {minimal && pageNav && (
           <>
             <nav className={styles.nav} aria-label="On this page">
-              {pageMenu && <NavMenu label="Features" items={pageMenu} />}
+              {pageMenus?.map((m) => <NavMenu key={m.label} label={m.label} items={m.items} />)}
               {pageNav.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
             </nav>
             <a className={`${styles.cta} ${styles.pageCta}`} href={ctaHref}>Get the app</a>
