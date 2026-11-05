@@ -7,7 +7,7 @@ import styles from "./whats-next.module.css";
 
 /** What we plan to build, in a dark card. Plans, not shipped features, so the
     copy says so and gives no dates. */
-export function WhatsNext() {
+export function WhatsNext({ ask = true }: { ask?: boolean }) {
   return (
     <section className="wrap" id="next" aria-labelledby="next-title" data-track-view="next">
       <div className={styles.card}>
@@ -30,9 +30,11 @@ export function WhatsNext() {
             </li>
           ))}
         </ul>
-        <p className={styles.ask}>
-          <Link href="/support?topic=idea">{whatsNext.ask} <span aria-hidden="true">→</span></Link>
-        </p>
+        {ask && (
+          <p className={styles.ask}>
+            <Link href="/support?topic=idea">{whatsNext.ask} <span aria-hidden="true">→</span></Link>
+          </p>
+        )}
       </div>
     </section>
   );

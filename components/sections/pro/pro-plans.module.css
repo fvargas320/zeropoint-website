@@ -40,6 +40,11 @@
 .price { margin-top: 12px; color: var(--on-dark-2); font-weight: 700; }
 .price b { color: var(--on-dark); font-size: clamp(32px, 2.8vw, 44px); font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
 .note { margin-top: 6px; color: var(--on-dark-2); font-size: var(--fs-small); }
+.pick { display: inline-block; margin-top: 12px; color: var(--orange-on-dark); font-weight: 800; text-decoration: none; }
+.pick::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+.plan:has(.pick):hover { box-shadow: inset 0 0 0 1.5px var(--orange-on-dark); }
+.pick:focus-visible { outline: none; }
+.pick:focus-visible::after { outline: 2px solid var(--orange-on-dark); outline-offset: 2px; }
 /* The one-time plan wears the app's gold coin. */
 .founders {
   padding-right: clamp(92px, 8vw, 120px);

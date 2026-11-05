@@ -2,6 +2,7 @@ import type { RailItem } from "@/components/sections/screen-rail";
 import type { Step } from "@/components/sections/steps";
 import type { HeroStat } from "@/components/sections/target-hero";
 import type { ArtName, ScreenName } from "./images";
+import type { MenuLink } from "./nav";
 import { idpa } from "./idpa";
 import { ammoInventory, shootingLog } from "./keyword-pages";
 import { uspsa } from "./uspsa";
@@ -13,11 +14,24 @@ export const getRail: RailItem[] = [
   { screen: "crew", title: "Bring your crew", caption: "Chat and plan the next range day.", prop: "crewPrints" },
 ];
 
-/** The header's jumps on /get. */
+/** The header's menus on /get, as on Home but staying on the paid pages:
+    jumps to the rail's cards and Matches, and this page's USPSA and IDPA versions. */
+export const getMenus: { label: string; items: MenuLink[] }[] = [
+  { label: "Features", items: getRail.map((r) => ({ href: `#rail-${r.screen}`, label: r.title, note: r.caption })) },
+  {
+    label: "Matches",
+    items: [
+      { href: "#matches", label: "Match analysis", note: "Import results, see where points went" },
+      { href: "/get/uspsa", label: "USPSA", note: "See exactly where you lost points" },
+      { href: "/get/idpa", label: "IDPA", note: "See where your seconds went" },
+    ],
+  },
+];
+
+/** The header's other jumps on /get. */
 export const getNav = [
-  { href: "#features", label: "Features" },
-  { href: "#matches", label: "Matches" },
   { href: "#pro", label: "Pro" },
+  { href: "#next", label: "What's next" },
   { href: "#questions", label: "Questions" },
 ];
 

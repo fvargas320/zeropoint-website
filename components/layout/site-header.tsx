@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { featuresNav, headerNav, matchesNav, type Link as NavLink } from "@/content/nav";
+import { featuresNav, headerNav, matchesNav, type Link as NavLink, type MenuLink } from "@/content/nav";
 import { site } from "@/content/site";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
@@ -11,10 +11,12 @@ type Props = {
   minimal?: boolean;
   /** With `minimal`: jumps within the page, so nobody leaves it. */
   pageNav?: NavLink[];
+  /** With `pageNav`: menus ahead of the jumps. */
+  pageMenus?: { label: string; items: MenuLink[] }[];
   ctaHref?: string;
 };
 
-export function SiteHeader({ minimal = false, pageNav, ctaHref = "#download" }: Props) {
+export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download" }: Props) {
   return (
     <header className={styles.bar}>
       <div className={`wrap ${styles.inner}`}>
@@ -22,6 +24,7 @@ export function SiteHeader({ minimal = false, pageNav, ctaHref = "#download" }: 
         {minimal && pageNav && (
           <>
             <nav className={styles.nav} aria-label="On this page">
+              {pageMenus?.map((m) => <NavMenu key={m.label} label={m.label} items={m.items} />)}
               {pageNav.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
             </nav>
             <a className={`${styles.cta} ${styles.pageCta}`} href={ctaHref}>Get the app</a>
