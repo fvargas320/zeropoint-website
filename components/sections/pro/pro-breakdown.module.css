@@ -20,15 +20,15 @@
   display: grid;
   grid-template-columns: 1fr 42%;
   gap: 16px;
-  overflow: hidden;
-  height: clamp(320px, 30vw, 420px);
+  overflow: clip;
+  height: clamp(340px, 31vw, 440px);
   padding: clamp(20px, 2.4vw, 36px) clamp(20px, 2.4vw, 36px) 0;
   border-radius: var(--radius-lg);
   background: linear-gradient(160deg, #ffffff14, #ffffff05);
   box-shadow: inset 0 0 0 1px #ffffff1a;
 }
 .tileCopy h3 { margin-top: 14px; font-size: clamp(22px, 2vw, 32px); }
-.tileCopy ul { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--on-dark-2); font-size: var(--fs-small); line-height: 1.4; }
+.tileCopy ul { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--on-dark-2); font-size: var(--fs-body); line-height: 1.4; }
 .tileCopy li { position: relative; padding-left: 16px; }
 .tileCopy li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
 /* Full width: the same log on a laptop with the phone leaning in front. */
@@ -48,7 +48,7 @@
   box-shadow: inset 0 0 0 1px #ffffff1a;
 }
 .small h3 { margin-top: 12px; font-size: var(--fs-h3); }
-.small p { margin-top: 6px; color: var(--on-dark-2); font-size: var(--fs-small); line-height: 1.45; }
+.small p { margin-top: 6px; color: var(--on-dark-2); font-size: var(--fs-body); line-height: 1.45; }
 .perks { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
 .perks li { padding: 7px 14px; border-radius: var(--radius-pill); box-shadow: inset 0 0 0 1px #ffffff26; font-size: var(--fs-small); font-weight: 700; }
 
@@ -57,10 +57,23 @@
 .section .cta a[data-store] { background: transparent; border-color: var(--on-dark); color: var(--on-dark); }
 .cta > div:last-child { margin-top: 0; }
 .ctaTitle { font-size: var(--fs-h3); font-weight: 800; letter-spacing: -0.02em; }
-.fine { margin-top: 4px; color: #8b887d; font-size: 12px; }
+.fine { margin-top: 4px; color: #a09d91; font-size: 14px; }
 
 @media (min-width: 800px) {
     .big { grid-template-columns: 1fr 1fr; }
   .tile.wide { grid-column: 1 / -1; grid-template-columns: 0.8fr 1.2fr; align-items: center; gap: clamp(24px, 4vw, 64px); }
   .more { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* The real screens slide up into their tiles as the page scrolls. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .phone, .devices .laptop, .devices .devicePhone { animation-timeline: view(); animation-range: entry 5% cover 42%; animation-fill-mode: both; animation-timing-function: linear; }
+    .phone { animation-name: tile-rise; }
+    .devices .laptop { animation-name: laptop-in; }
+    .devices .devicePhone { animation-name: phone-in; }
+  }
+}
+@keyframes tile-rise { from { translate: 0 34%; } }
+@keyframes laptop-in { from { translate: -10% 0; opacity: 0; } }
+@keyframes phone-in { from { translate: 30% 22%; rotate: 16deg; } }

@@ -1,4 +1,4 @@
-.footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; }
+.footer { padding: 36px 0 48px; color: var(--muted); font-size: 15px; }
 .inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
 .nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
 .nav a { padding: 8px 0; text-decoration: none; }

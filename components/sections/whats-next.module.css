@@ -21,7 +21,7 @@
   box-shadow: inset 0 0 0 1px #ffffff1a;
 }
 .item h3 { margin-top: 14px; font-size: var(--fs-h3); }
-.item p { margin-top: 8px; color: var(--on-dark-2); font-size: var(--fs-small); line-height: 1.45; }
+.item p { margin-top: 8px; color: var(--on-dark-2); font-size: var(--fs-body); line-height: 1.45; }
 .icon { display: block; width: 28px; height: 28px; color: var(--orange-on-dark); }
 .ask { position: relative; margin-top: 22px; font-weight: 700; }
 .ask a { color: var(--orange-on-dark); }

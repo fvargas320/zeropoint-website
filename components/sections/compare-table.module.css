@@ -13,7 +13,7 @@
 .row b { font-size: inherit; }
 .old { color: #8d8676; text-decoration: line-through; text-decoration-color: #ff5a1f99; }
 .new::before { content: "✓ "; color: var(--orange-text); font-weight: 800; }
-.head { display: none; color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.head { display: none; color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 @media (min-width: 760px) {
   .row { grid-template-columns: 1.1fr 1fr 1.2fr; align-items: baseline; }
   .head { display: grid; }
