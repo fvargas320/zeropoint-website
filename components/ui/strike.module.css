@@ -1,17 +1,18 @@
 .strike { position: relative; white-space: nowrap; }
+/* Tilted around its middle so it crosses the centre of the letters at both
+   ends. The draw is a clip, not a scale, so the pivot can stay in the middle. */
 .strike::after {
   content: "";
   position: absolute;
-  left: -3%;
-  right: -5%;
-  top: 52%;
+  left: -2%;
+  right: -2%;
+  top: 56%;
   height: 0.1em;
   border-radius: 99px;
   background: var(--orange);
-  transform: rotate(-2.5deg) scaleX(1);
-  transform-origin: left;
+  transform: rotate(-2deg);
   animation: draw 0.6s 0.35s var(--ease-out) both;
 }
 /* Follow-up words (RotatingStrike): the line tears through as the word lands. */
 .strike[data-quick]::after { animation: draw 0.3s 0.14s cubic-bezier(0.7, 0, 0.2, 1) both; }
-@keyframes draw { from { transform: rotate(-2.5deg) scaleX(0); } }
+@keyframes draw { from { clip-path: inset(-1em 100% -1em 0); } to { clip-path: inset(-1em 0 -1em 0); } }
