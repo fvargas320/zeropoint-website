@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/i/:code", destination: "/r/:code", permanent: true },
       { source: "/index.html", destination: "/", permanent: true },
+      { source: "/contact", destination: "/support", permanent: true },
       ...legacyHtml,
     ];
   },

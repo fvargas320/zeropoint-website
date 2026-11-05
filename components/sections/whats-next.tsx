@@ -31,7 +31,7 @@ export function WhatsNext() {
           ))}
         </ul>
         <p className={styles.ask}>
-          <Link href="/contact?topic=idea">{whatsNext.ask} <span aria-hidden="true">→</span></Link>
+          <Link href="/support?topic=idea">{whatsNext.ask} <span aria-hidden="true">→</span></Link>
         </p>
       </div>
     </section>
