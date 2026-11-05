@@ -2,10 +2,11 @@ import styles from "./steps.module.css";
 
 export type Step = { title: string; body: string };
 
-/** A numbered "how it works" strip. */
-export function Steps({ title, items }: { title: string; items: Step[] }) {
+/** A numbered "how it works" strip: ruled columns on the paper, no cards. */
+export function Steps({ eyebrow, title, items }: { eyebrow?: string; title: string; items: Step[] }) {
   return (
     <section className={`wrap ${styles.section}`} aria-labelledby="steps-title">
+      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       <h2 id="steps-title" className={styles.title}>{title}</h2>
       <ol className={styles.list}>
         {items.map((s, i) => (

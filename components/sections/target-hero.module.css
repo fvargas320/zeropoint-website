@@ -10,6 +10,9 @@
 .art .rear { left: 11%; top: 19%; width: 33%; rotate: -4deg; }
 .art .front { left: 39%; top: 12%; width: 40%; rotate: 2deg; box-shadow: 0 34px 50px -18px #0008, 0 14px 24px -12px #0006; }
 
+.art[data-laptop] .rear { left: 6%; top: 32%; width: 64%; rotate: -2deg; }
+.art[data-laptop] .front { left: 49%; top: 16%; width: 33%; }
+
 .stat {
   position: absolute;
   z-index: 1;

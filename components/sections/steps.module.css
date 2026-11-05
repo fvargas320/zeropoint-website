@@ -1,8 +1,14 @@
 .section { padding: clamp(40px, 7vw, 88px) 0; }
 .title { font-size: clamp(30px, 7vw, 56px); }
-.list { display: grid; gap: 14px; margin: 28px 0 0; padding: 0; list-style: none; }
-.list li { padding: 22px; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); }
-.list h3 { margin-top: 10px; font-size: 20px; }
-.list p { margin-top: 6px; color: var(--muted); }
-.num { color: var(--orange-text); font-size: 14px; font-weight: 800; letter-spacing: 0.12em; }
-@media (min-width: 820px) { .list { grid-template-columns: repeat(3, 1fr); } }
+.list { margin: clamp(22px, 2.6vw, 36px) 0 0; padding: 0; border-top: 1px solid #16161466; list-style: none; }
+.list li { padding: 22px 0; }
+.list li + li { border-top: 1px solid #16161433; }
+.list h3 { margin-top: 12px; font-size: clamp(21px, 1.2vw + 12px, 28px); }
+.list p { margin-top: 8px; max-width: 34ch; color: var(--muted); }
+.num { color: var(--orange); font-size: clamp(32px, 2.6vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+@media (min-width: 820px) {
+  .list { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .list li { padding: clamp(22px, 2.4vw, 34px) clamp(20px, 2.8vw, 40px) 8px; }
+  .list li:first-child { padding-left: 0; }
+  .list li + li { border-top: 0; border-left: 1px solid #16161466; }
+}

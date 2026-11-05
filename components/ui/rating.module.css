@@ -2,3 +2,4 @@
 .proof b { color: var(--ink); }
 .stars { color: var(--orange-text); font-size: 15px; letter-spacing: 2px; }
 .dot { opacity: 0.5; }
+@media (max-width: 420px) { .proof { gap: 6px 8px; font-size: 14px; } }

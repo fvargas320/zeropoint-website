@@ -31,7 +31,7 @@
 .group a { display: grid; gap: 2px; margin-inline: -12px; padding: 10px 12px; border-radius: calc(var(--radius) - 6px); text-decoration: none; }
 .group a:active, .group a:hover { background: color-mix(in srgb, var(--line) 35%, transparent); }
 .group b { font-size: 17px; }
-.group span { font-size: 14px; opacity: 0.72; }
+.group span { font-size: 15px; opacity: 0.72; }
 .links { padding-top: 20px; border-top: 1px solid var(--line); }
 .links a { display: block; padding: 10px 0; font-size: 17px; font-weight: 700; text-decoration: none; }
 @media (min-width: 1024px) {

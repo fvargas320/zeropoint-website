@@ -1,3 +1,5 @@
+import type { StaticImageData } from "next/image";
+import { Laptop } from "@/components/media/laptop";
 import { Phone } from "@/components/media/phone";
 import type { ScreenName } from "@/content/images";
 import styles from "./target-hero.module.css";
@@ -6,7 +8,9 @@ export type HeroStat = { value: string; label: string };
 
 type Props = {
   /** Front phone, then the one behind it. */
-  screens: [ScreenName, ScreenName];
+  screens: [ScreenName, ScreenName?];
+  /** A web capture on a laptop, in place of the phone behind. */
+  laptop?: StaticImageData;
   /** Figures shown on those screens, one per hole, top left round to bottom right. */
   stats: [HeroStat, HeroStat, HeroStat];
 };
@@ -23,10 +27,10 @@ const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
     tied by a leader line to a figure from the real screens in front of it.
     On load the shots land one by one and each pulls its figure out (CSS only;
     `--i` sets the order, and with reduced motion it all simply shows). */
-export function TargetHero({ screens, stats }: Props) {
+export function TargetHero({ screens, laptop, stats }: Props) {
   const [front, rear] = screens;
   return (
-    <div className={styles.art} aria-hidden="true">
+    <div className={styles.art} data-laptop={laptop ? true : undefined} aria-hidden="true">
       <svg className={styles.target} viewBox="0 0 100 98">
         <defs>
           <radialGradient id="target-sheen" cx="38%" cy="30%" r="80%">
@@ -53,7 +57,8 @@ export function TargetHero({ screens, stats }: Props) {
         ))}
         {LEADERS.map((d, i) => <path key={d} className={styles.leader} d={d} pathLength={1} style={order(i)} />)}
       </svg>
-      <Phone screen={rear} sizes="(min-width: 960px) 16vw, 32vw" decorative className={`${styles.phone} ${styles.rear}`} />
+      {laptop && <Laptop src={laptop} sizes="(min-width: 960px) 34vw, 70vw" priority className={`${styles.phone} ${styles.rear}`} />}
+      {rear && <Phone screen={rear} sizes="(min-width: 960px) 16vw, 32vw" decorative className={`${styles.phone} ${styles.rear}`} />}
       <Phone screen={front} sizes="(min-width: 960px) 20vw, 40vw" decorative priority className={`${styles.phone} ${styles.front}`} />
       {stats.map((s, i) => (
         <p key={s.label} className={styles.stat} data-at={i} style={order(i)}><b>{s.value}</b>{s.label}</p>

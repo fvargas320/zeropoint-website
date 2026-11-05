@@ -48,7 +48,7 @@ export function MobileMenu() {
           <Group title="Sports" items={sportsNav} onPick={close} />
           <ul className={styles.links}>
             {[...headerNav, ...drawerNav].map((l) => <li key={l.href}><Link href={l.href} onClick={close}>{l.label}</Link></li>)}
-            {site.appUrl && <li><a href={`${site.appUrl}/login`}>Sign in</a></li>}
+            {site.appUrl && <li><a href={`${site.appUrl}/login`}>Pro web app</a></li>}
           </ul>
         </div>
       </nav>
