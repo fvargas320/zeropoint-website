@@ -14,7 +14,7 @@ export function ScreenRail({ title, items }: { title: string; items: RailItem[] 
       <h2 id="rail-title" className={styles.title}>{title}</h2>
       <ul className={styles.rail}>
         {items.map((item, i) => (
-          <li key={item.screen}>
+          <li key={item.screen} id={`rail-${item.screen}`}>
             <Reveal delay={i * 80} className={styles.card}>
               <p className={styles.caption}>{item.title}<span>{item.caption}</span></p>
               <Phone screen={item.screen} sizes="(min-width: 900px) 260px, 62vw" className={styles.phone} />

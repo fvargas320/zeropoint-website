@@ -2,6 +2,7 @@ import type { RailItem } from "@/components/sections/screen-rail";
 import type { Step } from "@/components/sections/steps";
 import type { HeroStat } from "@/components/sections/target-hero";
 import type { ArtName, ScreenName } from "./images";
+import type { MenuLink } from "./nav";
 import { idpa } from "./idpa";
 import { ammoInventory, shootingLog } from "./keyword-pages";
 import { uspsa } from "./uspsa";
@@ -13,11 +14,16 @@ export const getRail: RailItem[] = [
   { screen: "crew", title: "Bring your crew", caption: "Chat and plan the next range day.", prop: "crewPrints" },
 ];
 
-/** The header's jumps on /get. */
+/** The header's Features menu on /get: jumps to the cards in getRail and to Matches. */
+export const getFeatureMenu: MenuLink[] = [
+  ...getRail.map((r) => ({ href: `#rail-${r.screen}`, label: r.title, note: r.caption })),
+  { href: "#matches", label: "Match analysis", note: "Import results, see where points went" },
+];
+
+/** The header's other jumps on /get. */
 export const getNav = [
-  { href: "#features", label: "Features" },
-  { href: "#matches", label: "Matches" },
   { href: "#pro", label: "Pro" },
+  { href: "#next", label: "What's next" },
   { href: "#questions", label: "Questions" },
 ];
 
