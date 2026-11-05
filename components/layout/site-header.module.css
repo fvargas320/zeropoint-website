@@ -27,7 +27,7 @@
 }
 /* Phones have the sticky store bar instead. */
 .pageCta { display: none; }
-/* Sign in sits apart from the page links: it leaves the site. */
+/* The web app link sits apart from the page links: it leaves the site. */
 .nav .signIn { padding-left: clamp(16px, 1.6vw, 28px); border-left: 1px solid var(--line); }
 @media (min-width: 1024px) {
   .nav { display: flex; }
