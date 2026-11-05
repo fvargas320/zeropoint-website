@@ -40,17 +40,12 @@ export function ContactForm() {
   const hint = contactTopics.find((t) => t.value === topic)?.hint;
   return (
     <form className={styles.form} onSubmit={send}>
-      <fieldset>
-        <legend>What's this about?</legend>
-        <div className={styles.topics}>
-          {contactTopics.map((t) => (
-            <label key={t.value}>
-              <input type="radio" name="topic" value={t.value} checked={topic === t.value} onChange={() => setTopic(t.value)} />
-              <span>{t.label}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
+      <label className={styles.field}>
+        <span>What's this about?</span>
+        <select name="topic" value={topic} onChange={(e) => setTopic(e.target.value as ContactTopic)}>
+          {contactTopics.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+        </select>
+      </label>
       <label className={styles.field}>
         <span>Your email</span>
         <input type="email" name="email" autoComplete="email" required maxLength={320} />
