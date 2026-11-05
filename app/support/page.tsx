@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ContactForm } from "@/components/sections/contact-form";
-import { FaqList } from "@/components/sections/faq-list";
-import { supportFaq } from "@/content/legal/support";
+import { SupportQuestions } from "@/components/sections/support-questions";
+import { FaqJsonLd } from "@/components/seo/app-json-ld";
+import { supportQuestions } from "@/content/legal/support";
 import { site } from "@/content/site";
 import styles from "./support.module.css";
 
@@ -33,9 +34,10 @@ export default function SupportPage() {
           </div>
           <ContactForm />
         </div>
-        <FaqList items={supportFaq} title="Common questions." eyebrow="Help" />
+        <SupportQuestions />
       </main>
       <SiteFooter />
+      <FaqJsonLd items={supportQuestions.flatMap((g) => g.items)} />
     </>
   );
 }
