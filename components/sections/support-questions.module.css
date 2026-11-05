@@ -1,0 +1,13 @@
+.section { padding-block: clamp(24px, 4vw, 48px) clamp(56px, 9vw, 110px); scroll-margin-top: var(--header); }
+.section h2 { margin: 0 0 clamp(20px, 2.5vw, 28px); font-size: clamp(26px, 2.4vw, 32px); }
+.columns { display: grid; }
+.column { display: grid; align-content: start; gap: 22px; padding-block: 24px; border-top: 1px solid var(--line); }
+.item h3 { margin: 0 0 6px; font-size: 19px; line-height: 1.25; }
+.item p { margin: 0; color: var(--muted); }
+.item a { color: var(--orange-text); font-weight: 700; overflow-wrap: anywhere; }
+@media (min-width: 900px) {
+  .columns { grid-template-columns: repeat(3, 1fr); }
+  .column { padding: 0 clamp(20px, 2.5vw, 36px); border-top: 0; border-left: 1px solid var(--line); }
+  .column:first-child { padding-left: 0; border-left: 0; }
+  .column:last-child { padding-right: 0; }
+}

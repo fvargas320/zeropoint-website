@@ -4,9 +4,7 @@ export type Link = { href: string; label: string };
     index of Home's sections. Privacy and Support live in the footer (and the
     mobile drawer) to keep the bar short. */
 export const headerNav: Link[] = [
-  { href: "/#web-app", label: "Web app" },
   { href: "/#pro", label: "Pricing" },
-  { href: "/#next", label: "What's next" },
   { href: "/#faq", label: "FAQ" },
 ];
 
@@ -24,6 +22,8 @@ export const featuresNav: MenuLink[] = [
   { href: "/shooting-log-app", label: "Shooting log", note: "Every session in seconds" },
   { href: "/ammo-inventory-app", label: "Ammo inventory", note: "Know before a caliber runs dry" },
   { href: "/#armory", label: "Firearms & maintenance", note: "Your armory, with maintenance alerts" },
+  { href: "/#web-app", label: "Web app", note: "Your whole log on the big screen" },
+  { href: "/#next", label: "What's next", note: "What we plan to build" },
 ];
 
 /** Home's Matches section and the sports with their own page. */
