@@ -44,7 +44,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
         />
         <div id="features" data-track-view="rail"><ScreenRail title="Everything from the range, in your pocket." items={getRail} /></div>
         <div id="matches"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div>
-        <div data-track-view="steps"><Steps title="Up and running in a minute." items={getSteps} /></div>
+        <div data-track-view="steps"><Steps eyebrow="Getting started" title="Up and running in a minute." items={getSteps} /></div>
         <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} placement="get-pro" />
         <div id="questions" data-track-view="faq"><FaqList items={getFaq(live, founders)} title="Good to know." /></div>
         <div data-track-view="closing">

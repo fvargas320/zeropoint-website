@@ -23,8 +23,8 @@ export const getNav = [
 
 export const getSteps: Step[] = [
   { title: "Download free", body: "On iPhone or Android. No card needed." },
-  { title: "Add your firearms and ammo", body: "Up to 3 firearms free, with the ammo you have on hand." },
-  { title: "Log your next range day", body: "Rounds come off your stock and the session lands on your calendar." },
+  { title: "Add firearms and ammo", body: "Track up to 3 firearms free and add the ammo you have on hand." },
+  { title: "Log your next range day", body: "Your ammo count updates and the session appears on your calendar." },
 ];
 
 /** Under the hero's store buttons: the usual "is there a catch?" answers. */

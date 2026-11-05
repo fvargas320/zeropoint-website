@@ -7,7 +7,6 @@ import webSample from "@/assets/images/web-sample.webp";
 import type { ScreenName } from "@/content/images";
 import { freeLine, proBenefits, proPerks } from "@/content/pro";
 import { pricing, type SalePhase } from "@/content/site";
-import { ProIcon } from "./pro-icon";
 import { ProPlans } from "./pro-plans";
 import styles from "./pro-breakdown.module.css";
 
@@ -37,7 +36,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
           {[{ ...matches, screen: matchScreen }, { ...analytics, screen: "spending" as const }].map((b, i) => (
             <Reveal key={b.title} delay={i * 80} className={styles.tile}>
               <div className={styles.tileCopy}>
-                <ProIcon name={b.icon} className={styles.icon} />
+                <p className={styles.label}>{b.label}</p>
                 <h3>{b.title}</h3>
                 <ul>{b.points.map((p) => <li key={p}>{p}</li>)}</ul>
               </div>
@@ -46,7 +45,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
           ))}
           <Reveal delay={160} className={`${styles.tile} ${styles.wide}`}>
             <div className={styles.tileCopy}>
-              <ProIcon name={sync.icon} className={styles.icon} />
+              <p className={styles.label}>{sync.label}</p>
               <h3>{sync.title}</h3>
               <ul>{sync.points.map((p) => <li key={p}>{p}</li>)}</ul>
             </div>
@@ -61,7 +60,7 @@ export function ProBreakdown({ matchScreen, lifetime, phase, placement }: Props)
           {more.map((m, i) => (
             <li key={m.title}>
               <Reveal delay={i * 70} className={styles.small}>
-                <ProIcon name={m.icon} className={styles.icon} />
+                <p className={styles.label}>{m.label}</p>
                 <h3>{m.title}</h3>
                 <p>{m.body}</p>
               </Reveal>
