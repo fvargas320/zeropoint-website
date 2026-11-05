@@ -37,14 +37,18 @@ export const heroStats: [HeroStat, HeroStat, HeroStat] = [
 ];
 
 // Plans, not promises: nothing here has shipped, so no dates and no "now".
+// Each one is specified in rangeai's docs (zeropoint-v3, shot-timer,
+// competitive-logging, ai-assistant); the forum is Fernando's call.
 export const whatsNext: { title: string; lede: string; ask: string; items: { icon: IconName; title: string; body: string }[] } = {
   title: "Where ZeroPoint goes from here.",
   lede: "What we plan to build next. No dates yet, and what you ask for moves up the list.",
   ask: "Got an idea? Tell us",
   items: [
+    { icon: "forecast", title: "Ask ZeroPoint", body: "Ask your own log a question, like what your last three matches have in common, and get a drill or a goal back in one tap." },
+    { icon: "timer", title: "Shot timer", body: "A timer in your phone: par beep, dry fire, and your splits laid over the video of the run." },
+    { icon: "stage", title: "Score stages as you shoot", body: "USPSA, IDPA and Steel Challenge scorers built in, with hit factor and classifier percentages." },
+    { icon: "target", title: "Drill records", body: "Personal bests for the standards: Bill Drill, El Presidente and Dot Torture." },
+    { icon: "sliders", title: "Foundations lessons", body: "Short lessons on the Train tab for the basics, tied to the drills you log." },
     { icon: "chat", title: "A forum for shooters", body: "A place on this site to swap drills, gear notes and match stories." },
-    { icon: "stage", title: "Better analytics", body: "Deeper metrics on your shooting, your gear and your spending." },
-    { icon: "sliders", title: "Make it yours", body: "Much more say over how the app looks and what it shows you first." },
-    { icon: "devices", title: "App and web as one", body: "A smoother handoff, so you pick up on any screen where you left off." },
   ],
 };

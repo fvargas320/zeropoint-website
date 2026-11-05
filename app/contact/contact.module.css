@@ -1,0 +1,6 @@
+.page { display: grid; gap: 32px; padding-block: clamp(40px, 7vw, 88px); align-items: start; }
+.intro h1 { margin: 8px 0 12px; }
+.ways { display: grid; gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; }
+.ways li { display: grid; gap: 2px; }
+.ways a { color: var(--orange-text); font-weight: 700; }
+@media (min-width: 900px) { .page { grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 88px); } }

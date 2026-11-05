@@ -10,3 +10,4 @@
 .word { display: inline-block; }
 .word[data-enter] { animation: word-in 0.24s var(--ease-out) both; }
 @keyframes word-in { from { opacity: 0; transform: translateY(0.18em); filter: blur(4px); } }
+.ghost::before, .word::before { content: attr(data-word); }

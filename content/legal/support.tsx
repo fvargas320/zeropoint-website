@@ -16,7 +16,7 @@ export function SupportBody() {
       </div>
       <h3>Email support</h3>
       <p>Send a message with what you were doing and which device you use. We read every note.</p>
-      <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a>
+      <a href="/contact?topic=support">Send us a message</a>
       </div>
       <div className="contact-card">
       <div className="contact-icon" aria-hidden="true">

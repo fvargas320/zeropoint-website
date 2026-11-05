@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { AppJsonLd } from "@/components/seo/app-json-ld";
+import { AppJsonLd, FaqJsonLd } from "@/components/seo/app-json-ld";
 import { BrandFilm } from "@/components/sections/brand-film";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { CompareTable } from "@/components/sections/compare-table";
@@ -37,13 +37,15 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 export default async function HomePage() {
   const [live, founders] = await Promise.all([matchesLive(), foundersLive()]);
   const phase = salePhase(new Date());
+  const faq = homeFaq(live, founders);
   return (
     <>
       <SiteHeader />
       <main id="main">
         <Hero
           announcement={<SalePill phase={phase} lifetime={founders} fallback={<Announcement tag={live ? "New update" : "Next update"} text="Import your match results" href="#matches" />} />}
-          eyebrow="The shooting log"
+          eyebrow="The shooting log app"
+          eyebrowInTitle
           title={<>Ditch the <RotatingStrike words={heroStrikes} /></>}
           lede="Every range day, logged: sessions, ammo, gear and your crew, in one app."
           placement="hero"
@@ -60,11 +62,12 @@ export default async function HomePage() {
         <ProBreakdown matchScreen="uspsaMatch" lifetime={founders} phase={phase} placement="home-pro" />
         <PrivacyCard />
         <WhatsNext />
-        <FaqList items={homeFaq(live, founders)} />
+        <FaqList items={faq} />
         <ClosingCta after={<QrInstall campaign="home" />} />
       </main>
       <SiteFooter />
       <AppJsonLd />
+      <FaqJsonLd items={faq} />
     </>
   );
 }

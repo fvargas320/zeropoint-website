@@ -28,5 +28,5 @@
 @media (min-width: 640px) { .list { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1040px) {
   .head { grid-template-columns: 1fr 1fr; align-items: end; gap: 48px; }
-  .list { grid-template-columns: repeat(4, 1fr); }
+  .list { grid-template-columns: repeat(3, 1fr); }
 }

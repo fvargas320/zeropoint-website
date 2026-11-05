@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { drawerNav, featuresNav, headerNav, sportsNav } from "@/content/nav";
+import { drawerNav, featuresNav, headerNav, matchesNav } from "@/content/nav";
 import { site } from "@/content/site";
 import styles from "./mobile-menu.module.css";
 
@@ -45,7 +45,7 @@ export function MobileMenu() {
       <nav id="mobile-menu" className={styles.drawer} hidden={!open} aria-label="Menu">
         <div className={`wrap ${styles.inner}`}>
           <Group title="Features" items={featuresNav} onPick={close} />
-          <Group title="Sports" items={sportsNav} onPick={close} />
+          <Group title="Matches" items={matchesNav} onPick={close} />
           <ul className={styles.links}>
             {[...headerNav, ...drawerNav].map((l) => <li key={l.href}><Link href={l.href} onClick={close}>{l.label}</Link></li>)}
             {site.appUrl && <li><a href={`${site.appUrl}/login`} aria-label="Pro member login">Login <span className={styles.pro}>Pro</span></a></li>}

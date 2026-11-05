@@ -57,7 +57,7 @@ export function TargetHero({ screens, laptop, stats }: Props) {
         ))}
         {LEADERS.map((d, i) => <path key={d} className={styles.leader} d={d} pathLength={1} style={order(i)} />)}
       </svg>
-      {laptop && <Laptop src={laptop} sizes="(min-width: 960px) 34vw, 70vw" priority className={`${styles.phone} ${styles.rear}`} />}
+      {laptop && <Laptop src={laptop} alt="The ZeroPoint web app: a season of matches with a bar chart of match percentages" sizes="(min-width: 960px) 34vw, 70vw" priority className={`${styles.phone} ${styles.rear}`} />}
       {rear && <Phone screen={rear} sizes="(min-width: 960px) 16vw, 32vw" decorative className={`${styles.phone} ${styles.rear}`} />}
       <Phone screen={front} sizes="(min-width: 960px) 20vw, 40vw" decorative priority className={`${styles.phone} ${styles.front}`} />
       {stats.map((s, i) => (

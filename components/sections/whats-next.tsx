@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
 import { Icon } from "@/components/ui/icon";
 import { TargetRings } from "@/components/ui/target-rings";
 import { whatsNext } from "@/content/home";
-import { site } from "@/content/site";
 import styles from "./whats-next.module.css";
 
 /** What we plan to build, in a dark card. Plans, not shipped features, so the
@@ -31,7 +31,7 @@ export function WhatsNext() {
           ))}
         </ul>
         <p className={styles.ask}>
-          <a href={`mailto:${site.email}?subject=${encodeURIComponent("Idea for ZeroPoint")}`}>{whatsNext.ask} <span aria-hidden="true">→</span></a>
+          <Link href="/contact?topic=idea">{whatsNext.ask} <span aria-hidden="true">→</span></Link>
         </p>
       </div>
     </section>
