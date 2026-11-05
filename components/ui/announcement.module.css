@@ -30,3 +30,8 @@
 .text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .arrow { color: var(--orange-text); transition: translate 0.2s var(--ease-out); }
 .pill:hover .arrow { translate: 3px 0; }
+/* Keeps a short line whole on narrow phones. */
+@media (max-width: 420px) {
+  .pill { gap: 8px; padding-right: 12px; font-size: 14px; }
+  .tag { padding-inline: 8px; font-size: 11px; }
+}
