@@ -54,7 +54,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
         </div>
       </main>
       <SiteFooter minimal />
-      <StickyStoreBar watchId="get-stores" plain />
+      <StickyStoreBar watchId="get-stores" top />
     </>
   );
 }

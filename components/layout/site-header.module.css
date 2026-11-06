@@ -68,5 +68,5 @@
 .nav .menuPanel a:hover { background: color-mix(in srgb, var(--line) 35%, transparent); color: inherit; }
 .menuPanel span { font-size: 15px; font-weight: 500; opacity: 0.72; }
 
-/* Paid pages on a phone: the logo scrolls away; the store bar stays instead. */
+/* Paid pages on a phone: the logo scrolls away, and the store bar brings it back after the hero. */
 @media (max-width: 799px) { .bar[data-minimal] { position: relative; } }

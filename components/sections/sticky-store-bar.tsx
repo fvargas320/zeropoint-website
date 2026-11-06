@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Logo } from "@/components/layout/logo";
 import { appStoreLink, stores } from "@/content/site";
 import { AppleIcon, PlayIcon } from "@/components/ui/store-icons";
 import styles from "./sticky-store-bar.module.css";
@@ -8,10 +9,10 @@ import styles from "./sticky-store-bar.module.css";
 /**
  * On phones, once the element with `watchId` (the hero's store buttons) has
  * scrolled away, pin the visitor's own store to the bottom of the screen.
- * `plain` drops "Free" from the labels, for a page selling Pro.
+ * `top` makes it a slim bar with the logo along the top, clear of the content.
  * Desktop never shows it.
  */
-export function StickyStoreBar({ watchId, campaign, plain = false }: { watchId: string; campaign?: string; plain?: boolean }) {
+export function StickyStoreBar({ watchId, campaign, top = false }: { watchId: string; campaign?: string; top?: boolean }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -22,15 +23,25 @@ export function StickyStoreBar({ watchId, campaign, plain = false }: { watchId: 
     return () => io.disconnect();
   }, [watchId]);
 
+  if (top) {
+    return (
+      <div className={styles.top} data-show={show || undefined} data-placement="sticky">
+        <Logo />
+        <a className={`${styles.pill} ${styles.apple}`} href={appStoreLink(campaign)} data-store="app_store"><AppleIcon />App Store</a>
+        <a className={`${styles.pill} ${styles.play}`} href={stores.playStore} data-store="google_play"><PlayIcon />Google Play</a>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.bar} data-show={show || undefined} data-placement="sticky">
       <a className={`${styles.store} ${styles.apple}`} href={appStoreLink(campaign)} data-store="app_store">
         <AppleIcon />
-        <span><small>{plain ? "Download on the" : "Free on the"}</small><strong>App Store</strong></span>
+        <span><small>Free on the</small><strong>App Store</strong></span>
       </a>
       <a className={`${styles.store} ${styles.play}`} href={stores.playStore} data-store="google_play">
         <PlayIcon />
-        <span><small>{plain ? "Get it on" : "Free on"}</small><strong>Google Play</strong></span>
+        <span><small>Free on</small><strong>Google Play</strong></span>
       </a>
     </div>
   );
