@@ -42,7 +42,7 @@ export const getSteps: Step[] = [
 ];
 
 /** Under the hero: the usual "is there a catch?" answers. */
-export const factChips = ["No card needed", "iPhone & Android", "Works offline"];
+export const factChips = ["No card needed", "Works offline"];
 
 export type GetVariant = {
   slug: string;
