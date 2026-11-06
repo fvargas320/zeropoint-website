@@ -15,7 +15,6 @@ export type Feature = {
   title: string;
   caption: string;
   prop: ArtName;
-  ground: "paper" | "orange" | "night";
   /** A figure from that screen, counted up on the tape. */
   stat: { to: number; prefix?: string; decimals?: number; label: string };
 };
@@ -79,7 +78,7 @@ export function FeatureRun({ title, items, wide }: { title: string; items: Featu
   return (
     <>
       <div className={styles.wide}>{wide}</div>
-      <section ref={section} className={styles.section} data-ground={items[active].ground} aria-labelledby="run-title">
+      <section ref={section} className={styles.section} aria-labelledby="run-title">
         <h2 id="run-title" className={styles.title}>{title}</h2>
         <ul ref={row} className={styles.row}>
           {items.map((f, i) => (

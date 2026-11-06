@@ -88,7 +88,8 @@
     gap: 12px;
     margin: 20px calc(-1 * var(--gutter)) 0;
     padding: 12px var(--gutter);
-    overflow-x: auto;
+    overflow: auto hidden;
+    overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--gutter);
     scrollbar-width: none;

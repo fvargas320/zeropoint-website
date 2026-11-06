@@ -18,7 +18,7 @@ type Props = {
 
 export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download" }: Props) {
   return (
-    <header className={styles.bar}>
+    <header className={styles.bar} data-minimal={minimal || undefined}>
       <div className={`wrap ${styles.inner}`}>
         <Logo priority />
         {minimal && pageNav && (

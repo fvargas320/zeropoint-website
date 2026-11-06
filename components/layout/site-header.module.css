@@ -67,3 +67,6 @@
 .nav .menuPanel a { display: grid; gap: 2px; padding: 10px 12px; border-radius: calc(var(--radius) - 6px); white-space: normal; }
 .nav .menuPanel a:hover { background: color-mix(in srgb, var(--line) 35%, transparent); color: inherit; }
 .menuPanel span { font-size: 15px; font-weight: 500; opacity: 0.72; }
+
+/* Paid pages on a phone: the logo scrolls away; the store bar stays instead. */
+@media (max-width: 799px) { .bar[data-minimal] { position: relative; } }

@@ -22,12 +22,12 @@ type Props = {
   storesId: string;
   /** The QR code; computers only. */
   qr: React.ReactNode;
-  /** Chips and rating, on the cream under the orange on a phone. */
+  /** The rating; computers only. */
   proof: React.ReactNode;
 };
 
 // Holes through the orange, in cqi of the fan: under the left phone.
-const HOLES = [[7, 107], [17, 113], [27, 106]];
+const HOLES = [[6, 97], [15, 103], [24, 96]];
 
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -78,7 +78,7 @@ export function GetHero({ announcement, eyebrow, title, lede, screens, tape, sta
       </div>
       <div className={styles.proof}>
         <TornEdge color="var(--paper)" seed={7} />
-        {proof}
+        <div className="not-phone">{proof}</div>
       </div>
     </section>
   );

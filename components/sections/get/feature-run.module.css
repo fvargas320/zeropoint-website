@@ -1,31 +1,19 @@
-/* Phones only; a computer gets the `wide` cards. The ground changes with the
-   card in front. */
+/* Phones only; a computer gets the `wide` cards. */
 .wide { display: none; }
 @media (min-width: 900px) {
   .wide { display: block; }
   .section { display: none; }
 }
-.section {
-  --ground: var(--paper);
-  --text: var(--ink);
-  --soft: var(--muted);
-  --word: #16161412;
-  padding-block: clamp(36px, 6vw, 56px) 20px;
-  overflow-x: clip;
-  background: var(--ground);
-  color: var(--text);
-  transition: background-color 0.5s var(--ease-out), color 0.5s var(--ease-out);
-}
-.section[data-ground="orange"] { --ground: var(--orange); --soft: #3a1a08; --word: #16161424; }
-.section[data-ground="night"] { --ground: var(--night); --text: var(--on-dark); --soft: var(--on-dark-2); --word: #ff5a1f2e; }
-
+.section { padding-block: 28px 8px; overflow-x: clip; }
 .title { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; font-size: clamp(30px, 7vw, 56px); }
 .row {
   position: relative;
   display: flex;
   margin: 0;
   padding: 0;
-  overflow-x: auto;
+  overflow: auto hidden;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
   list-style: none;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -52,18 +40,17 @@
   top: 88px;
   left: 50%;
   z-index: 0;
-  color: var(--word);
+  color: #16161412;
   font-size: clamp(120px, 38vw, 340px);
   font-weight: 800;
   letter-spacing: -0.06em;
   line-height: 0.9;
   white-space: nowrap;
-  transition: color 0.5s var(--ease-out);
   translate: -50% 0;
 }
 .copy { position: relative; z-index: 2; width: 100%; padding-inline: 8px; }
 .copy h3 { font-size: clamp(26px, 6.6vw, 48px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
-.copy p { margin-top: 6px; color: var(--soft); font-size: clamp(16px, 1.3vw, 21px); line-height: 1.4; transition: color 0.5s var(--ease-out); }
+.copy p { margin-top: 6px; color: var(--muted); font-size: 16px; line-height: 1.4; }
 .stage { position: relative; z-index: 1; container-type: inline-size; width: min(100%, 340px); height: min(112vw, 56svh); overflow: visible; }
 .stage .phone { position: absolute; left: 20%; top: 0; width: 60%; }
 .stage .prop { position: absolute; z-index: 2; right: -6%; bottom: 8%; width: 46%; rotate: 6deg; filter: drop-shadow(0 12px 14px #0007); }
