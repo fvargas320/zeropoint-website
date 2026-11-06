@@ -67,9 +67,16 @@
   .banner[data-short] .bannerCopy { padding: 14px 18px; }
   .banner[data-short] .when { font-size: 13px; }
   .banner[data-short] .bannerTitle { margin-top: 4px; font-size: 22px; }
-  .plans[data-short] { gap: 8px; margin-top: 8px; }
-  .plans[data-short] .plan { padding: 14px 18px; }
-  .plans[data-short] .price { margin-top: 4px; }
-  .plans[data-short] .note { margin-top: 2px; font-size: 14px; }
-  .plans[data-short] .coin { display: none; }
+  .plans[data-short] { grid-template-columns: 1fr 1fr; column-gap: 8px; }
+  .plans[data-short] .plan { display: flex; flex-direction: column; padding: 14px; }
+  .plans[data-short] .founders { grid-column: 1 / -1; padding-left: 18px; padding-right: 92px; }
+  .plans[data-short] { row-gap: 8px; margin-top: 18px; }
+  /* On the card's top edge, so the two prices line up. */
+  .plans[data-short] .save { position: absolute; top: -10px; right: 12px; }
+  .plans[data-short] .price { margin-top: 4px; font-size: 15px; }
+  .plans[data-short] .price b { display: block; font-size: clamp(26px, 8vw, 32px); line-height: 1.15; }
+  .plans[data-short] .founders .price b { display: inline; }
+  .plans[data-short] .note { margin-top: 4px; font-size: 14px; line-height: 1.35; }
+  .plans[data-short] .pick { margin-top: auto; padding-top: 10px; font-size: clamp(14px, 4.2vw, 16px); white-space: nowrap; }
 }
+@media (max-width: 340px) { .plans[data-short] .plan:not(.founders) .pick span { display: none; } }
