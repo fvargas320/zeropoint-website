@@ -21,6 +21,9 @@ export function ProPlans({ lifetime, phase: initial, short = false }: { lifetime
   const phase = useSalePhase(initial);
   const shown = saleShown(phase, lifetime);
   const onSale = shown && phase === "on";
+  // The short version swaps in fewer words on a phone.
+  const say = (full: React.ReactNode, brief: string) => (short ? <><span className="not-phone">{full}</span><span className={styles.brief}>{brief}</span></> : full);
+  const lifetimeBrief = onSale ? "Black Friday price. Pay once." : lifetime ? "Pay once. No subscription." : `Coming soon. ${salePrice} on Black Friday.`;
   return (
     <>
       {shown && (
@@ -40,14 +43,14 @@ export function ProPlans({ lifetime, phase: initial, short = false }: { lifetime
       <ul className={styles.plans} data-short={short || undefined} aria-label="Pro plans">
         <li className={styles.plan}>
           <h3 className={styles.name}>Monthly</h3>
-          <p className={styles.price}><b>{money(pricing.monthly)}</b> / month</p>
-          <p className={styles.note}>Starts with a {pricing.trialDays}-day free trial.</p>
+          <p className={styles.price}><b>{money(pricing.monthly)}</b> {say("/ month", "/mo")}</p>
+          <p className={styles.note}>{say(`Starts with a ${pricing.trialDays}-day free trial.`, `${pricing.trialDays} days free`)}</p>
           <PlanLink plan="monthly">Get Monthly</PlanLink>
         </li>
         <li className={styles.plan}>
           <h3 className={styles.name}>Yearly <span className={styles.save}>Save {yearlySavingPct}%</span></h3>
-          <p className={styles.price}><b>{money(pricing.yearly)}</b> / year</p>
-          <p className={styles.note}>That's {yearlyPerMonth} a month, billed yearly.</p>
+          <p className={styles.price}><b>{money(pricing.yearly)}</b> {say("/ year", "/yr")}</p>
+          <p className={styles.note}>{say(`That's ${yearlyPerMonth} a month, billed yearly.`, `${yearlyPerMonth} a month`)}</p>
           <PlanLink plan="yearly">Get Yearly</PlanLink>
         </li>
         {(lifetime || shown) && (
@@ -58,8 +61,10 @@ export function ProPlans({ lifetime, phase: initial, short = false }: { lifetime
               {onSale && <s>{money(pricing.lifetime)}</s>} <b>{onSale ? salePrice : money(pricing.lifetime)}</b> once
             </p>
             <p className={styles.note}>
-              {onSale ? "Black Friday price. " : ""}{lifetime ? "Pay once, no subscription." : "Coming in the next update."}
-              {phase === "before" && ` ${salePrice} ${saleDates.start} – ${saleDates.end}.`}
+              {say(<>
+                {onSale ? "Black Friday price. " : ""}{lifetime ? "Pay once, no subscription." : "Coming in the next update."}
+                {phase === "before" && ` ${salePrice} ${saleDates.start} – ${saleDates.end}.`}
+              </>, lifetimeBrief)}
             </p>
             {lifetime && <PlanLink plan="lifetime">Get Lifetime</PlanLink>}
           </li>
