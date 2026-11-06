@@ -13,6 +13,7 @@ import { TargetHero } from "@/components/sections/target-hero";
 import { WhatsNext } from "@/components/sections/whats-next";
 import { FactChips } from "@/components/ui/fact-chips";
 import { QrInstall } from "@/components/ui/qr-install";
+import { Rating } from "@/components/ui/rating";
 import { Strike } from "@/components/ui/strike";
 import { getFaq } from "@/content/faq";
 import { getMenus, getNav, getRail, getSteps, type GetVariant } from "@/content/get";
@@ -40,7 +41,9 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
           placement="get-hero"
           stackedStores
           storesId="get-stores"
-          afterStores={<><FactChips /><QrInstall campaign={variant.slug} /></>}
+          ownStore
+          afterStores={<QrInstall campaign={variant.slug} />}
+          belowArt={<><FactChips /><Rating /></>}
           art={<TargetHero screens={variant.screens} stats={variant.stats} />}
         />
         <div id="features" data-track-view="rail"><ScreenRail title="Everything from the range, in your pocket." items={getRail} /></div>

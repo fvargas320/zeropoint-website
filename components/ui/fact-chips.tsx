@@ -1,7 +1,7 @@
 import { factChips } from "@/content/get";
 import styles from "./fact-chips.module.css";
 
-/** The answers to "is there a catch?", right under the store buttons. */
+/** The answers to "is there a catch?", under the hero. */
 export function FactChips() {
   return (
     <ul className={styles.chips} aria-label="At a glance">

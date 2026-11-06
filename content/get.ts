@@ -41,7 +41,7 @@ export const getSteps: Step[] = [
   { title: "Log your next range day", body: "Your ammo count updates and the session appears on your calendar." },
 ];
 
-/** Under the hero's store buttons: the usual "is there a catch?" answers. */
+/** Under the hero: the usual "is there a catch?" answers. */
 export const factChips = ["No card needed", "iPhone & Android", "Works offline"];
 
 export type GetVariant = {
