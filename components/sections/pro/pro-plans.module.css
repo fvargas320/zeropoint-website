@@ -59,3 +59,17 @@
   .bannerCopy { z-index: 1; display: flex; flex-direction: column; justify-content: center; min-height: clamp(320px, 30vw, 440px); padding: clamp(28px, 4vw, 64px); }
   .plans { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* The short version on a phone: one line for the sale, tighter plans. */
+@media (max-width: 799px) {
+  .banner[data-short] { margin-top: 28px; }
+  .banner[data-short] .art, .banner[data-short] .bannerPrice, .banner[data-short] .bannerNote { display: none; }
+  .banner[data-short] .bannerCopy { padding: 14px 18px; }
+  .banner[data-short] .when { font-size: 13px; }
+  .banner[data-short] .bannerTitle { margin-top: 4px; font-size: 22px; }
+  .plans[data-short] { gap: 8px; margin-top: 8px; }
+  .plans[data-short] .plan { padding: 14px 18px; }
+  .plans[data-short] .price { margin-top: 4px; }
+  .plans[data-short] .note { margin-top: 2px; font-size: 14px; }
+  .plans[data-short] .coin { display: none; }
+}

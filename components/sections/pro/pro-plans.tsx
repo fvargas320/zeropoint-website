@@ -17,14 +17,14 @@ function PlanLink({ plan, children }: { plan: string; children: React.ReactNode 
 
 /** The Black Friday banner (while saleShown) over the plans. Lifetime appears
     with the sale or once it can be bought. The sale dates follow the visitor's clock, as the app's paywall label does. */
-export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phase: SalePhase }) {
+export function ProPlans({ lifetime, phase: initial, short = false }: { lifetime: boolean; phase: SalePhase; short?: boolean }) {
   const phase = useSalePhase(initial);
   const shown = saleShown(phase, lifetime);
   const onSale = shown && phase === "on";
   return (
     <>
       {shown && (
-        <div className={styles.banner} id="black-friday">
+        <div className={styles.banner} data-short={short || undefined} id="black-friday">
           <Image src={blackFriday} alt="" sizes="(min-width: 800px) 90vw, 100vw" className={styles.art} />
           <div className={styles.bannerCopy}>
             <p className={styles.when}>Black Friday · {saleDates.start} – {saleDates.end}</p>
@@ -37,7 +37,7 @@ export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phas
         </div>
       )}
 
-      <ul className={styles.plans} aria-label="Pro plans">
+      <ul className={styles.plans} data-short={short || undefined} aria-label="Pro plans">
         <li className={styles.plan}>
           <h3 className={styles.name}>Monthly</h3>
           <p className={styles.price}><b>{money(pricing.monthly)}</b> / month</p>

@@ -81,6 +81,8 @@ h3 { font-size: var(--fs-h3); letter-spacing: -0.015em; line-height: 1.25; }
   text-transform: uppercase;
 }
 .lede { margin-top: 20px; max-width: 36ch; color: var(--muted); font-size: var(--fs-lede); line-height: 1.5; }
+/* Left out of the short phone version of a page. */
+@media (max-width: 799px) { .not-phone { display: none !important; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 50; padding: 8px 14px; border-radius: 8px; background: var(--ink); color: var(--paper); }
 .skip:focus { left: 8px; }

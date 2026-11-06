@@ -20,12 +20,14 @@ export function WhatsNext({ ask = true, swipe = false }: { ask?: boolean; swipe?
   ));
   return (
     <section className="wrap" id="next" aria-labelledby="next-title" data-track-view="next">
-      <div className={styles.card}>
+      <div className={styles.card} data-short={swipe || undefined}>
         <TargetRings className={styles.rings} />
         <div className={styles.head}>
           <div>
             <p className={`eyebrow ${styles.eyebrow}`}>What's next</p>
-            <h2 id="next-title" className={styles.title}>{whatsNext.title}</h2>
+            <h2 id="next-title" className={styles.title}>
+              {swipe ? <><span className="not-phone">{whatsNext.title}</span><span className={styles.short}>Coming next.</span></> : whatsNext.title}
+            </h2>
           </div>
           <p className={styles.lede}>{whatsNext.lede}</p>
         </div>

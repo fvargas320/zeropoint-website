@@ -46,12 +46,12 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
           proof={<><FactChips items={getChips} /><Rating note={`Pro ${money(pricing.monthly)}/mo`} /></>}
         />
         <div id="features" data-track-view="rail"><FeatureRun title={railTitle} items={getRail} wide={<ScreenRail title={railTitle} items={getRail} />} /></div>
-        <div id="matches"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div>
+        <div id="matches"><div className="not-phone"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div></div>
         <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} placement="get-pro" swipe />
         <WhatsNext ask={false} swipe />
         <div id="questions" data-track-view="faq"><FaqList items={getFaq(live, founders)} title="Good to know." /></div>
         <div data-track-view="closing">
-          <ClosingCta title={variant.closing} lede={`Try Pro free for ${pricing.trialDays} days on the Monthly plan.`} prop={variant.closingProp} web={false} after={<QrInstall campaign={variant.slug} />} />
+          <ClosingCta title={variant.closing} lede={`Try Pro free for ${pricing.trialDays} days on the Monthly plan.`} prop={variant.closingProp} web={false} short after={<QrInstall campaign={variant.slug} />} />
         </div>
       </main>
       <SiteFooter minimal />
