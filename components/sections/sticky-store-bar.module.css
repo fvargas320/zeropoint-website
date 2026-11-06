@@ -32,3 +32,45 @@
 :global(html[data-platform="android"]) .apple { display: none; }
 /* The header's menu drawer covers the page; the bar steps aside for it. */
 :global(html[data-menu]) .bar { display: none; }
+
+/* The slim version along the top, on a phone. */
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: calc(58px + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) var(--gutter) 0;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  translate: 0 -110%;
+  transition: translate 0.25s var(--ease-out);
+}
+.top[data-show] { translate: 0 0; }
+.top img { height: 34px; width: auto; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px 0 14px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.pill svg { width: 20px; height: 20px; }
+@media (max-width: 799px) {
+  :global(html[data-platform="ios"]) .top,
+  :global(html[data-platform="android"]) .top { display: flex; }
+}
+:global(html[data-menu]) .top { display: none; }
