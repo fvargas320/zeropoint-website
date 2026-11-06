@@ -19,7 +19,7 @@
 /* Tighter on a phone, so the art starts about halfway down the first screen. */
 @media (max-width: 600px) {
   .hero[data-below] { --pill-height: 36px; --pill-gap: 10px; --stores-gap: 16px; gap: 10px; padding-top: 12px; }
-  .hero[data-below] :global(.eyebrow) { margin-bottom: 8px; }
+  .hero[data-below] :global(.eyebrow) { margin-bottom: 8px; font-size: 14px; letter-spacing: 0.08em; text-wrap: balance; }
   .hero[data-below] h1 { font-size: 10.7vw; }
   .hero[data-below] :global(.lede) { max-width: none; margin-top: 12px; font-size: 16px; }
   .below { margin-top: 14px; }

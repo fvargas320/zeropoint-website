@@ -63,7 +63,7 @@ export type GetVariant = {
 const defaultLede = "Every range day, logged: sessions, ammo, gear and your crew, in one app.";
 
 export const getDefault: GetVariant = {
-  slug: "get", matches: /$^/, eyebrow: "The shooting log", h1: null, lede: defaultLede,
+  slug: "get", matches: /$^/, eyebrow: "Built for every type of shooter", h1: null, lede: defaultLede,
   screens: ["home", "session"], stats: [{ value: "200", label: "rounds" }, { value: "$25.00", label: "spent" }, { value: "3", label: "target photos" }], closing: "Let the next one count.", closingProp: "ammoBoxes",
 };
 
