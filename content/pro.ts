@@ -1,4 +1,3 @@
-export const freeLine = "Free forever: unlimited sessions, 3 firearms, crews and drills.";
 
 // The Pro breakdown, in the words of pro_benefits.dart, where each line is
 // pinned to the feature behind it. Only what free users don't get.

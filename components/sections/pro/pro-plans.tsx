@@ -17,14 +17,17 @@ function PlanLink({ plan, children }: { plan: string; children: React.ReactNode 
 
 /** The Black Friday banner (while saleShown) over the plans. Lifetime appears
     with the sale or once it can be bought. The sale dates follow the visitor's clock, as the app's paywall label does. */
-export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phase: SalePhase }) {
+export function ProPlans({ lifetime, phase: initial, short = false }: { lifetime: boolean; phase: SalePhase; short?: boolean }) {
   const phase = useSalePhase(initial);
   const shown = saleShown(phase, lifetime);
   const onSale = shown && phase === "on";
+  // The short version swaps in fewer words on a phone.
+  const say = (full: React.ReactNode, brief: string) => (short ? <><span className="not-phone">{full}</span><span className={styles.brief}>{brief}</span></> : full);
+  const lifetimeBrief = onSale ? "Black Friday price. Pay once." : lifetime ? "Pay once. No subscription." : `Coming soon. ${salePrice} on Black Friday.`;
   return (
     <>
       {shown && (
-        <div className={styles.banner} id="black-friday">
+        <div className={styles.banner} data-short={short || undefined} id="black-friday">
           <Image src={blackFriday} alt="" sizes="(min-width: 800px) 90vw, 100vw" className={styles.art} />
           <div className={styles.bannerCopy}>
             <p className={styles.when}>Black Friday · {saleDates.start} – {saleDates.end}</p>
@@ -37,17 +40,17 @@ export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phas
         </div>
       )}
 
-      <ul className={styles.plans} aria-label="Pro plans">
+      <ul className={styles.plans} data-short={short || undefined} aria-label="Pro plans">
         <li className={styles.plan}>
           <h3 className={styles.name}>Monthly</h3>
-          <p className={styles.price}><b>{money(pricing.monthly)}</b> / month</p>
-          <p className={styles.note}>Starts with a {pricing.trialDays}-day free trial.</p>
+          <p className={styles.price}><b>{money(pricing.monthly)}</b> {say("/ month", "/mo")}</p>
+          <p className={styles.note}>{say(`Starts with a ${pricing.trialDays}-day free trial.`, `${pricing.trialDays} days free`)}</p>
           <PlanLink plan="monthly">Get Monthly</PlanLink>
         </li>
         <li className={styles.plan}>
           <h3 className={styles.name}>Yearly <span className={styles.save}>Save {yearlySavingPct}%</span></h3>
-          <p className={styles.price}><b>{money(pricing.yearly)}</b> / year</p>
-          <p className={styles.note}>That's {yearlyPerMonth} a month, billed yearly.</p>
+          <p className={styles.price}><b>{money(pricing.yearly)}</b> {say("/ year", "/yr")}</p>
+          <p className={styles.note}>{say(`That's ${yearlyPerMonth} a month, billed yearly.`, `${yearlyPerMonth} a month`)}</p>
           <PlanLink plan="yearly">Get Yearly</PlanLink>
         </li>
         {(lifetime || shown) && (
@@ -58,8 +61,10 @@ export function ProPlans({ lifetime, phase: initial }: { lifetime: boolean; phas
               {onSale && <s>{money(pricing.lifetime)}</s>} <b>{onSale ? salePrice : money(pricing.lifetime)}</b> once
             </p>
             <p className={styles.note}>
-              {onSale ? "Black Friday price. " : ""}{lifetime ? "Pay once, no subscription." : "Coming in the next update."}
-              {phase === "before" && ` ${salePrice} ${saleDates.start} – ${saleDates.end}.`}
+              {say(<>
+                {onSale ? "Black Friday price. " : ""}{lifetime ? "Pay once, no subscription." : "Coming in the next update."}
+                {phase === "before" && ` ${salePrice} ${saleDates.start} – ${saleDates.end}.`}
+              </>, lifetimeBrief)}
             </p>
             {lifetime && <PlanLink plan="lifetime">Get Lifetime</PlanLink>}
           </li>

@@ -77,3 +77,44 @@
 @keyframes tile-rise { from { translate: 0 34%; } }
 @keyframes laptop-in { from { translate: -10% 0; opacity: 0; } }
 @keyframes phone-in { from { translate: 30% 22%; rotate: 16deg; } }
+
+/* /get on a phone: a headline, three simple cards that swipe, then the plans. */
+.runDots { display: none; }
+@media (max-width: 799px) {
+  .section[data-short] { margin-top: 0; padding-block: 56px 48px; }
+  .section[data-short] .lede { display: none; }
+  .run {
+    display: flex;
+    gap: 12px;
+    margin: 20px calc(-1 * var(--gutter)) 0;
+    padding: 12px var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .run::-webkit-scrollbar { display: none; }
+  .run .big { display: contents; }
+  .run .tile { position: relative; flex: 0 0 84%; grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 16px; height: 480px; scroll-snap-align: center; }
+  .run .tile.wide { padding-bottom: 0; }
+  .run .tileCopy h3 { margin-top: 4px; font-size: 28px; line-height: 1.1; }
+  .run .tileCopy ul { margin-top: 8px; font-size: 17px; }
+  .run .tileCopy li { padding-left: 0; }
+  .run .tileCopy li::before { display: none; }
+  .run .tileCopy li:nth-child(n + 2) { display: none; }
+  .run .label { font-family: var(--font-marker), var(--font-jakarta), sans-serif; font-size: 18px; font-weight: 400; letter-spacing: 0.02em; text-transform: none; }
+  .run .big > :nth-child(even) { background: var(--orange); box-shadow: none; color: var(--on-orange); }
+  .run .big > :nth-child(even) li { color: #3a1a08; }
+  .run .big > :nth-child(even) .label { color: var(--ink); }
+  .run .tile::after { content: ""; position: absolute; z-index: 2; right: -14px; top: 12px; width: 92px; height: 26px; rotate: 36deg; background: #e6d9b8e6; filter: drop-shadow(0 1px 2px #0005); }
+  .run .phone { justify-self: center; width: 76%; margin-top: 0; rotate: 0deg; animation: none; }
+  .run .devices { align-self: center; }
+  .run .devices .laptop, .run .devices .devicePhone { animation: none; }
+  .runDots { display: flex; }
+  .section[data-short] .cta { margin-top: 14px; }
+}
+@media (max-width: 799px) and (prefers-reduced-motion: no-preference) {
+  .run .tile { scale: calc(1 - var(--a, 0) * 0.07); rotate: calc(var(--p, 0) * 2.5deg); }
+  .run .phone { transform: translateX(calc(var(--p, 0) * -20%)) rotate(calc(var(--p, 0) * 8deg)); }
+  .run .devices { transform: translateX(calc(var(--p, 0) * -16%)); }
+}

@@ -59,3 +59,25 @@
   .bannerCopy { z-index: 1; display: flex; flex-direction: column; justify-content: center; min-height: clamp(320px, 30vw, 440px); padding: clamp(28px, 4vw, 64px); }
   .plans { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* The short version on a phone: one line for the sale, tighter plans. */
+.brief { display: none; }
+@media (max-width: 799px) {
+  .brief { display: inline; }
+  .banner[data-short] { margin-top: 28px; }
+  .banner[data-short] .art, .banner[data-short] .bannerPrice, .banner[data-short] .bannerNote { display: none; }
+  .banner[data-short] .bannerCopy { padding: 14px 18px; }
+  .banner[data-short] .when { font-size: 13px; }
+  .banner[data-short] .bannerTitle { margin-top: 4px; font-size: 22px; }
+  .plans[data-short] { grid-template-columns: 1fr 1fr; column-gap: 8px; }
+  .plans[data-short] .plan { display: flex; flex-direction: column; padding: 14px; }
+  .plans[data-short] .founders { grid-column: 1 / -1; padding-left: 18px; padding-right: 92px; }
+  .plans[data-short] { row-gap: 8px; margin-top: 18px; }
+  /* On the card's top edge, so the two prices line up. */
+  .plans[data-short] .save { position: absolute; top: -10px; right: 12px; }
+  .plans[data-short] .price { margin-top: 4px; font-size: 15px; white-space: nowrap; }
+  .plans[data-short] .price b { font-size: clamp(26px, 8vw, 32px); line-height: 1.15; }
+  .plans[data-short] .note { margin-top: 2px; font-size: 15px; line-height: 1.3; }
+  .plans[data-short] .pick { margin-top: auto; padding-top: 10px; font-size: clamp(14px, 4.2vw, 16px); white-space: nowrap; }
+}
+@media (max-width: 340px) { .plans[data-short] .plan:not(.founders) .pick span { display: none; } }

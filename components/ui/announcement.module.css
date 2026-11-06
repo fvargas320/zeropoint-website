@@ -3,8 +3,8 @@
   align-items: center;
   gap: 10px;
   max-width: 100%;
-  min-height: 44px;
-  margin-bottom: clamp(18px, 2vw, 28px);
+  min-height: var(--pill-height, 44px);
+  margin-bottom: var(--pill-gap, clamp(18px, 2vw, 28px));
   padding: 5px 16px 5px 5px;
   border-radius: var(--radius-pill);
   background: var(--surface);

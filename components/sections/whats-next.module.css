@@ -30,3 +30,31 @@
   .head { grid-template-columns: 1fr 1fr; align-items: end; gap: 48px; }
   .list { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* /get on a phone: a heading and a slim row of names, on the page itself. */
+.short { display: none; }
+.runDots { display: none; }
+@media (max-width: 799px) {
+  .short { display: inline; }
+  .card[data-short] { overflow: visible; margin-top: 44px; padding: 0; border-radius: 0; background: none; color: var(--ink); }
+  .card[data-short] .rings, .card[data-short] .eyebrow, .card[data-short] .lede { display: none; }
+  .card[data-short] .title { font-size: 30px; }
+  .run {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    margin: 14px calc(-1 * var(--gutter)) 0;
+    padding: 4px var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .run::-webkit-scrollbar { display: none; }
+  .run .list { display: contents; }
+  .run li { flex: 0 0 42%; scroll-snap-align: start; }
+  .run .item { padding: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+  .run .item h3 { margin-top: 8px; font-size: 16px; line-height: 1.2; }
+  .run .item p { display: none; }
+  .run .icon { width: 22px; height: 22px; color: var(--orange-text); }
+}
