@@ -66,8 +66,10 @@
     min-height: var(--screen);
   }
   .copy { grid-column: 1; grid-row: 2; padding: 0 0 0 var(--edge); }
-  .cta { grid-column: 1; grid-row: 3; padding: clamp(24px, 2.4vw, 36px) 0 0 var(--edge); background: none; }
-  .proof { grid-column: 1; grid-row: 4; padding: 20px 0 clamp(24px, 3vw, 48px) var(--edge); }
+  /* Sized to the window too, so the QR stays on a laptop's first screen. */
+  .hero h1 { font-size: min(var(--fs-display), 9.5svh); }
+  .cta { --stores-flow: column; --qr-gap: 0; grid-column: 1; grid-row: 3; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: clamp(18px, 2vw, 32px) 0 0 var(--edge); background: none; }
+  .proof { grid-column: 1; grid-row: 4; padding: 16px 0 clamp(16px, 2vw, 32px) var(--edge); }
   .proof svg { display: none; }
   .stage { grid-column: 2; grid-row: 1 / -1; display: grid; place-items: center; margin: 0; padding-block: clamp(24px, 3vw, 48px); background: var(--orange); }
   .fan { width: min(92%, calc(var(--screen) * 0.72)); max-width: none; }
