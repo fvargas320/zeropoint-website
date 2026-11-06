@@ -2,19 +2,17 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { FaqList } from "@/components/sections/faq-list";
-import { Hero } from "@/components/sections/hero";
+import { GetHero } from "@/components/sections/get/get-hero";
 import { MatchTeaser } from "@/components/sections/matches/match-teaser";
 import { ProBreakdown } from "@/components/sections/pro/pro-breakdown";
 import { SalePill } from "@/components/sections/pro/sale-pill";
 import { ScreenRail } from "@/components/sections/screen-rail";
 import { Steps } from "@/components/sections/steps";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
-import { TargetHero } from "@/components/sections/target-hero";
 import { WhatsNext } from "@/components/sections/whats-next";
 import { FactChips } from "@/components/ui/fact-chips";
 import { QrInstall } from "@/components/ui/qr-install";
 import { Rating } from "@/components/ui/rating";
-import { Strike } from "@/components/ui/strike";
 import { getFaq } from "@/content/faq";
 import { getMenus, getNav, getRail, getSteps, type GetVariant } from "@/content/get";
 import { salePhase } from "@/content/site";
@@ -33,18 +31,16 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
     <>
       <SiteHeader minimal pageMenus={getMenus} pageNav={getNav} />
       <main id="main">
-        <Hero
+        <GetHero
           announcement={<SalePill phase={phase} lifetime={founders} />}
           eyebrow={variant.eyebrow}
-          title={variant.h1 ?? <>Ditch the <Strike>notebook.</Strike></>}
+          title={variant.h1}
           lede={variant.lede}
-          placement="get-hero"
-          stackedStores
+          screens={variant.screens}
+          tape={variant.tape}
           storesId="get-stores"
-          ownStore
-          afterStores={<QrInstall campaign={variant.slug} />}
-          belowArt={<><FactChips /><Rating /></>}
-          art={<TargetHero screens={variant.screens} stats={variant.stats} />}
+          qr={<QrInstall campaign={variant.slug} />}
+          proof={<><FactChips /><Rating /></>}
         />
         <div id="features" data-track-view="rail"><ScreenRail title="Everything from the range, in your pocket." items={getRail} /></div>
         <div id="matches"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div>
@@ -57,7 +53,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
         </div>
       </main>
       <SiteFooter minimal />
-      <StickyStoreBar watchId="get-stores" />
+      <StickyStoreBar watchId="get-stores" pinned />
     </>
   );
 }

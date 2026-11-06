@@ -4,11 +4,11 @@ import { getDefault } from "@/content/get";
 import { foundersLive, matchesLive } from "@/lib/release";
 
 export const metadata: Metadata = {
-  title: { absolute: "Get ZeroPoint — Ditch the notebook" },
+  title: { absolute: "Get ZeroPoint — Your range days, logged" },
   description:
     "ZeroPoint is the shooting range log for iPhone and Android: log a session in seconds, track every firearm and round, see what you spend, and plan range days with your crew. Free to start.",
   alternates: { canonical: "/get" },
-  openGraph: { title: "Ditch the notebook. Every range day, logged.", url: "/get" },
+  openGraph: { title: "Your range days, logged.", url: "/get" },
 };
 
 // Re-check the App Store hourly so Matches go live with app 1.5.0.

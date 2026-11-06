@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ variant: 
   const { variant: slug } = await params;
   const v = getVariants.find((x) => x.slug === slug);
   return {
-    title: { absolute: `Get ZeroPoint — ${v?.h1 ?? "Ditch the notebook"}` },
+    title: { absolute: `Get ZeroPoint — ${v?.h1}` },
     description: v?.lede,
     alternates: { canonical: "/get" },
     robots: { index: false },

@@ -20,28 +20,23 @@ type Props = {
   campaign?: string;
   /** Shown under the store buttons, e.g. an "Open in the app" link. */
   afterStores?: React.ReactNode;
-  /** One store button on a phone or tablet: its own (the /get page). */
-  ownStore?: boolean;
-  /** Takes the rating's place. On phones it sits under the art, so the art comes up the screen. */
-  belowArt?: React.ReactNode;
 };
 
-export function Hero({ announcement, eyebrow, eyebrowInTitle = false, title, lede, art, placement, stackedStores = false, storesId, campaign, afterStores, ownStore = false, belowArt }: Props) {
+export function Hero({ announcement, eyebrow, eyebrowInTitle = false, title, lede, art, placement, stackedStores = false, storesId, campaign, afterStores }: Props) {
   return (
-    <section className={`wrap ${styles.hero}`} data-below={belowArt ? true : undefined} aria-labelledby="hero-title">
+    <section className={`wrap ${styles.hero}`} aria-labelledby="hero-title">
       <div className={styles.copy}>
         {announcement}
         {!eyebrowInTitle && <p className="eyebrow">{eyebrow}</p>}
         <h1 id="hero-title">{eyebrowInTitle && <span className={`eyebrow ${styles.titleEyebrow}`}>{eyebrow} </span>}{title}</h1>
         <p className="lede">{lede}</p>
         <div id={storesId}>
-          <StoreButtons placement={placement} layout={stackedStores ? "stacked" : "row"} campaign={campaign} ownStore={ownStore} />
+          <StoreButtons placement={placement} layout={stackedStores ? "stacked" : "row"} campaign={campaign} />
         </div>
         {afterStores}
-        {!belowArt && <Rating />}
+        <Rating />
       </div>
       <div className={styles.art}>{art}</div>
-      {belowArt && <div className={styles.below}>{belowArt}</div>}
     </section>
   );
 }

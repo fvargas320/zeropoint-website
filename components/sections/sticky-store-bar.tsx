@@ -8,18 +8,19 @@ import styles from "./sticky-store-bar.module.css";
 /**
  * On phones, once the element with `watchId` (the hero's store buttons) has
  * scrolled away, pin the visitor's own store to the bottom of the screen.
+ * `pinned` also shows it before they're reached, when they start below the fold.
  * Desktop never shows it.
  */
-export function StickyStoreBar({ watchId, campaign }: { watchId: string; campaign?: string }) {
+export function StickyStoreBar({ watchId, campaign, pinned = false }: { watchId: string; campaign?: string; pinned?: boolean }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const el = document.getElementById(watchId);
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setShow(!e.isIntersecting && e.boundingClientRect.top < 0));
+    const io = new IntersectionObserver(([e]) => setShow(!e.isIntersecting && (pinned || e.boundingClientRect.top < 0)), { threshold: pinned ? 1 : 0 });
     io.observe(el);
     return () => io.disconnect();
-  }, [watchId]);
+  }, [watchId, pinned]);
 
   return (
     <div className={styles.bar} data-show={show || undefined} data-placement="sticky">
