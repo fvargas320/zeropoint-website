@@ -1,16 +1,16 @@
-import type { RailItem } from "@/components/sections/screen-rail";
-import type { Step } from "@/components/sections/steps";
+import type { Feature } from "@/components/sections/get/feature-run";
 import type { ArtName, ScreenName } from "./images";
 import type { MenuLink } from "./nav";
 import { idpa } from "./idpa";
 import { ammoInventory, shootingLog } from "./keyword-pages";
+import { pricing } from "./site";
 import { uspsa } from "./uspsa";
 
-export const getRail: RailItem[] = [
-  { screen: "session", title: "Log the day", caption: "Gun, rounds, target photo. Done.", prop: "targetPrints" },
-  { screen: "inventory", title: "Know your ammo", caption: "Firearms and rounds on hand, always current.", prop: "ammoBoxes" },
-  { screen: "spending", title: "See what it costs", caption: "Sessions, rounds and spend at a glance.", prop: "dollars" },
-  { screen: "crew", title: "Bring your crew", caption: "Chat and plan the next range day.", prop: "crewPrints" },
+export const getRail: Feature[] = [
+  { screen: "session", word: "LOG", title: "Log the day", caption: "Gun, rounds, target photo. Done.", prop: "targetPrints", ground: "paper", stat: { to: 200, label: "rounds" } },
+  { screen: "inventory", word: "AMMO", title: "Know your ammo", caption: "Firearms and rounds on hand, always current.", prop: "ammoBoxes", ground: "orange", stat: { to: 1900, label: "rounds on hand" } },
+  { screen: "spending", word: "COST", title: "See what it costs", caption: "Sessions, rounds and spend at a glance.", prop: "dollars", ground: "night", stat: { to: 75, prefix: "$", decimals: 2, label: "spent" } },
+  { screen: "crew", word: "CREW", title: "Bring your crew", caption: "Chat and plan the next range day.", prop: "crewPrints", ground: "orange", stat: { to: 4, label: "members" } },
 ];
 
 /** The header's menus on /get, as on Home but staying on the paid pages:
@@ -34,14 +34,10 @@ export const getNav = [
   { href: "#questions", label: "Questions" },
 ];
 
-export const getSteps: Step[] = [
-  { title: "Download free", body: "On iPhone or Android. No card needed." },
-  { title: "Add firearms and ammo", body: "Track up to 3 firearms free and add the ammo you have on hand." },
-  { title: "Log your next range day", body: "Your ammo count updates and the session appears on your calendar." },
-];
-
-/** Under the hero: the usual "is there a catch?" answers. */
+/** Under the hero on Home: the usual "is there a catch?" answers. */
 export const factChips = ["No card needed", "Works offline"];
+/** The same on /get, which sells Pro. */
+export const getChips = [`${pricing.trialDays}-day Pro trial`, "Works offline"];
 
 export type GetVariant = {
   slug: string;

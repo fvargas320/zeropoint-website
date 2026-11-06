@@ -1,11 +1,9 @@
-import { Permanent_Marker } from "next/font/google";
 import { Phone } from "@/components/media/phone";
 import { StoreButtons } from "@/components/ui/store-buttons";
 import { TornEdge } from "@/components/ui/torn-edge";
 import type { ScreenName } from "@/content/images";
+import { marker } from "./marker";
 import styles from "./get-hero.module.css";
-
-const marker = Permanent_Marker({ weight: "400", subsets: ["latin"], display: "swap" });
 
 type Props = {
   /** The sale pill, above the eyebrow. */

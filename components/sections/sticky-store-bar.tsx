@@ -26,11 +26,11 @@ export function StickyStoreBar({ watchId, campaign, pinned = false }: { watchId:
     <div className={styles.bar} data-show={show || undefined} data-placement="sticky">
       <a className={`${styles.store} ${styles.apple}`} href={appStoreLink(campaign)} data-store="app_store">
         <AppleIcon />
-        <span><small>Free on the</small><strong>App Store</strong></span>
+        <span><small>{pinned ? "Download on the" : "Free on the"}</small><strong>App Store</strong></span>
       </a>
       <a className={`${styles.store} ${styles.play}`} href={stores.playStore} data-store="google_play">
         <PlayIcon />
-        <span><small>Free on</small><strong>Google Play</strong></span>
+        <span><small>{pinned ? "Get it on" : "Free on"}</small><strong>Google Play</strong></span>
       </a>
     </div>
   );
