@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Phone } from "@/components/media/phone";
 import { Prop } from "@/components/media/prop";
+import { SwipeDots, swipeTo, useSwipeFocus } from "@/components/motion/swipe-row";
 import type { ArtName, ScreenName } from "@/content/images";
 import { marker } from "./marker";
 import styles from "./feature-run.module.css";
@@ -54,50 +55,23 @@ export function FeatureRun({ title, items, wide }: { title: string; items: Featu
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
 
-  const go = useRef((i: number) => {
-    const r = row.current;
-    if (!r) return;
-    const li = r.children[i] as HTMLElement;
-    r.scrollTo({ left: li.offsetLeft - (r.clientWidth - li.offsetWidth) / 2 });
-  });
+  useSwipeFocus(row, setActive);
 
   useEffect(() => {
     const r = row.current;
     if (!r) return;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const middle = r.scrollLeft + r.clientWidth / 2;
-      let nearest = 0;
-      let best = Infinity;
-      [...r.children].forEach((node, i) => {
-        const li = node as HTMLElement;
-        const p = clamp((li.offsetLeft + li.offsetWidth / 2 - middle) / li.offsetWidth, -1.5, 1.5);
-        li.style.setProperty("--p", p.toFixed(3));
-        li.style.setProperty("--a", Math.abs(p).toFixed(3));
-        if (Math.abs(p) < best) { best = Math.abs(p); nearest = i; }
-      });
-      setActive(nearest);
-    };
-    const queue = () => { frame ||= requestAnimationFrame(update); };
     const jump = () => {
       const i = items.findIndex((f) => location.hash === `#rail-${f.screen}`);
       if (i < 0) return;
       section.current?.scrollIntoView();
-      go.current(i);
+      swipeTo(r, i);
     };
     const seen = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
     seen.observe(r);
-    update();
     jump();
-    r.addEventListener("scroll", queue, { passive: true });
-    window.addEventListener("resize", queue);
     window.addEventListener("hashchange", jump);
     return () => {
-      cancelAnimationFrame(frame);
       seen.disconnect();
-      r.removeEventListener("scroll", queue);
-      window.removeEventListener("resize", queue);
       window.removeEventListener("hashchange", jump);
     };
   }, [items]);
@@ -124,11 +98,7 @@ export function FeatureRun({ title, items, wide }: { title: string; items: Featu
             </li>
           ))}
         </ul>
-        <div className={styles.dots}>
-          {items.map((f, i) => (
-            <button key={f.screen} type="button" aria-label={`Show ${f.title}`} aria-current={i === active || undefined} onClick={() => go.current(i)} />
-          ))}
-        </div>
+        <SwipeDots labels={items.map((f) => f.title)} active={active} onPick={(i) => row.current && swipeTo(row.current, i)} />
       </section>
     </>
   );

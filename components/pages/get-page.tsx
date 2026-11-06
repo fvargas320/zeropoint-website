@@ -4,6 +4,7 @@ import { ClosingCta } from "@/components/sections/closing-cta";
 import { FaqList } from "@/components/sections/faq-list";
 import { FeatureRun } from "@/components/sections/get/feature-run";
 import { GetHero } from "@/components/sections/get/get-hero";
+import { marker } from "@/components/sections/get/marker";
 import { MatchTeaser } from "@/components/sections/matches/match-teaser";
 import { ProBreakdown } from "@/components/sections/pro/pro-breakdown";
 import { SalePill } from "@/components/sections/pro/sale-pill";
@@ -31,7 +32,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
   return (
     <>
       <SiteHeader minimal pageMenus={getMenus} pageNav={getNav} />
-      <main id="main">
+      <main id="main" className={marker.variable}>
         <GetHero
           announcement={<SalePill phase={phase} lifetime={founders} />}
           eyebrow={variant.eyebrow}
@@ -46,8 +47,8 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
         />
         <div id="features" data-track-view="rail"><FeatureRun title={railTitle} items={getRail} wide={<ScreenRail title={railTitle} items={getRail} />} /></div>
         <div id="matches"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div>
-        <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} placement="get-pro" />
-        <WhatsNext ask={false} />
+        <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} placement="get-pro" swipe />
+        <WhatsNext ask={false} swipe />
         <div id="questions" data-track-view="faq"><FaqList items={getFaq(live, founders)} title="Good to know." /></div>
         <div data-track-view="closing">
           <ClosingCta title={variant.closing} lede={`Try Pro free for ${pricing.trialDays} days on the Monthly plan.`} prop={variant.closingProp} web={false} after={<QrInstall campaign={variant.slug} />} />

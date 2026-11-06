@@ -78,11 +78,6 @@
 .strip { left: 12%; top: 3%; width: 24cqi; height: 7cqi; rotate: -34deg; }
 .note { left: -2%; bottom: 12%; padding: 2cqi 5cqi; rotate: -5deg; color: var(--ink); font-size: clamp(15px, 5.2cqi, 22px); line-height: 1.1; white-space: nowrap; }
 
-.dots { display: flex; justify-content: center; gap: 2px; margin-top: 8px; }
-.dots button { width: 44px; height: 44px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
-.dots button::after { content: ""; display: block; width: 26px; height: 5px; margin: auto; border-radius: 3px; background: currentColor; opacity: 0.25; transition: opacity 0.25s, scale 0.25s; }
-.dots button[aria-current]::after { opacity: 1; scale: 1.25 1; }
-
 /* The motion. --p runs from -1 (left of the middle) to 1 (right of it). */
 @media (prefers-reduced-motion: no-preference) {
   .word { transform: translateX(calc(var(--p) * 42%)); }

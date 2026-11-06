@@ -77,3 +77,56 @@
 @keyframes tile-rise { from { translate: 0 34%; } }
 @keyframes laptop-in { from { translate: -10% 0; opacity: 0; } }
 @keyframes phone-in { from { translate: 30% 22%; rotate: 16deg; } }
+
+/* /get on a phone: the tiles and the small cards are one swipe row, in the
+   hero's tape and marker. The plans below stay stacked and in plain sight. */
+.runDots { display: none; }
+@media (max-width: 799px) {
+  .run {
+    display: flex;
+    gap: 12px;
+    margin: 24px calc(-1 * var(--gutter)) 0;
+    padding: 12px var(--gutter);
+    overflow-x: auto;
+    list-style: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .run::-webkit-scrollbar { display: none; }
+  .run .big, .run .more { display: contents; }
+  .run .tile, .run .more li { position: relative; flex: 0 0 84%; height: 450px; scroll-snap-align: center; }
+  .run .tile { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 12px; }
+  .run .tile.wide { padding-bottom: 0; }
+  .run .small { display: flex; flex-direction: column; justify-content: center; padding: 28px 24px; }
+  .run .small h3 { font-size: 30px; line-height: 1.1; }
+  .run .small p { font-size: 18px; }
+  .run .label { font-family: var(--font-marker), var(--font-jakarta), sans-serif; font-size: 18px; font-weight: 400; letter-spacing: 0.02em; text-transform: none; }
+  /* Orange in turn, like the features above. */
+  .run .big > :nth-child(even), .run .more li:nth-child(even) .small { background: var(--orange); box-shadow: none; color: var(--on-orange); }
+  .run .big > :nth-child(even) li, .run .more li:nth-child(even) .small p { color: #3a1a08; }
+  .run .big > :nth-child(even) li::before { background: var(--ink); }
+  .run .big > :nth-child(even) .label, .run .more li:nth-child(even) .label { color: var(--ink); }
+  /* A strip of tape on the corner of each tile. */
+  .run .tile::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    right: -14px;
+    top: 12px;
+    width: 92px;
+    height: 26px;
+    rotate: 36deg;
+    background: #e6d9b8e6;
+    filter: drop-shadow(0 1px 2px #0005);
+  }
+  .run .phone { justify-self: center; width: 62%; margin-top: 0; rotate: 0deg; animation: none; }
+  .run .devices { align-self: center; }
+  .run .devices .laptop, .run .devices .devicePhone { animation: none; }
+  .runDots { display: flex; }
+}
+@media (max-width: 799px) and (prefers-reduced-motion: no-preference) {
+  .run .tile, .run .more li { scale: calc(1 - var(--a, 0) * 0.07); rotate: calc(var(--p, 0) * 2.5deg); }
+  .run .phone { transform: translateX(calc(var(--p, 0) * -20%)) rotate(calc(var(--p, 0) * 8deg)); }
+  .run .devices { transform: translateX(calc(var(--p, 0) * -16%)); }
+}

@@ -30,3 +30,28 @@
   .head { grid-template-columns: 1fr 1fr; align-items: end; gap: 48px; }
   .list { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* /get on a phone: one swipe row. */
+.runDots { display: none; }
+@media (max-width: 799px) {
+  .run {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    margin: 20px calc(-1 * clamp(24px, 4vw, 64px)) 0;
+    padding: 8px clamp(24px, 4vw, 64px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .run::-webkit-scrollbar { display: none; }
+  .run .list { display: contents; }
+  .run li { flex: 0 0 86%; scroll-snap-align: center; }
+  .run li:nth-child(even) .item { background: var(--orange); box-shadow: none; color: var(--on-orange); }
+  .run li:nth-child(even) .item p { color: #3a1a08; }
+  .run li:nth-child(even) .icon { color: var(--ink); }
+  .runDots { position: relative; display: flex; }
+}
+@media (max-width: 799px) and (prefers-reduced-motion: no-preference) {
+  .run li { scale: calc(1 - var(--a, 0) * 0.07); rotate: calc(var(--p, 0) * 2.5deg); }
+}
