@@ -1,7 +1,6 @@
 /* Phone: cream copy, the fan straddling the seam into an orange backer, the
-   store button on the orange, then a tear back to the cream page. Computer:
-   copy on the left, the backer filling the right half. Everything in the fan
-   is sized in cqi, so it keeps its proportions at any width. */
+   store button on the orange, then a tear back to the cream page. Everything
+   in the fan is sized in cqi, so it keeps its proportions at any width. */
 .hero { display: grid; grid-template-columns: minmax(0, 1fr); overflow-x: clip; }
 .copy { position: relative; z-index: 1; padding: clamp(12px, 3vw, 40px) var(--gutter) 0; }
 .lede { max-width: 32ch; }
@@ -46,7 +45,7 @@
 }
 .hole { position: absolute; z-index: 1; width: 9cqi; height: 9cqi; }
 
-.cta { --stores-gap: 0; padding: 6px var(--gutter) 40px; background: var(--orange); }
+.cta { padding: 6px var(--gutter) 40px; background: var(--orange); }
 .proof { position: relative; padding: 22px var(--gutter) 0; }
 .proof > :nth-child(2) { margin-top: 0; }
 
@@ -57,22 +56,28 @@
   .lede { display: none; }
 }
 
+/* A computer: the page's usual hero, copy on the left and the target on the right. */
+.target { display: none; }
+@media (max-width: 959px) { .cta { --stores-gap: 0; } }
 @media (min-width: 960px) {
   .hero {
-    --edge: max(var(--gutter), calc((100vw - var(--max)) / 2));
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: 1fr auto auto 1fr;
-    column-gap: clamp(32px, 4vw, 72px);
+    width: min(100% - 2 * var(--gutter), var(--max));
+    margin-inline: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto auto auto 1fr;
+    column-gap: clamp(24px, 4vw, 80px);
     min-height: var(--screen);
+    padding-block: clamp(24px, 3vw, 48px);
+    overflow: visible;
   }
-  .copy { grid-column: 1; grid-row: 2; padding: 0 0 0 var(--edge); }
-  /* Sized to the window too, so the QR stays on a laptop's first screen. */
-  .hero h1 { font-size: min(var(--fs-display), 9.5svh); }
-  .cta { --stores-flow: column; --qr-gap: 0; grid-column: 1; grid-row: 3; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: clamp(18px, 2vw, 32px) 0 0 var(--edge); background: none; }
-  .proof { grid-column: 1; grid-row: 4; padding: 16px 0 clamp(16px, 2vw, 32px) var(--edge); }
+  .copy { grid-column: 1; grid-row: 2; max-width: 760px; padding: 0; }
+  .lede { max-width: 30ch; }
+  .stage { display: none; }
+  .target { grid-column: 2; grid-row: 1 / -1; align-self: center; display: block; width: min(100%, 720px); margin-inline: auto; }
+  .cta { grid-column: 1; grid-row: 3; padding: 0; background: none; }
+  .proof { grid-column: 1; grid-row: 4; padding: 0; }
   .proof svg { display: none; }
-  .stage { grid-column: 2; grid-row: 1 / -1; display: grid; place-items: center; margin: 0; padding-block: clamp(24px, 3vw, 48px); background: var(--orange); }
-  .fan { width: min(92%, calc(var(--screen) * 0.72)); max-width: none; }
+  .proof > :nth-child(2) { margin-top: 20px; }
 }
 
 /* Phones rise, then the shots land. Nothing is hidden outside this block. */

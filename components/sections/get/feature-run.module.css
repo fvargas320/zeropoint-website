@@ -1,10 +1,16 @@
-/* The ground changes with the card in front. A phone swipes the row; a
-   computer pins .sticky under the header and scrolling moves the row. */
+/* Phones only; a computer gets the `wide` cards. The ground changes with the
+   card in front. */
+.wide { display: none; }
+@media (min-width: 900px) {
+  .wide { display: block; }
+  .section { display: none; }
+}
 .section {
   --ground: var(--paper);
   --text: var(--ink);
   --soft: var(--muted);
   --word: #16161412;
+  padding-block: clamp(36px, 6vw, 56px) 20px;
   overflow-x: clip;
   background: var(--ground);
   color: var(--text);
@@ -13,7 +19,6 @@
 .section[data-ground="orange"] { --ground: var(--orange); --soft: #3a1a08; --word: #16161424; }
 .section[data-ground="night"] { --ground: var(--night); --text: var(--on-dark); --soft: var(--on-dark-2); --word: #ff5a1f2e; }
 
-.sticky { display: flex; flex-direction: column; padding-block: clamp(36px, 6vw, 56px) 20px; }
 .title { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; font-size: clamp(30px, 7vw, 56px); }
 .row {
   position: relative;
@@ -78,20 +83,6 @@
 .dots button::after { content: ""; display: block; width: 26px; height: 5px; margin: auto; border-radius: 3px; background: currentColor; opacity: 0.25; transition: opacity 0.25s, scale 0.25s; }
 .dots button[aria-current]::after { opacity: 1; scale: 1.25 1; }
 
-/* A computer: copy on the left, the phone on the right, one card per view. */
-@media (min-width: 900px) {
-  .sticky { padding-block: clamp(20px, 3vh, 36px) 4px; }
-  .row { flex: 1; min-height: 0; scroll-snap-type: none; }
-  .card { flex: 0 0 72vw; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 4vw, 64px); padding: 0 2vw; }
-  .card:first-child { margin-left: 14vw; }
-  .card:last-child { margin-right: 14vw; }
-  .word { top: 50%; font-size: min(26vw, 44svh); translate: -50% -50%; }
-  .copy h3 { font-size: clamp(44px, 5vw, 84px); }
-  .copy p { margin-top: 14px; max-width: 26ch; font-size: clamp(20px, 1.7vw, 28px); }
-  .stage { width: 100%; height: min(70svh, 640px); max-width: 420px; }
-  .stage .phone { left: 50%; width: auto; height: 100%; aspect-ratio: 1 / 2.08; translate: -50% 0; }
-}
-
 /* The motion. --p runs from -1 (left of the middle) to 1 (right of it). */
 @media (prefers-reduced-motion: no-preference) {
   .word { transform: translateX(calc(var(--p) * 42%)); }
@@ -100,11 +91,5 @@
   .stage .prop { transform: translate(calc(var(--p) * 170%), calc(var(--a) * 50%)) rotate(calc(var(--p) * 55deg)); }
   .card[data-on] .strip { animation: slap 0.35s var(--ease-out) 0.15s backwards; }
   .card[data-on] .note { animation: slap 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards; }
-  @media (min-width: 900px) {
-    .track { height: calc(var(--screen) + 240vh); }
-    .sticky { position: sticky; top: var(--header); height: var(--screen); overflow: hidden; }
-    .row { overflow-x: hidden; }
-    .stage .phone { transform: translateX(calc(-50% + var(--p) * -12%)) rotate(calc(var(--p) * 11deg)) scale(calc(1 - var(--a) * 0.14)); translate: none; }
-  }
 }
 @keyframes slap { from { opacity: 0; scale: 1.6; } }

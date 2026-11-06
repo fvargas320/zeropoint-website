@@ -1,4 +1,5 @@
 import { Phone } from "@/components/media/phone";
+import { TargetHero, type HeroStat } from "@/components/sections/target-hero";
 import { StoreButtons } from "@/components/ui/store-buttons";
 import { TornEdge } from "@/components/ui/torn-edge";
 import type { ScreenName } from "@/content/images";
@@ -15,6 +16,8 @@ type Props = {
   screens: [ScreenName, ScreenName, ScreenName];
   /** Written on the tape, from the front phone's screen. */
   tape: string;
+  /** Figures on the computer's target. */
+  stats: [HeroStat, HeroStat, HeroStat];
   /** Lets a sticky bar know when the store buttons are on screen. */
   storesId: string;
   /** The QR code; computers only. */
@@ -28,9 +31,10 @@ const HOLES = [[7, 107], [17, 113], [27, 106]];
 
 const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
-/** The paid page's first screen: the app taped to an orange backer, the way a
-    target goes up at the range, with shot holes through to the cream page. */
-export function GetHero({ announcement, eyebrow, title, lede, screens, tape, storesId, qr, proof }: Props) {
+/** The paid page's first screen. On a phone the app is taped to an orange
+    backer, the way a target goes up at the range, with shot holes through to
+    the cream page. A computer gets the target hero instead. */
+export function GetHero({ announcement, eyebrow, title, lede, screens, tape, stats, storesId, qr, proof }: Props) {
   const [front, left, right] = screens;
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
@@ -62,6 +66,9 @@ export function GetHero({ announcement, eyebrow, title, lede, screens, tape, sto
           <span className={styles.tape} data-at="right-top" />
           <span className={`${styles.tape} ${styles.label} ${marker.className}`} data-at="label">{tape}</span>
         </div>
+      </div>
+      <div className={styles.target}>
+        <TargetHero screens={[front, left]} stats={stats} />
       </div>
       <div className={styles.cta}>
         <div id={storesId}>

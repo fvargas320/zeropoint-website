@@ -43,45 +43,30 @@ function Stat({ stat, on }: { stat: Feature["stat"]; on: boolean }) {
 }
 
 /**
- * The features side by side: a swipe row on a phone, and on a computer the
- * section pins while scrolling down moves it sideways. Each card's distance
+ * The features side by side on a phone: a swipe row where each card's distance
  * from the middle (--p, and --a without the sign) drives the motion in CSS.
- * Without JS, or with reduced motion, it's a plain swipe row.
+ * Without JS, or with reduced motion, it's a plain swipe row. `wide` replaces
+ * it on a computer.
  */
-export function FeatureRun({ title, items }: { title: string; items: Feature[] }) {
-  const track = useRef<HTMLDivElement>(null);
+export function FeatureRun({ title, items, wide }: { title: string; items: Feature[]; wide: React.ReactNode }) {
+  const section = useRef<HTMLElement>(null);
   const row = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
 
-  // Moves to a card: sideways on a phone, down the pinned track on a computer.
   const go = useRef((i: number) => {
-    const t = track.current;
     const r = row.current;
-    if (!t || !r) return;
-    const travel = t.offsetHeight - window.innerHeight;
-    if (matchMedia("(min-width: 900px)").matches && travel > 0) {
-      window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY + (travel * i) / (r.children.length - 1) });
-    } else {
-      const li = r.children[i] as HTMLElement;
-      r.scrollTo({ left: li.offsetLeft - (r.clientWidth - li.offsetWidth) / 2 });
-    }
+    if (!r) return;
+    const li = r.children[i] as HTMLElement;
+    r.scrollTo({ left: li.offsetLeft - (r.clientWidth - li.offsetWidth) / 2 });
   });
 
   useEffect(() => {
-    const t = track.current;
     const r = row.current;
-    if (!t || !r) return;
-    const pinned = matchMedia("(min-width: 900px) and (prefers-reduced-motion: no-preference)");
+    if (!r) return;
     let frame = 0;
     const update = () => {
       frame = 0;
-      if (pinned.matches) {
-        const sticky = r.parentElement as HTMLElement;
-        const travel = t.offsetHeight - sticky.offsetHeight;
-        const top = parseFloat(getComputedStyle(sticky).top) || 0;
-        r.scrollLeft = clamp((top - t.getBoundingClientRect().top) / travel, 0, 1) * (r.scrollWidth - r.clientWidth);
-      }
       const middle = r.scrollLeft + r.clientWidth / 2;
       let nearest = 0;
       let best = Infinity;
@@ -97,55 +82,54 @@ export function FeatureRun({ title, items }: { title: string; items: Feature[] }
     const queue = () => { frame ||= requestAnimationFrame(update); };
     const jump = () => {
       const i = items.findIndex((f) => location.hash === `#rail-${f.screen}`);
-      if (i >= 0) go.current(i);
+      if (i < 0) return;
+      section.current?.scrollIntoView();
+      go.current(i);
     };
     const seen = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
     seen.observe(r);
     update();
     jump();
     r.addEventListener("scroll", queue, { passive: true });
-    window.addEventListener("scroll", queue, { passive: true });
     window.addEventListener("resize", queue);
     window.addEventListener("hashchange", jump);
     return () => {
       cancelAnimationFrame(frame);
       seen.disconnect();
       r.removeEventListener("scroll", queue);
-      window.removeEventListener("scroll", queue);
       window.removeEventListener("resize", queue);
       window.removeEventListener("hashchange", jump);
     };
   }, [items]);
 
   return (
-    <section className={styles.section} data-ground={items[active].ground} aria-labelledby="rail-title">
-      <div ref={track} className={styles.track}>
-        <div className={styles.sticky}>
-          <h2 id="rail-title" className={styles.title}>{title}</h2>
-          <ul ref={row} className={styles.row}>
-            {items.map((f, i) => (
-              <li key={f.screen} id={`rail-${f.screen}`} className={styles.card} data-on={inView && i === active ? true : undefined}>
-                <span className={styles.word} aria-hidden="true">{f.word}</span>
-                <div className={styles.copy}>
-                  <h3>{f.title}</h3>
-                  <p>{f.caption}</p>
-                </div>
-                <div className={styles.stage}>
-                  <Phone screen={f.screen} sizes="(min-width: 900px) 22vw, 54vw" className={styles.phone} />
-                  <Prop name={f.prop} sizes="(min-width: 900px) 16vw, 34vw" className={styles.prop} />
-                  <span className={styles.strip} aria-hidden="true" />
-                  <span className={`${styles.note} ${marker.className}`}><Stat stat={f.stat} on={inView && i === active} /></span>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className={styles.dots}>
-            {items.map((f, i) => (
-              <button key={f.screen} type="button" aria-label={`Show ${f.title}`} aria-current={i === active || undefined} onClick={() => go.current(i)} />
-            ))}
-          </div>
+    <>
+      <div className={styles.wide}>{wide}</div>
+      <section ref={section} className={styles.section} data-ground={items[active].ground} aria-labelledby="run-title">
+        <h2 id="run-title" className={styles.title}>{title}</h2>
+        <ul ref={row} className={styles.row}>
+          {items.map((f, i) => (
+            <li key={f.screen} className={styles.card} data-on={inView && i === active ? true : undefined}>
+              <span className={styles.word} aria-hidden="true">{f.word}</span>
+              <div className={styles.copy}>
+                <h3>{f.title}</h3>
+                <p>{f.caption}</p>
+              </div>
+              <div className={styles.stage}>
+                <Phone screen={f.screen} sizes="54vw" className={styles.phone} />
+                <Prop name={f.prop} sizes="34vw" className={styles.prop} />
+                <span className={styles.strip} aria-hidden="true" />
+                <span className={`${styles.note} ${marker.className}`}><Stat stat={f.stat} on={inView && i === active} /></span>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className={styles.dots}>
+          {items.map((f, i) => (
+            <button key={f.screen} type="button" aria-label={`Show ${f.title}`} aria-current={i === active || undefined} onClick={() => go.current(i)} />
+          ))}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

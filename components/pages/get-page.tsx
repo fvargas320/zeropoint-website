@@ -7,6 +7,7 @@ import { GetHero } from "@/components/sections/get/get-hero";
 import { MatchTeaser } from "@/components/sections/matches/match-teaser";
 import { ProBreakdown } from "@/components/sections/pro/pro-breakdown";
 import { SalePill } from "@/components/sections/pro/sale-pill";
+import { ScreenRail } from "@/components/sections/screen-rail";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
 import { WhatsNext } from "@/components/sections/whats-next";
 import { FactChips } from "@/components/ui/fact-chips";
@@ -26,6 +27,7 @@ import { money, pricing, salePhase } from "@/content/site";
 export function GetPage({ variant, live, founders }: { variant: GetVariant; live: boolean; founders: boolean }) {
   const idpa = variant.slug === "idpa";
   const phase = salePhase(new Date());
+  const railTitle = "Everything from the range, in your pocket.";
   return (
     <>
       <SiteHeader minimal pageMenus={getMenus} pageNav={getNav} />
@@ -37,11 +39,12 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
           lede={variant.lede}
           screens={variant.screens}
           tape={variant.tape}
+          stats={variant.stats}
           storesId="get-stores"
           qr={<QrInstall campaign={variant.slug} />}
-          proof={<><FactChips items={getChips} /><Rating note={`Pro from ${money(pricing.monthly)} a month`} /></>}
+          proof={<><FactChips items={getChips} /><Rating note={`Pro ${money(pricing.monthly)}/mo`} /></>}
         />
-        <div id="features" data-track-view="rail"><FeatureRun title="Everything from the range, in your pocket." items={getRail} /></div>
+        <div id="features" data-track-view="rail"><FeatureRun title={railTitle} items={getRail} wide={<ScreenRail title={railTitle} items={getRail} />} /></div>
         <div id="matches"><MatchTeaser live={live} more={false} screens={idpa ? ["idpaMatch", "idpaClass"] : ["uspsaMatch", "uspsaClass"]} /></div>
         <ProBreakdown matchScreen={idpa ? "idpaMatch" : "uspsaMatch"} lifetime={founders} phase={phase} placement="get-pro" />
         <WhatsNext ask={false} />

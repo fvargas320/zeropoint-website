@@ -1,5 +1,5 @@
 /* Desktop only, and never on a phone even if its screen is wide. */
-.qr { display: none; align-items: center; gap: 16px; width: fit-content; margin-top: var(--qr-gap, 22px); padding: 10px 18px 10px 10px; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-small); line-height: 1.45; }
+.qr { display: none; align-items: center; gap: 16px; width: fit-content; margin-top: 22px; padding: 10px 18px 10px 10px; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); font-size: var(--fs-small); line-height: 1.45; }
 .qr b { display: block; }
 /* The white border is the code's own quiet zone, so it scans on any background. */
 .code { flex: none; display: block; width: 120px; overflow: hidden; border-radius: 10px; background: #fff; }

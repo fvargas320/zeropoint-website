@@ -1,0 +1,72 @@
+.title { font-size: clamp(30px, 7vw, 56px); }
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(74%, 300px);
+  gap: 14px;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 20px var(--gutter) 28px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail li { scroll-snap-align: center; }
+/* A card crops its phone at the bottom edge; the prop sits on top of the crop. */
+.card {
+  position: relative;
+  /* clip, not hidden: a scroll container would capture the scroll timelines below. */
+  overflow: clip;
+  height: clamp(460px, 40vw, 600px);
+  padding: 22px 20px 0;
+  border-radius: var(--radius-lg);
+  background: var(--grain), var(--mottle), var(--grid-on-dark), var(--night);
+  color: var(--on-dark);
+  box-shadow: 0 24px 40px -28px #3b2a1499;
+}
+.rail li:nth-child(even) .card { background: var(--grain), var(--mottle), var(--grid-on-orange), var(--orange); color: var(--on-orange); }
+.caption { min-height: 94px; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.caption span { display: block; margin-top: 6px; color: var(--on-dark-2); font-size: 16px; font-weight: 500; letter-spacing: 0; line-height: 1.35; }
+.rail li:nth-child(even) .caption span { color: #3a1a08; }
+.phone { width: 88%; margin: 12px auto 0; }
+.prop { position: absolute; right: -5%; bottom: 3%; width: 56%; rotate: 6deg; filter: drop-shadow(0 12px 14px #0007); }
+.rail li:nth-child(even) .prop { rotate: -5deg; }
+/* A band of light that crosses each card as it arrives. */
+.card::after { content: ""; position: absolute; inset: -20%; z-index: 2; pointer-events: none; opacity: 0; background: linear-gradient(105deg, transparent 42%, #ffffff30 50%, transparent 58%); }
+@media (min-width: 900px) {
+  .rail { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); margin-inline: 0; padding-inline: 0; overflow: visible; }
+}
+
+/* Hover: the card lifts, its phone comes up and its prop leans in. On the list
+   item and through transform, so the scroll animations below stay independent. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .rail li { transition: translate 0.45s var(--ease-out); }
+  .rail li:hover { translate: 0 -10px; }
+  .phone, .prop { transition: transform 0.5s var(--ease-out); }
+  .rail li:hover .phone { transform: translateY(-6%); }
+  .rail li:hover .prop { transform: translate(-7%, -7%) rotate(-7deg) scale(1.1); }
+}
+
+/* Scroll: on desktop the phones rise out of their cards one after another,
+   tilted until they land, and each prop flies in over the top. On phones the
+   card in the middle of the swipe rail comes forward. */
+@supports (animation-timeline: view()) {
+  @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+    .rail li:nth-child(1) { --lag: 0%; --tilt: -7deg; }
+    .rail li:nth-child(2) { --lag: 5%; --tilt: 7deg; }
+    .rail li:nth-child(3) { --lag: 10%; --tilt: -7deg; }
+    .rail li:nth-child(4) { --lag: 15%; --tilt: 7deg; }
+    .phone, .prop, .card::after { animation-timeline: view(); animation-fill-mode: both; animation-timing-function: linear; }
+    .phone { animation-name: rail-phone; animation-range: entry calc(5% + var(--lag)) cover calc(30% + var(--lag)); }
+    .prop { animation-name: rail-prop; animation-range: entry calc(15% + var(--lag)) cover calc(30% + var(--lag)); }
+    .card::after { animation-name: rail-shine; animation-range: cover calc(24% + var(--lag)) cover calc(46% + var(--lag)); }
+  }
+  @media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+    .rail li { animation: rail-focus linear both; animation-timeline: view(inline); }
+  }
+}
+@keyframes rail-phone { from { translate: 0 42%; rotate: var(--tilt); } }
+@keyframes rail-prop { from { translate: 80% 70%; rotate: 50deg; scale: 0.55; opacity: 0; } }
+@keyframes rail-shine { from { translate: -70% 0; opacity: 1; } to { translate: 70% 0; opacity: 1; } }
+@keyframes rail-focus { 0%, 100% { scale: 0.93; opacity: 0.75; } 35%, 65% { scale: 1; opacity: 1; } }

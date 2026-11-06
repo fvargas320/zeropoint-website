@@ -1,4 +1,4 @@
-.stores { display: flex; flex-direction: var(--stores-flow, row); flex-wrap: wrap; gap: 12px; margin-top: var(--stores-gap, clamp(28px, 2.4vw, 40px)); }
+.stores { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--stores-gap, clamp(28px, 2.4vw, 40px)); }
 @media (max-width: 959px) { .stacked { flex-direction: column; } }
 .store {
   display: inline-flex;
