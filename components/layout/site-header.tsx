@@ -14,11 +14,14 @@ type Props = {
   /** With `pageNav`: menus ahead of the jumps. */
   pageMenus?: { label: string; items: MenuLink[] }[];
   ctaHref?: string;
+  /** Home on a phone: the header scrolls away and Log in takes Get the app's
+      place, since the store is right there in the hero. */
+  landing?: boolean;
 };
 
-export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download" }: Props) {
+export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download", landing = false }: Props) {
   return (
-    <header className={styles.bar} data-minimal={minimal || undefined}>
+    <header className={styles.bar} data-minimal={minimal || undefined} data-landing={landing || undefined}>
       <div className={`wrap ${styles.inner}`}>
         <Logo priority />
         {minimal && pageNav && (
@@ -36,8 +39,8 @@ export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#do
               <NavMenu label="Features" items={featuresNav} />
               <NavMenu label="Matches" items={matchesNav} />
               {headerNav.map((l) => <Link key={l.href} href={l.href}>{l.label}</Link>)}
-              {site.appUrl && <a className={styles.signIn} href={`${site.appUrl}/login`} aria-label="Pro member login">Login <span className={styles.pro}>Pro</span></a>}
             </nav>
+            {site.appUrl && <a className={styles.login} href={`${site.appUrl}/login`}>Log in</a>}
             <a className={styles.cta} href={ctaHref}>Get the app</a>
             <MobileMenu />
           </>

@@ -13,6 +13,13 @@ export const getRail: Feature[] = [
   { screen: "crew", word: "CREW", title: "Bring your crew", caption: "Chat and plan the next range day.", prop: "crewPrints", stat: { to: 4, label: "members" } },
 ];
 
+/** Home's cards: the same, plus training, which only Home has room for. */
+export const homeRail: Feature[] = [
+  ...getRail.slice(0, 3),
+  { screen: "train", word: "TRAIN", title: "Train with purpose", caption: "Run proven drills, beat your last attempt.", prop: "target", stat: { to: 50, label: "rounds, Dot Torture" } },
+  ...getRail.slice(3),
+];
+
 /** The header's menus on /get, as on Home but staying on the paid pages:
     jumps to the rail's cards and Matches, and this page's USPSA and IDPA versions. */
 export const getMenus: { label: string; items: MenuLink[] }[] = [

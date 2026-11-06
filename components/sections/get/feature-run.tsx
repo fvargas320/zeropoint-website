@@ -46,9 +46,9 @@ function Stat({ stat, on }: { stat: Feature["stat"]; on: boolean }) {
  * The features side by side on a phone: a swipe row where each card's distance
  * from the middle (--p, and --a without the sign) drives the motion in CSS.
  * Without JS, or with reduced motion, it's a plain swipe row. `wide` replaces
- * it on a computer.
+ * it on a computer, with room around it when `spaced`.
  */
-export function FeatureRun({ title, items, wide }: { title: string; items: Feature[]; wide: React.ReactNode }) {
+export function FeatureRun({ title, items, wide, spaced = false }: { title: string; items: Feature[]; wide: React.ReactNode; spaced?: boolean }) {
   const section = useRef<HTMLElement>(null);
   const row = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(0);
@@ -77,7 +77,7 @@ export function FeatureRun({ title, items, wide }: { title: string; items: Featu
 
   return (
     <>
-      <div className={styles.wide}>{wide}</div>
+      <div className={styles.wide} data-spaced={spaced || undefined}>{wide}</div>
       <section ref={section} className={styles.section} aria-labelledby="run-title">
         <h2 id="run-title" className={styles.title}>{title}</h2>
         <ul ref={row} className={styles.row}>
