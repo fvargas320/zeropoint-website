@@ -10,7 +10,7 @@ const asset = (file: string) => readFile(path.join(process.cwd(), "assets/og", f
 const dataUrl = async (file: string, type: string) =>
   `data:${type};base64,${(await asset(file)).toString("base64")}`;
 
-// The share card for every page: the Home hero, rendered at build time.
+// The share card for every page without its own: the Home hero, rendered at build time.
 export default async function OpengraphImage() {
   const [bold, regular, notebook, phone] = await Promise.all([
     asset("jakarta-extrabold.ttf"),
