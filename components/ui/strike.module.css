@@ -13,6 +13,4 @@
   transform: rotate(-2deg);
   animation: draw 0.6s 0.35s var(--ease-out) both;
 }
-/* Follow-up words (RotatingStrike): the line tears through as the word lands. */
-.strike[data-quick]::after { animation: draw 0.3s 0.14s cubic-bezier(0.7, 0, 0.2, 1) both; }
 @keyframes draw { from { clip-path: inset(-1em 100% -1em 0); } to { clip-path: inset(-1em 0 -1em 0); } }

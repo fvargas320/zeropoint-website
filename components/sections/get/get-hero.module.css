@@ -4,7 +4,6 @@
 .hero { display: grid; grid-template-columns: minmax(0, 1fr); overflow-x: clip; }
 .copy { position: relative; z-index: 1; padding: clamp(12px, 3vw, 40px) var(--gutter) 0; }
 .lede { max-width: 32ch; }
-.titleEyebrow { display: block; }
 /* The stage takes what's left of the screen and the fan sizes itself to fit,
    so the copy, the app and the store button all show on landing. */
 .stage { container-type: size; min-height: 0; margin-top: 12px; background: linear-gradient(transparent 22%, var(--orange) 22%); }
@@ -76,6 +75,7 @@
     overflow: visible;
   }
   .copy { grid-column: 1; grid-row: 2; max-width: 760px; padding: 0; }
+  .copy h1[data-long] { font-size: clamp(40px, 6.2vw, 88px); }
   .lede { max-width: 30ch; }
   .stage { display: none; }
   .target { grid-column: 2; grid-row: 1 / -1; align-self: center; display: block; width: min(100%, 720px); margin-inline: auto; }

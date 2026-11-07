@@ -9,9 +9,9 @@ type Props = {
   /** The sale pill, above the eyebrow. */
   announcement?: React.ReactNode;
   eyebrow: string;
-  /** The eyebrow reads as part of the h1, for a headline without the page's keywords. */
-  eyebrowInTitle?: boolean;
   title: React.ReactNode;
+  /** Smaller on a computer, for a long first line. */
+  longTitle?: boolean;
   lede: string;
   /** The phones: front, then left and right behind it. */
   screens: [ScreenName, ScreenName, ScreenName];
@@ -37,14 +37,14 @@ const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 /** The paid page's first screen. On a phone the app is taped to an orange
     backer, the way a target goes up at the range, with shot holes through to
     the cream page. A computer gets `art` instead. */
-export function GetHero({ announcement, eyebrow, eyebrowInTitle = false, title, lede, screens, tape, art, placement = "get-hero", storesId, qr, proof }: Props) {
+export function GetHero({ announcement, eyebrow, title, longTitle = false, lede, screens, tape, art, placement = "get-hero", storesId, qr, proof }: Props) {
   const [front, left, right] = screens;
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.copy}>
         {announcement}
-        {!eyebrowInTitle && <p className="eyebrow">{eyebrow}</p>}
-        <h1 id="hero-title">{eyebrowInTitle && <span className={`eyebrow ${styles.titleEyebrow}`}>{eyebrow} </span>}{title}</h1>
+        <p className="eyebrow">{eyebrow}</p>
+        <h1 id="hero-title" data-long={longTitle || undefined}>{title}</h1>
         <p className={`lede ${styles.lede}`}>{lede}</p>
       </div>
       <div className={styles.stage} aria-hidden="true">
