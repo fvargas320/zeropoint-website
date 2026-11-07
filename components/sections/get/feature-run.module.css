@@ -2,9 +2,10 @@
 .wide { display: none; }
 @media (min-width: 900px) {
   .wide { display: block; }
+  .wide[data-spaced] { padding-block: clamp(40px, 5vw, 72px) clamp(32px, 4vw, 56px); }
   .section { display: none; }
 }
-.section { padding-block: 28px 8px; overflow-x: clip; }
+.section { padding-block: 28px 24px; overflow-x: clip; }
 .title { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; font-size: clamp(30px, 7vw, 56px); }
 .row {
   position: relative;

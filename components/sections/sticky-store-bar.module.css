@@ -69,6 +69,7 @@
   text-decoration: none;
 }
 .pill svg { width: 20px; height: 20px; }
+.login { display: inline-flex; align-items: center; min-height: 44px; margin-left: auto; padding-inline: 4px; font-size: 15px; font-weight: 700; text-decoration: none; }
 @media (max-width: 799px) {
   :global(html[data-platform="ios"]) .top,
   :global(html[data-platform="android"]) .top { display: flex; }

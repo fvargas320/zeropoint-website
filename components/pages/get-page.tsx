@@ -10,6 +10,7 @@ import { ProBreakdown } from "@/components/sections/pro/pro-breakdown";
 import { SalePill } from "@/components/sections/pro/sale-pill";
 import { ScreenRail } from "@/components/sections/screen-rail";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
+import { TargetHero } from "@/components/sections/target-hero";
 import { WhatsNext } from "@/components/sections/whats-next";
 import { QrInstall } from "@/components/ui/qr-install";
 import { Rating } from "@/components/ui/rating";
@@ -39,7 +40,7 @@ export function GetPage({ variant, live, founders }: { variant: GetVariant; live
           lede={variant.lede}
           screens={variant.screens}
           tape={variant.tape}
-          stats={variant.stats}
+          art={<TargetHero screens={[variant.screens[0], variant.screens[1]]} stats={variant.stats} />}
           storesId="get-stores"
           qr={<QrInstall campaign={variant.slug} />}
           proof={<Rating note={null} />}

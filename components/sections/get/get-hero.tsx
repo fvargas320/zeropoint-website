@@ -1,5 +1,4 @@
 import { Phone } from "@/components/media/phone";
-import { TargetHero, type HeroStat } from "@/components/sections/target-hero";
 import { StoreButtons } from "@/components/ui/store-buttons";
 import { TornEdge } from "@/components/ui/torn-edge";
 import type { ScreenName } from "@/content/images";
@@ -10,19 +9,23 @@ type Props = {
   /** The sale pill, above the eyebrow. */
   announcement?: React.ReactNode;
   eyebrow: string;
-  title: string;
+  /** The eyebrow reads as part of the h1, for a headline without the page's keywords. */
+  eyebrowInTitle?: boolean;
+  title: React.ReactNode;
   lede: string;
   /** The phones: front, then left and right behind it. */
   screens: [ScreenName, ScreenName, ScreenName];
   /** Written on the tape, from the front phone's screen. */
   tape: string;
-  /** Figures on the computer's target. */
-  stats: [HeroStat, HeroStat, HeroStat];
+  /** What a computer shows in place of the phones. */
+  art: React.ReactNode;
+  /** Sent with store_click. */
+  placement?: string;
   /** Lets a sticky bar know when the store buttons are on screen. */
   storesId: string;
   /** The QR code; computers only. */
   qr: React.ReactNode;
-  /** The rating; computers only. */
+  /** Under the store buttons; computers only. */
   proof: React.ReactNode;
 };
 
@@ -33,15 +36,15 @@ const order = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 /** The paid page's first screen. On a phone the app is taped to an orange
     backer, the way a target goes up at the range, with shot holes through to
-    the cream page. A computer gets the target hero instead. */
-export function GetHero({ announcement, eyebrow, title, lede, screens, tape, stats, storesId, qr, proof }: Props) {
+    the cream page. A computer gets `art` instead. */
+export function GetHero({ announcement, eyebrow, eyebrowInTitle = false, title, lede, screens, tape, art, placement = "get-hero", storesId, qr, proof }: Props) {
   const [front, left, right] = screens;
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.copy}>
         {announcement}
-        <p className="eyebrow">{eyebrow}</p>
-        <h1 id="hero-title">{title}</h1>
+        {!eyebrowInTitle && <p className="eyebrow">{eyebrow}</p>}
+        <h1 id="hero-title">{eyebrowInTitle && <span className={`eyebrow ${styles.titleEyebrow}`}>{eyebrow} </span>}{title}</h1>
         <p className={`lede ${styles.lede}`}>{lede}</p>
       </div>
       <div className={styles.stage} aria-hidden="true">
@@ -67,12 +70,10 @@ export function GetHero({ announcement, eyebrow, title, lede, screens, tape, sta
           <span className={`${styles.tape} ${styles.label} ${marker.className}`} data-at="label">{tape}</span>
         </div>
       </div>
-      <div className={styles.target}>
-        <TargetHero screens={[front, left]} stats={stats} />
-      </div>
+      <div className={styles.target}>{art}</div>
       <div className={styles.cta}>
         <div id={storesId}>
-          <StoreButtons placement="get-hero" layout="stacked" ownStore />
+          <StoreButtons placement={placement} layout="stacked" ownStore />
         </div>
         {qr}
       </div>

@@ -21,7 +21,7 @@ export const featuresNav: MenuLink[] = [
   { href: "/#features", label: "All features", note: "Log, armory, costs, training and crews" },
   { href: "/shooting-log-app", label: "Shooting log", note: "Every session in seconds" },
   { href: "/ammo-inventory-app", label: "Ammo inventory", note: "Know before a caliber runs dry" },
-  { href: "/#armory", label: "Firearms & maintenance", note: "Your armory, with maintenance alerts" },
+  { href: "/#rail-inventory", label: "Firearms & maintenance", note: "Your armory, with maintenance alerts" },
   { href: "/#web-app", label: "Web app", note: "Your whole log on the big screen" },
   { href: "/#next", label: "What's next", note: "What we plan to build" },
 ];

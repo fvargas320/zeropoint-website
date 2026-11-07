@@ -45,7 +45,7 @@ export function MatchInsights({ live }: { live: boolean }) {
         </Reveal>
       </div>
       <div className="wrap">
-        <ImportFlow />
+        <div className="not-phone"><ImportFlow /></div>
         <InsightList />
       </div>
       <TornEdge edge="bottom" color="var(--night)" seed={8} />
