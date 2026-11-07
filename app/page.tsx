@@ -22,11 +22,10 @@ import { WhatsNext } from "@/components/sections/whats-next";
 import { Announcement } from "@/components/ui/announcement";
 import { FactChips } from "@/components/ui/fact-chips";
 import { QrInstall } from "@/components/ui/qr-install";
-import { RotatingStrike } from "@/components/ui/rotating-strike";
 import webSample from "@/assets/images/web-sample.webp";
 import { homeFaq } from "@/content/faq";
 import { homeRail } from "@/content/get";
-import { heroStats, heroStrikes } from "@/content/home";
+import { heroStats } from "@/content/home";
 import { salePhase } from "@/content/site";
 import { foundersLive, matchesLive } from "@/lib/release";
 
@@ -50,9 +49,9 @@ export default async function HomePage() {
       <main id="main" className={marker.variable}>
         <GetHero
           announcement={<SalePill phase={phase} lifetime={founders} fallback={<Announcement tag={live ? "New update" : "Next update"} text="Import your match results" href="#matches" />} />}
-          eyebrow="The shooting log app"
-          eyebrowInTitle
-          title={<>Ditch the <RotatingStrike words={heroStrikes} /></>}
+          eyebrow="Built for every type of shooter"
+          title={<>The all-in-one<br />shooting log.</>}
+          longTitle
           lede="Every range day, logged: sessions, ammo, gear and your crew, in one app."
           screens={["home", "session", "inventory"]}
           tape="Oct 7 · Burbank · 25 yd"
