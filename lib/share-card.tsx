@@ -18,6 +18,8 @@ type Card = {
 };
 
 const SEAM = 392;
+const LEFT = 64;
+const LOGO = { width: 160, height: 86 };
 const TAPE = "#e6d9b8";
 
 const asset = (file: string) => readFile(path.join(process.cwd(), "assets/og", file));
@@ -61,16 +63,16 @@ export async function shareCard({ eyebrow, lines, titleSize = 90, screens, tape 
       <div style={{ display: "flex", position: "relative", width: "100%", height: "100%", background: "#ece3d1", fontFamily: "Jakarta", overflow: "hidden" }}>
         <div style={{ display: "flex", position: "absolute", left: 0, right: 0, top: SEAM, bottom: 0, background: "#ff5a1f" }} />
 
-        <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: 64, top: 44, width: 640 }}>
-          <div style={{ color: "#ad3a00", fontSize: 25, fontWeight: 800, letterSpacing: 4 }}>{eyebrow.toUpperCase()}</div>
-          <div style={{ display: "flex", flexDirection: "column", marginTop: 16, color: "#161614", fontSize: titleSize, fontWeight: 800, letterSpacing: -3.5, lineHeight: 1.06 }}>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", position: "absolute", left: LEFT, top: 0, width: 620, height: SEAM }}>
+          <div style={{ color: "#ad3a00", fontSize: 23, fontWeight: 800, letterSpacing: 3.5 }}>{eyebrow.toUpperCase()}</div>
+          <div style={{ display: "flex", flexDirection: "column", marginTop: 18, color: "#161614", fontSize: titleSize, fontWeight: 800, letterSpacing: -3.5, lineHeight: 1.06 }}>
             <span>{lines[0]}</span>
             <span>{lines[1]}</span>
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: 64, top: SEAM + 44, color: "#161614" }}>
-          <img src={logo} width={170} height={98} />
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", position: "absolute", left: LEFT, top: SEAM, height: 630 - SEAM, color: "#161614" }}>
+          <img src={logo} width={LOGO.width} height={LOGO.height} />
           <div style={{ marginTop: 16, fontSize: 32, fontWeight: 800, letterSpacing: -0.5 }}>Free on iPhone and Android</div>
         </div>
 
