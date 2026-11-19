@@ -5,14 +5,14 @@ export function PrivacyBody() {
       <div className="page-header">
       <p className="eyebrow">Legal</p>
       <h1>Privacy Policy</h1>
-      <p className="updated">Last updated: October 26, 2026</p>
+      <p className="updated">Last updated: November 18, 2026</p>
       </div>
       <article className="prose">
       <p>ZeroPoint ("we," "our," or "us") makes ZeroPoint, a range log for shooters (the "App"), and runs zeropointlog.com (the "Site"). This policy explains what information we collect, where it is kept, who can see it and what you can do about it. By using the App or the Site you agree to this policy.</p>
       <h2>The short version</h2>
       <ul>
       <li>We do not sell your personal information.</li>
-      <li>On the free plan, your sessions, notes, target photos, videos and ammo inventory are stored on your phone. They reach our servers only if you subscribe to Pro, which backs them up and syncs them across your devices.</li>
+      <li>When you're signed in, your range log (sessions, notes, firearms and ammo inventory) is backed up to our servers on every plan so a new phone or a reinstall doesn't lose it. You can turn this off in Settings › Your data. Target photos and videos are backed up only with Pro.</li>
       <li>Some things always use our servers because they cannot work otherwise: your account, your public profile, friends and crews, crew chat, and firearm photos.</li>
       <li>Firearm serial numbers never leave your phone.</li>
       <li>The App does not access your device's location.</li>
@@ -42,9 +42,9 @@ export function PrivacyBody() {
       </ul>
       <h2>Where your data is stored</h2>
       <h3>Free plan</h3>
-      <p>Your range log (sessions, notes, target photos, videos, firearms and ammo inventory) is stored on your device. If you delete the App or lose your phone without Pro, that data is gone. Your account, profile, social activity, firearm photos and the other items listed above as using our servers are stored in the cloud.</p>
+      <p>Your range log (sessions, notes, firearms and ammo inventory) is stored on your device and backed up to our servers, so it comes back when you sign in on a new phone. Target photos and videos stay on your device: if you delete the App or lose your phone without Pro, they are gone. If you turn off Back up to cloud in Settings › Your data, your range log stays on your device only too. Your account, profile, social activity, firearm photos and the other items listed above as using our servers are stored in the cloud.</p>
       <h3>Pro</h3>
-      <p>With Pro, your range log, photos and videos are also stored on our servers so they can sync across your devices, along with a weekly summary of your stats that your friends can see if your privacy settings allow it.</p>
+      <p>With Pro, your target photos and videos are also stored on our servers so they sync across your devices, along with a weekly summary of your stats that your friends can see if your privacy settings allow it.</p>
       <p>Our servers are provided by Supabase, hosted on Amazon Web Services in the United States.</p>
       <h2>What other people can see</h2>
       <ul>
@@ -100,7 +100,7 @@ export function PrivacyBody() {
       <li><strong>Who sees what</strong> — your privacy settings in the App control your shared stats, calendar, friend requests and crew invites.</li>
       <li><strong>Notifications</strong> — turn each kind on or off in Settings, or in your phone's settings.</li>
       <li><strong>Ads</strong> — use Apple's tracking setting or Settings › Privacy choices, or subscribe to Pro.</li>
-      <li><strong>Cloud storage</strong> — stay on the free plan to keep your range log on your device only.</li>
+      <li><strong>Cloud storage</strong> — turn off Back up to cloud in Settings › Your data to keep your range log on your device only.</li>
       </ul>
       <p>Contact us at <a href="mailto:support@zeropointlog.com">support@zeropointlog.com</a> to exercise any of these rights.</p>
       <h2>Our website</h2>
