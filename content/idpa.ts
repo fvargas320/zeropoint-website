@@ -1,5 +1,6 @@
-import type { Step } from "@/components/sections/steps";
+import type { Faq } from "./faq";
 import type { Feature } from "./features";
+import { money, pricing } from "./site";
 
 // The /idpa landing page: the target of the idpa.com ad (IDPA journey step 1,
 // option C). Every claim was checked against the app code on 2026-11-03
@@ -9,12 +10,12 @@ import type { Feature } from "./features";
 export const idpa = {
   campaign: "idpa",
   deepLink: "zeropoint://sport/idpa",
-  title: "IDPA match log and 5x5 class tracker",
+  title: "IDPA score app: match log, results and classifier tracker",
   description:
-    "ZeroPoint for IDPA shooters: see your match in seconds (time plus 1 s per point down plus penalties), track your 5x5 and your class from NV to DM, and bring results in from PractiScore. Free on iPhone and Android.",
-  eyebrow: "For IDPA shooters",
+    "ZeroPoint for IDPA shooters: import your match from PractiScore and see every stage split into shooting time, points down and penalties. Track your 5x5 and your class from NV to DM. Free on iPhone and Android.",
+  eyebrow: "The IDPA match log app",
   h1: "See where your seconds went.",
-  lede: "In IDPA your score is your time. ZeroPoint adds up every stage, shows which one cost you the most, and tracks your class from the 5x5.",
+  lede: "Import your match from PractiScore and see every stage split into shooting time, points down and penalties.",
   closing: "Your next match, in seconds.",
 };
 
@@ -31,19 +32,6 @@ export const idpaFeatures: Feature[] = [
     ],
     screen: "idpaMatch",
     prop: "targetPrints",
-  },
-  {
-    id: "class",
-    eyebrow: "Your class",
-    title: "Know your class before the classifier.",
-    body: "Shoot the 5x5 in practice and ZeroPoint shows the class it puts you in, from Novice to Distinguished Master, in your division. It also shows the time you need for the next class.",
-    points: [
-      { text: "5x5 and Standard classifier, all 8 divisions" },
-      { text: "“For SS, need 29.36 s on the 5x5”" },
-      { text: "Shows when your classifier is due" },
-    ],
-    screen: "idpaClass",
-    prop: "target",
   },
   {
     id: "results",
@@ -71,10 +59,65 @@ export const idpaFeatures: Feature[] = [
     screen: "idpaLive",
     prop: "casings",
   },
+  {
+    id: "class",
+    eyebrow: "Your class",
+    title: "Know your class before the classifier.",
+    body: "Shoot the 5x5 in practice and ZeroPoint shows the class it puts you in, from Novice to Distinguished Master, in your division. It also shows the time you need for the next class.",
+    points: [
+      { text: "5x5 and Standard classifier, all 8 divisions" },
+      { text: "“For SS, need 29.36 s on the 5x5”" },
+      { text: "Shows when your classifier is due" },
+    ],
+    screen: "idpaClass",
+    prop: "target",
+  },
 ];
 
-export const idpaSteps: Step[] = [
-  { title: "Pick IDPA", body: "Download ZeroPoint, choose IDPA and your division. Add your class if you have one." },
-  { title: "Shoot the 5x5 or bring in a match", body: "Log a 5x5 run from practice, or import a match you already shot." },
-  { title: "See your class and your seconds", body: "Get your projected class and every stage split into time, points down and penalties." },
-];
+/** Under the hero: the posted results against what ZeroPoint shows. */
+export const idpaVersus = {
+  sheet: { eyebrow: "On PractiScore", line: "One row in a table." },
+  ours: { eyebrow: "In ZeroPoint", line: "The stage that cost you the match." },
+};
+
+/** Free against Pro for an IDPA shooter. Free and Pro lines follow
+    uspsaFaq's "Is it free?" and pro.ts; keep the three in step. */
+export const idpaPlans = {
+  title: "Free to start. Pro when you want more.",
+  free: [
+    "Import your match from PractiScore",
+    "Your match split into shooting time, points down and penalties",
+    "Head to head with any shooter",
+  ],
+  pro: [
+    "What if: replay a stage, see your new place",
+    "Each stage against the stage winner",
+    "Backup, sync to your computer and no ads",
+  ],
+};
+
+/** The questions a new IDPA shooter searches for; also the page's FAQPage data. */
+export function idpaFaq(matchesLive: boolean): Faq[] {
+  return [
+    {
+      q: "How is IDPA scored?",
+      a: "Your score is your time. Each stage is your shooting time, plus 1 second for every point down, plus any penalties. Add up the stages and the lowest time wins.",
+    },
+    {
+      q: "What is a point down?",
+      a: "A hit outside the centre zone of the target costs 1 or 3 points, and a miss costs 5. Each point down adds 1 second to your stage time.",
+    },
+    {
+      q: "How does the 5x5 classifier work?",
+      a: "It is 25 rounds at 10 yards, shot in four strings. Your time with points down added sets your class, from Novice to Distinguished Master. Log a run in ZeroPoint and it shows the class that time puts you in.",
+    },
+    {
+      q: "Can I import from PractiScore?",
+      a: `${matchesLive ? "Yes." : "Yes, in the next update."} Open your match results in PractiScore, tap Share and choose ZeroPoint. No file? Copy your place and times from the posted sheet.`,
+    },
+    {
+      q: "Is ZeroPoint free?",
+      a: `Yes. Importing matches, your match page and head to head are free. Pro (${money(pricing.monthly)} a month or ${money(pricing.yearly)} a year in the US, with a ${pricing.trialDays}-day free trial) adds what-ifs, your stages against the stage winner, cloud backup and no ads.`,
+    },
+  ];
+}

@@ -52,7 +52,7 @@ export const screens = {
   train: { src: train, alt: "Train tab with a 5×5 drill and drills like Dot Torture" },
   crew: { src: crew, alt: "A crew chat planning a Saturday range day" },
   // IDPA renders, the same way (375pt dark, docs/design/competition).
-  idpaMatch: { src: idpaMatch, alt: "An IDPA match page: 106.91 s match time, split into shooting, points down and penalties, with a How to read this card" },
+  idpaMatch: { src: idpaMatch, alt: "An IDPA match page: 106.91 s match time, split into shooting, points down and penalties, with the stage that cost the most" },
   idpaClass: { src: idpaClass, alt: "IDPA Classification: Marksman projected from a best 5x5 of 31.26 s, classifier due by Nov 22, and the times needed for Sharpshooter" },
   idpaLive: { src: idpaLive, alt: "A live IDPA match: 77.40 s so far after 3 of 6 stages, with a Score stage 4 button" },
   idpaResults: { src: idpaResults, alt: "Enter results by hand: place in division, overall place, class, class place, categories and Promoted to" },
