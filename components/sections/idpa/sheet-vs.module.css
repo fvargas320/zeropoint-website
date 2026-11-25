@@ -1,0 +1,8 @@
+.strip { display: grid; gap: 16px; padding-bottom: calc(var(--section-y) * 0.5); }
+.card { min-width: 0; padding: clamp(22px, 2.4vw, 36px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-card); }
+.ours { background: var(--ink); color: var(--on-dark); }
+.ours :global(.eyebrow) { color: var(--orange-on-dark); }
+.line { margin-top: 8px; font-size: clamp(24px, 2.4vw, 40px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+@media (min-width: 820px) {
+  .strip { grid-template-columns: 1fr 1.3fr; }
+}
