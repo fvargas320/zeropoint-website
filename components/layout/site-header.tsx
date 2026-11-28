@@ -17,13 +17,15 @@ type Props = {
   /** Home on a phone: the header scrolls away and Log in takes Get the app's
       place, since the store is right there in the hero. */
   landing?: boolean;
+  /** A page that opens dark (the /idpa landing page). */
+  dark?: boolean;
 };
 
-export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download", landing = false }: Props) {
+export function SiteHeader({ minimal = false, pageNav, pageMenus, ctaHref = "#download", landing = false, dark = false }: Props) {
   return (
-    <header className={styles.bar} data-minimal={minimal || undefined} data-landing={landing || undefined}>
+    <header className={styles.bar} data-minimal={minimal || undefined} data-landing={landing || undefined} data-dark={dark || undefined}>
       <div className={`wrap ${styles.inner}`}>
-        <Logo priority />
+        <Logo priority light={dark} />
         {minimal && pageNav && (
           <>
             <nav className={styles.nav} aria-label="On this page">

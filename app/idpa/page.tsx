@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { FaqJsonLd } from "@/components/seo/app-json-ld";
-import { ClosingCta } from "@/components/sections/closing-cta";
+import { FaqJsonLd, LandingJsonLd } from "@/components/seo/app-json-ld";
 import { FaqList } from "@/components/sections/faq-list";
-import { FeatureList } from "@/components/sections/feature-list";
-import { Hero } from "@/components/sections/hero";
+import { AppScreens } from "@/components/sections/idpa/app-screens";
+import { ClassTimes } from "@/components/sections/idpa/class-times";
+import { ExplodedMetrics } from "@/components/sections/idpa/exploded-metrics";
 import { FreePro } from "@/components/sections/idpa/free-pro";
-import { HeroPhones } from "@/components/sections/idpa/hero-phones";
-import { SheetVs } from "@/components/sections/idpa/sheet-vs";
+import { IdpaClosing } from "@/components/sections/idpa/idpa-closing";
+import { IdpaHero } from "@/components/sections/idpa/idpa-hero";
+import { IdpaSteps } from "@/components/sections/idpa/idpa-steps";
+import { MatchFeatures } from "@/components/sections/idpa/match-features";
+import { Scoring } from "@/components/sections/idpa/scoring";
 import { StickyStoreBar } from "@/components/sections/sticky-store-bar";
-import { OpenInApp } from "@/components/ui/open-in-app";
-import { idpa, idpaFaq, idpaFeatures } from "@/content/idpa";
+import { idpa, idpaFaq } from "@/content/idpa";
 import { matchesLive } from "@/lib/release";
 
 export const metadata: Metadata = {
@@ -24,40 +26,33 @@ export const metadata: Metadata = {
 // Re-check the App Store hourly, as /uspsa does, so the FAQ follows the live release.
 export const revalidate = 3600;
 
-// Where the idpa.com ad and the IDPA email land: the pitch with the email's
-// picture, PractiScore against ZeroPoint, four real IDPA screens, Free against
-// Pro, the questions, and the App Store (ct=idpa) one tap away. Phones also get "Open in
-// the app" (zeropoint://sport/idpa), which pre-selects IDPA in sign-up.
+// Where the idpa.com ad and the IDPA email land. Two acts: a dark opening
+// (the app, the shot timer, the flip board, five real screens), then a paper
+// sheet rising over it (02 metrics, 03 score/place/gap, 04 steps, 05 scoring,
+// 06 class times, 07 pricing, 08 questions), and a dark sheet for the close.
+// Every section opens with the same numbered label. The App Store link
+// carries ct=idpa; phones also get "Open in the app" (zeropoint://sport/idpa).
 export default async function IdpaPage() {
   const faq = idpaFaq(await matchesLive());
   return (
     <>
-      <SiteHeader />
+      <SiteHeader dark />
       <main id="main">
-        <Hero
-          eyebrow={idpa.eyebrow}
-          title={idpa.h1}
-          lede={idpa.lede}
-          placement="idpa-hero"
-          storesId="idpa-stores"
-          campaign={idpa.campaign}
-          afterStores={<OpenInApp href={idpa.deepLink} />}
-          art={<HeroPhones />}
-        />
-        <SheetVs />
-        <FeatureList items={idpaFeatures} />
+        <IdpaHero />
+        <AppScreens />
+        <ExplodedMetrics />
+        <MatchFeatures />
+        <IdpaSteps />
+        <Scoring />
+        <ClassTimes />
         <FreePro />
-        <FaqList items={faq} title="IDPA questions, answered." />
-        <ClosingCta
-          title={idpa.closing}
-          lede={<>Free to start on iPhone and Android. <a href="/">See everything ZeroPoint does</a>.</>}
-          prop="target"
-          campaign={idpa.campaign}
-        />
+        <FaqList items={faq} title="IDPA questions, answered." index="08" />
+        <IdpaClosing />
       </main>
-      <SiteFooter />
+      <SiteFooter dark />
       <StickyStoreBar watchId="idpa-stores" campaign={idpa.campaign} />
       <FaqJsonLd items={faq} />
+      <LandingJsonLd path="/idpa" name={idpa.title} crumb="IDPA" description={idpa.description} />
     </>
   );
 }

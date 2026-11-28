@@ -1,0 +1,24 @@
+.section { padding: clamp(80px, 8vw, 136px) 0; }
+/* On a phone: tag, number, phone, claim, notes, one under the other. */
+.feature { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; padding: clamp(40px, 4vw, 64px) 0; border-top: 1px solid var(--line); }
+.feature:first-of-type { margin-top: clamp(24px, 2.6vw, 44px); }
+.meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+.meta span:first-child { color: var(--ink); }
+.stat { font-size: 64px; font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; font-variant-numeric: tabular-nums; }
+.stat small { margin-left: 0.08em; font-size: 0.38em; letter-spacing: -0.02em; color: var(--orange-text); }
+.phone { justify-self: center; width: 62%; rotate: -2deg; }
+.feature[data-flip] .phone { rotate: 2deg; }
+.claim { font-size: 34px; letter-spacing: -0.035em; line-height: 1.02; }
+.note { max-width: 32ch; color: var(--muted); font-size: var(--fs-small); line-height: 1.45; }
+.note b { display: block; margin-bottom: 4px; color: var(--ink); font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Wide screens: number and notes left, phone centre, claim right. */
+@media (min-width: 900px) {
+  .feature { grid-template-columns: 1fr auto 1fr; grid-template-rows: auto 1fr auto; column-gap: clamp(16px, 2vw, 32px); row-gap: 0; min-height: clamp(520px, 44vw, 640px); }
+  .meta { grid-column: 1 / -1; }
+  .stat { grid-column: 1; grid-row: 2; align-self: center; font-size: clamp(56px, 7vw, 120px); }
+  .phone { grid-column: 2; grid-row: 2 / 4; align-self: center; width: clamp(230px, 21vw, 320px); }
+  .claim { grid-column: 3; grid-row: 2; align-self: center; text-align: right; font-size: clamp(30px, 3.4vw, 56px); }
+  .note { grid-column: 1; grid-row: 3; align-self: end; }
+  .note[data-side="right"] { grid-column: 3; justify-self: end; text-align: right; }
+}

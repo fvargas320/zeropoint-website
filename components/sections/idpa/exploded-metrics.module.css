@@ -1,0 +1,35 @@
+/* The sheet: paper with rounded top corners over the dark opening. */
+.act { background: var(--grid-on-dark), var(--night); }
+.sheet { position: relative; overflow: hidden; padding: clamp(64px, 8vw, 136px) 0 clamp(56px, 6vw, 104px); border-radius: 28px 28px 0 0; background: var(--paper) url("/assets/range-grid.svg") 0 0 / 192px 192px; box-shadow: 0 -24px 60px -30px #000; }
+
+/* On a phone the pieces stack in two columns under the number. */
+.stage { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+.ring { display: none; }
+.total { grid-column: 1 / -1; margin-bottom: 12px; text-align: center; }
+.total b { display: block; font-size: clamp(88px, 24vw, 250px); font-weight: 800; letter-spacing: -0.06em; line-height: 0.9; font-variant-numeric: tabular-nums; }
+.total small { margin-left: 0.06em; font-size: 0.38em; letter-spacing: -0.02em; }
+.total span { display: inline-block; margin-top: 14px; padding: 8px 16px; border-radius: var(--radius-pill); background: var(--ink); color: var(--paper); font-size: var(--fs-small); font-weight: 800; }
+.p0, .p2 { grid-column: 1 / -1; }
+.chip { align-self: start; padding: 12px 18px; border-radius: 18px; background: var(--surface); box-shadow: 0 1px 0 var(--line), 0 18px 36px -16px #3b2a1480; color: var(--muted); font-size: 14px; font-weight: 700; line-height: 1.2; }
+.chip b { display: block; color: var(--ink); font-size: clamp(24px, 2.4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+.chip[data-accent] { background: var(--orange); color: var(--on-orange); }
+.chip[data-accent] b { color: inherit; }
+
+/* Wide screens: the pieces float round the number on a faint target. */
+@media (min-width: 900px) {
+  .sheet { border-radius: 48px 48px 0 0; }
+  .stage { display: block; height: clamp(640px, 58vw, 860px); margin-top: clamp(12px, 1.6vw, 24px); }
+  .ring { display: block; position: absolute; left: 50%; top: 52%; width: min(56vw, 740px); aspect-ratio: 1; translate: -50% -50%; color: var(--line); }
+  .total { position: absolute; z-index: 2; left: 50%; top: 44%; margin: 0; translate: -50% -50%; white-space: nowrap; }
+  .total b { font-size: clamp(110px, 15vw, 250px); }
+  .piece, .chip { position: absolute; }
+  .piece { width: var(--w); }
+  .p0 { --w: clamp(250px, 24vw, 370px); left: 0; top: 2%; rotate: -4deg; }
+  .p1 { --w: clamp(250px, 24vw, 360px); right: 0; top: 0; rotate: 3deg; }
+  .p2 { --w: clamp(270px, 26vw, 400px); left: 3%; bottom: 2%; rotate: 2deg; z-index: 3; }
+  .p3 { --w: clamp(240px, 23vw, 340px); right: 2%; bottom: 0; rotate: -2.5deg; }
+  .chip { z-index: 4; white-space: nowrap; }
+  .c0 { left: 31%; top: 6%; rotate: -5deg; }
+  .c1 { right: 29%; bottom: 9%; rotate: 4deg; }
+  .c2 { left: 34%; bottom: 4%; rotate: -2deg; }
+}

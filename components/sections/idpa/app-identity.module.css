@@ -1,0 +1,6 @@
+.id { display: flex; align-items: center; gap: 14px; }
+.icon { flex: none; width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 0 0 1px #ffffff1f, 0 14px 28px -12px #000; }
+.id b { display: block; color: var(--on-dark); font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.id span { color: var(--on-dark-2); font-size: 14px; line-height: 1.35; }
+.id i { color: var(--orange); font-style: normal; letter-spacing: 0.06em; }
+@media (max-width: 480px) { .icon { width: 56px; height: 56px; } }

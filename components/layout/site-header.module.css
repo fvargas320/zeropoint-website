@@ -90,3 +90,11 @@
 
 /* Paid pages on a phone: the logo scrolls away, and the store bar brings it back after the hero. */
 @media (max-width: 799px) { .bar[data-minimal], .bar[data-landing] { position: relative; } }
+
+/* A page that opens dark: the header is part of the dark opening. */
+.bar[data-dark] { background: color-mix(in srgb, var(--night) 86%, transparent); border-bottom-color: #ffffff14; color: var(--on-dark); }
+.bar[data-dark] .nav a:hover, .bar[data-dark] .menuButton:hover, .bar[data-dark] .menuButton[aria-expanded="true"] { color: var(--orange-on-dark); }
+.bar[data-dark] .login { box-shadow: inset 0 0 0 2px #ffffff40; }
+.bar[data-dark] .login:hover { background: var(--on-dark); color: var(--night); }
+.bar[data-dark] .cta { background: var(--on-dark); color: var(--night); }
+.bar[data-dark] .menuPanel { color: var(--ink); }

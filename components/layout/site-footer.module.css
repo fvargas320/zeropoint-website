@@ -5,3 +5,5 @@
 .nav a:hover { color: var(--ink); }
 .copy { margin-left: auto; }
 @media (max-width: 600px) { .copy { flex-basis: 100%; margin-left: 0; } }
+.footer[data-dark] { background: var(--grid-on-dark), var(--night); color: var(--on-dark-2); box-shadow: inset 0 1px 0 #ffffff1f; }
+.footer[data-dark] .nav a:hover { color: var(--on-dark); }

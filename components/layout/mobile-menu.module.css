@@ -23,6 +23,8 @@
   overscroll-behavior: contain;
   background: var(--paper);
   border-top: 1px solid var(--line);
+  /* Ink even under a dark header. */
+  color: var(--ink);
 }
 .drawer[hidden] { display: none; }
 .inner { display: grid; gap: 28px; padding: 24px 0 calc(40px + env(safe-area-inset-bottom)); }

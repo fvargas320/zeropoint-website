@@ -1,0 +1,18 @@
+.section { padding: clamp(80px, 8vw, 136px) 0; }
+.steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin: clamp(32px, 3.4vw, 56px) 0 0; padding: 0; list-style: none; }
+.step { display: flex; flex-direction: column; overflow: hidden; padding: clamp(22px, 2.2vw, 34px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-card); }
+.n { font-size: 110px; font-weight: 800; letter-spacing: -0.06em; line-height: 0.8; color: transparent; -webkit-text-stroke: 2px var(--ink); }
+.step:last-child .n { color: var(--orange); -webkit-text-stroke: 0; }
+.step h3 { margin-top: 18px; font-size: clamp(22px, 2vw, 30px); letter-spacing: -0.03em; line-height: 1.1; }
+.step p { margin-top: 8px; color: var(--muted); font-size: var(--fs-small); line-height: 1.45; }
+.visual { margin-top: auto; padding-top: 22px; }
+.piece { border-radius: 16px; box-shadow: 0 1px 0 #0000000d, 0 16px 30px -18px #3b2a1466; }
+.share { display: flex; align-items: center; gap: 12px; margin: 0; padding: 12px; border-radius: 16px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-size: 15px; font-weight: 800; }
+.share svg { flex: none; width: 20px; height: 20px; color: var(--orange-text); }
+.file { padding: 16px 14px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px #0001; color: var(--muted); font-size: 13px; }
+.icon { flex: none; width: 56px; height: 56px; border-radius: 14px; }
+@media (min-width: 900px) {
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .step { min-height: clamp(440px, 38vw, 540px); }
+  .n { font-size: clamp(110px, 11vw, 180px); }
+}

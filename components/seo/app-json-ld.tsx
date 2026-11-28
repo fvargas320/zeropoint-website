@@ -35,6 +35,46 @@ export function AppJsonLd() {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
 
+/** schema.org data for a landing page: the page, its breadcrumb and the app
+    it is about, with the real store rating. */
+export function LandingJsonLd({ path, name, crumb, description }: { path: string; name: string; crumb: string; description: string }) {
+  const url = `${site.url}${path}`;
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name,
+        description,
+        isPartOf: { "@type": "WebSite", name: site.name, url: `${site.url}/` },
+        breadcrumb: { "@id": `${url}#breadcrumb` },
+        about: {
+          "@type": "MobileApplication",
+          name: "ZeroPoint - Shooting Range Log",
+          operatingSystem: "iOS, Android",
+          applicationCategory: "SportsApplication",
+          description,
+          url,
+          installUrl: stores.appStore,
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          aggregateRating: { "@type": "AggregateRating", ratingValue: rating.value, ratingCount: String(rating.count), bestRating: "5" },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: site.name, item: `${site.url}/` },
+          { "@type": "ListItem", position: 2, name: crumb, item: url },
+        ],
+      },
+    ],
+  };
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+}
+
 /** An answer's words, without the links some of them hold. */
 function plainText(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node);

@@ -1,0 +1,28 @@
+.section { padding: clamp(80px, 8vw, 136px) 0; }
+.lede { margin-top: 20px; max-width: 56ch; color: var(--muted); font-size: var(--fs-lede); line-height: 1.5; }
+.card { margin-top: clamp(32px, 3.4vw, 56px); overflow: hidden; border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-card); }
+.table { width: 100%; border-collapse: collapse; table-layout: fixed; font-variant-numeric: tabular-nums; }
+.table th, .table td { padding: 12px 10px; border-top: 1px solid var(--line); text-align: right; }
+.table th:first-child { width: 22%; text-align: left; }
+.table thead th { border-top: 0; padding-top: 20px; vertical-align: bottom; }
+.table thead th > span { display: none; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.table thead th:first-child > span { display: block; }
+.table abbr { display: block; font-size: 22px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; text-decoration: none; }
+.table td { font-size: 15px; font-weight: 700; }
+.table tbody th b { font-weight: 800; }
+.table tbody th span { display: none; margin-left: 12px; color: var(--muted); font-size: var(--fs-small); font-weight: 500; }
+/* The demo shooter's division, in ink. */
+.table tr[data-mark] th, .table tr[data-mark] td { background: var(--ink); color: var(--paper); border-top-color: var(--ink); }
+.table tr[data-mark] td:nth-child(4) { color: var(--orange-on-dark); }
+.table tr[data-mark] th span { color: var(--on-dark-2); }
+.table tr[data-mark] + tr th, .table tr[data-mark] + tr td { border-top-color: var(--ink); }
+.note { padding: 16px 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: var(--fs-small); line-height: 1.45; }
+@media (min-width: 720px) {
+  .table th, .table td { padding: clamp(12px, 1.2vw, 18px) clamp(14px, 1.8vw, 30px); }
+  .table th:first-child { width: 40%; }
+  .table thead th > span, .table tbody th span { display: inline; }
+  .table thead th > span { display: block; }
+  .table abbr { font-size: clamp(28px, 2.8vw, 46px); }
+  .table td { font-size: clamp(17px, 1.5vw, 22px); }
+  .note { padding: clamp(16px, 1.6vw, 24px) clamp(14px, 1.8vw, 30px); }
+}

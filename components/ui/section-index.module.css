@@ -1,0 +1,14 @@
+.index {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: clamp(20px, 2vw, 32px);
+  padding-top: 16px;
+  border-top: 1px solid var(--index-line, var(--line));
+  color: var(--index-label, var(--muted));
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.index span { color: var(--index-number, var(--orange-text)); font-variant-numeric: tabular-nums; }

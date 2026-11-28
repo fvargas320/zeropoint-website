@@ -3,9 +3,14 @@ import calendar from "@/assets/images/app/calendar.webp";
 import crew from "@/assets/images/app/crew.webp";
 import home from "@/assets/images/app/home.webp";
 import idpaClass from "@/assets/images/app/idpa-class.webp";
+import idpaCompare from "@/assets/images/app/idpa-compare.webp";
+import idpaCompete from "@/assets/images/app/idpa-compete.webp";
+import idpaFullResults from "@/assets/images/app/idpa-full-results.webp";
+import idpaH2h from "@/assets/images/app/idpa-h2h.webp";
 import idpaLive from "@/assets/images/app/idpa-live.webp";
 import idpaMatch from "@/assets/images/app/idpa-match.webp";
 import idpaResults from "@/assets/images/app/idpa-results.webp";
+import idpaStage from "@/assets/images/app/idpa-stage.webp";
 import idpaTerms from "@/assets/images/app/idpa-terms.webp";
 import inventory from "@/assets/images/app/inventory.webp";
 import lowstock from "@/assets/images/app/lowstock-app.webp";
@@ -51,8 +56,15 @@ export const screens = {
   spending: { src: spending, alt: "Metrics showing sessions per month, total spent and shooting buddies" },
   train: { src: train, alt: "Train tab with a 5×5 drill and drills like Dot Torture" },
   crew: { src: crew, alt: "A crew chat planning a Saturday range day" },
-  // IDPA renders, the same way (375pt dark, docs/design/competition).
-  idpaMatch: { src: idpaMatch, alt: "An IDPA match page: 106.91 s match time, split into shooting, points down and penalties, with the stage that cost the most" },
+  // IDPA renders, the same way. Match, full results, compare and Compete are
+  // the 375pt light renders (rangeai docs/design/idpa-marketing/flow), cropped
+  // to the first screen; the rest are the older dark ones.
+  idpaMatch: { src: idpaMatch, alt: "An IDPA match page for Tri-County IDPA: 106.91 s, 13th of 30 and 23.2 s behind the winner, with the time each stage cost" },
+  idpaFullResults: { src: idpaFullResults, alt: "Full IDPA match results in Carry Optics with your row on top: 13th, 106.91 s, 19 points down and 3 s of penalties" },
+  idpaCompare: { src: idpaCompare, alt: "Compare with the match winner: 106.91 s against 83.67 s, and the time gap on each of six stages" },
+  idpaCompete: { src: idpaCompete, alt: "The Compete tab for an IDPA shooter: last match 9th of 40, class SSP Marksman and the 29.36 s needed on the 5x5 for Sharpshooter" },
+  idpaStage: { src: idpaStage, alt: "IDPA stage detail for Stage 2, Tight Corners: 24.78 s, 10.99 s behind and 29th of 30, with you against the stage winner" },
+  idpaH2h: { src: idpaH2h, alt: "IDPA head to head: you at 106.91 s against Cal L. at 104.54 s, with the time on each stage and 3 of 6 stages won" },
   idpaClass: { src: idpaClass, alt: "IDPA Classification: Marksman projected from a best 5x5 of 31.26 s, classifier due by Nov 22, and the times needed for Sharpshooter" },
   idpaLive: { src: idpaLive, alt: "A live IDPA match: 77.40 s so far after 3 of 6 stages, with a Score stage 4 button" },
   idpaResults: { src: idpaResults, alt: "Enter results by hand: place in division, overall place, class, class place, categories and Promoted to" },

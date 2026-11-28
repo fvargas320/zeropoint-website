@@ -29,7 +29,8 @@ export function FeatureRow({ feature, flip = false }: { feature: Feature; flip?:
       <Reveal className={styles.visual} delay={120}>
         <div className={styles.stage} aria-hidden="true">
           <Prop name={feature.prop} sizes={PROP} className={styles.prop} />
-          <Phone screen={feature.screen} sizes={PHONE} decorative className={styles.phone} />
+          {/* Alt text stays for image search; the stage is hidden from screen readers, which get the copy beside it. */}
+          <Phone screen={feature.screen} sizes={PHONE} className={styles.phone} />
           {feature.overlay && <Prop name={feature.overlay} sizes={PROP} className={styles.overlay} />}
         </div>
       </Reveal>

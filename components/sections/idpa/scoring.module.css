@@ -1,0 +1,24 @@
+.section { padding: clamp(80px, 8vw, 136px) 0; }
+.head { display: grid; gap: 20px; align-items: end; }
+.lede { max-width: 48ch; color: var(--muted); font-size: var(--fs-lede); line-height: 1.5; }
+/* The scoreboard is one dark card on the sheet. */
+.card { margin-top: clamp(32px, 3.4vw, 56px); padding: clamp(20px, 3vw, 48px); border-radius: var(--radius-lg); background: var(--grid-on-dark), var(--night); color: var(--on-dark); box-shadow: 0 40px 80px -40px #3b2a1499; }
+.sum { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px 12px; padding: clamp(18px, 2.4vw, 38px); border-radius: 22px; background: linear-gradient(180deg, #1b1a17, #0b0b0a); box-shadow: inset 0 0 0 1px #ffffff14; --tile-w: 30px; --tile-h: 42px; --tile-fs: 22px; --tile-gap: 4px; }
+.part { display: flex; align-items: flex-start; gap: 12px; }
+.fig { display: grid; gap: 10px; justify-items: start; }
+.cap { color: var(--on-dark-2); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.total .cap { color: var(--orange-on-dark); }
+.op { padding-top: 6px; color: var(--on-dark-2); font-size: clamp(24px, 3vw, 48px); font-weight: 800; line-height: 1; }
+.costs { width: 100%; margin-top: clamp(28px, 3vw, 44px); border-collapse: collapse; border-top: 1px solid #ffffff1f; --tile-w: 40px; --tile-h: 52px; --tile-fs: 26px; }
+.costs th, .costs td { padding: clamp(12px, 1.3vw, 18px) 0; border-bottom: 1px solid #ffffff1f; }
+.costs th { color: var(--on-dark-2); font-size: clamp(15px, 1.4vw, 22px); font-weight: 800; letter-spacing: 0.2em; text-align: left; text-transform: uppercase; }
+.costs th span { display: block; margin-top: 4px; color: #8d8a80; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: none; }
+.costs td { width: 1%; white-space: nowrap; }
+.costs td > span:not(.unit) { display: inline-flex; vertical-align: middle; }
+.unit { margin-left: 6px; color: var(--on-dark-2); font-size: clamp(20px, 2vw, 30px); font-weight: 800; vertical-align: bottom; }
+@media (min-width: 900px) {
+  .head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 72px); }
+  .sum { gap: clamp(10px, 1.4vw, 22px); --tile-w: clamp(34px, 3.6vw, 58px); --tile-h: clamp(48px, 5vw, 80px); --tile-fs: clamp(24px, 2.6vw, 44px); --tile-gap: 6px; }
+  .costs { --tile-w: clamp(40px, 3.6vw, 58px); --tile-h: clamp(48px, 5vw, 80px); --tile-fs: clamp(24px, 2.6vw, 44px); }
+}
+@media (max-width: 360px) { .sum { --tile-w: 26px; --tile-h: 38px; --tile-fs: 19px; } }
